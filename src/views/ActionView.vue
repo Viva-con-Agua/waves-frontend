@@ -114,6 +114,11 @@ export default {
 
   data() {
     return test_data;
+  },
+  computed:{
+    actions () {
+      
+    }
   }
 };
 </script>
