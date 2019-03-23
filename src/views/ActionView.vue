@@ -105,23 +105,16 @@
     </div>
   </div>
 </template>
-
 <script>
-import test_data from "../../testdata/data.json";
+
 export default {
   name: "ActionView",
-  props:[],
-
-  data() {
-    return test_data;
-  },
   computed:{
-    actions () {
-      
+    actions(){
+      return this.$store.state.poolEvents.actions;
     }
   }
 };
 </script>
-
 <style>
 </style>

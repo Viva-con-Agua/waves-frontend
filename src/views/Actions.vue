@@ -20,14 +20,15 @@
 
 <script>
 import Action from "../components/Action";
-import actions_json from "../../testdata/data.json";
 import ActionFilter from "../components/ActionFilter";
-
+import {mapGetters}  from "vuex"
 export default {
   name: "Actions",
   components: { Action, ActionFilter },
-  data() {
-    return actions_json;
+  computed: {
+    ...mapGetters({
+    actions : 'getAllPoolEvents'
+  })
   }
 };
 </script>
