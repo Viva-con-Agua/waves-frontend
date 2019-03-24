@@ -1,14 +1,14 @@
 
 import Vuex from 'vuex'
 import Vue from 'vue'
-import poolEvent from './assets/data'
+import poolEvents from './assets/data'
 
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     state:{
-        poolEvents : poolEvent
+        poolEvents : poolEvents
     },
     getters:{
         getAllPoolEvents(state){
@@ -18,9 +18,16 @@ export const store = new Vuex.Store({
             return state.poolEvents.actions.length; 
         }
     },
-    mutation:{
-        addPoolEvent(state , poolEvent){
+    mutations:{
+        addPoolEvent (state , poolEvent){
             state.poolEvents.actions.push(poolEvent);
+            console.log(state.poolEvents.actions);
         }
+    },
+    actions : {
+        ADD_POOLEVENT : ({commit}, poolEvent) => {
+            console.log(poolEvent.title);
+            commit( 'addPoolEvent' , poolEvent)
+          }
     }
 })
