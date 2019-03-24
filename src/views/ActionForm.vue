@@ -3,15 +3,22 @@
     <b-form @submit.prevent="addPoolEvent">
       <b-row>
         <b-col cols="6">
-          <b-form-group label="Table Name:">
+          <b-form-group label="title:">
             <b-form-input v-model="poolEvent.title"/>
           </b-form-group>
         </b-col>
       </b-row>
       <b-row>
         <b-col cols="6">
-          <b-form-group label="Table Name:">
+          <b-form-group label="type:">
             <b-form-input v-model="poolEvent.type"/>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="6">
+          <b-form-group label="address:">
+            <b-form-input v-model="poolEvent.address"/>
           </b-form-group>
         </b-col>
       </b-row>
@@ -37,6 +44,7 @@ export default {
       poolEvent : {
         title : "",
         type : "" ,
+        address : ""
       }
     }
   }
@@ -47,9 +55,10 @@ export default {
       //post: http request to create a pool event by using axios.
       let poolEvent = {
         title : this.poolEvent.title,
-        type :  this.poolEvent.type
+        type :  this.poolEvent.type,
+        address : this.poolEvent.address
         }
-      this.$store.dispatch("ADD_POOLEVENT", poolEvent);
+      this.$store.dispatch("POST_POOLEVENT", poolEvent);
     }
   }
 };

@@ -4,8 +4,8 @@
           class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
         >
           <div class="col p-4 d-flex flex-column position-static">
-            <a href="/actionview"><strong class="d-inline-block mb-2 text-primary">{{action.title}}</strong></a>
-            <div class="mb-1 text-muted">{{action.start}} - {{action.end}}</div>
+            <a href="/actionview"><strong class="d-inline-block mb-2 text-primary">{{poolEvent.title}}</strong></a>
+            <div class="mb-1 text-muted"> - </div>
             <p
               class="card-text mb-auto"
             >Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem, vero tempore sunt aliquam harum eveniet voluptas esse necessitatibus modi corporis doloribus aut ratione dolor ducimus ullam cum iusto alias quaerat?</p>
@@ -36,7 +36,7 @@
 <script>
 export default {
   name: "Action",
-  props: ["action"]
+  props: ['poolEvent']
 };
 </script>
 
