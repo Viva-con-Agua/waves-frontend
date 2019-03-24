@@ -5,7 +5,7 @@
         >
           <div class="col p-4 d-flex flex-column position-static">
             <a href="/actionview"><strong class="d-inline-block mb-2 text-primary">{{poolEvent.title}}</strong></a>
-            <div class="mb-1 text-muted"> - </div>
+            <div class="mb-1 text-muted"> {{poolEvent.start}} - {{poolEvent.end}} </div>
             <p
               class="card-text mb-auto"
             >Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem, vero tempore sunt aliquam harum eveniet voluptas esse necessitatibus modi corporis doloribus aut ratione dolor ducimus ullam cum iusto alias quaerat?</p>
@@ -35,7 +35,7 @@
 
 <script>
 export default {
-  name: "Action",
+  name: "PoolEventCard",
   props: ['poolEvent']
 };
 </script>

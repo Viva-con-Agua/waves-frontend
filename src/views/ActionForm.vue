@@ -17,8 +17,43 @@
       </b-row>
       <b-row>
         <b-col cols="6">
-          <b-form-group label="address:">
-            <b-form-input v-model="poolEvent.address"/>
+          <b-form-group ref="autocomplete" label="address:">
+            <b-form-input class="search-location" v-model="poolEvent.address"/>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="6">
+          <b-form-group label="start:">
+            <b-form-input type="date" v-model="poolEvent.start"/>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="6">
+          <b-form-group label="end:">
+            <b-form-input type="date" v-model="poolEvent.end"/>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="6">
+          <b-form-group label="application start:">
+            <b-form-input type="date" v-model="poolEvent.applicationStart"/>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="6">
+          <b-form-group label="application end:">
+            <b-form-input type="date" v-model="poolEvent.applicationEnd"/>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="6">
+          <b-form-group label="supporter limit:">
+            <b-form-input type="number" v-model="poolEvent.supporterLimit"/>
           </b-form-group>
         </b-col>
       </b-row>
@@ -39,26 +74,41 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      poolEvent : {
-        title : "",
-        type : "" ,
-        address : ""
+      poolEvent: {
+        title: "",
+        type: "",
+        address: "",
+        start: null,
+        end: null,
+        applicationStart: null,
+        applicationEnd: null,
+        supporterLimit: 0
       }
-    }
-  }
-  ,
+    };
+  },
   computed: {},
   methods: {
     addPoolEvent() {
       //post: http request to create a pool event by using axios.
       let poolEvent = {
-        title : this.poolEvent.title,
-        type :  this.poolEvent.type,
-        address : this.poolEvent.address
-        }
+        title: this.poolEvent.title,
+        type: this.poolEvent.type,
+        address: this.poolEvent.address,
+        start: this.poolEvent.start,
+        end: this.poolEvent.end,
+        applicationStart: this.poolEvent.applicationStart,
+        applicationEnd: this.poolEvent.applicationEnd,
+        supporterLimit: 0
+      };
       this.$store.dispatch("POST_POOLEVENT", poolEvent);
+    },
+    mounted() {
+      this.autocomplete = new google.maps.places.Autocomplete(
+        this.$refs.autocomplete,
+        { types: ["geocode"] }
+      );
     }
   }
 };

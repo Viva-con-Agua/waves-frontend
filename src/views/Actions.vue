@@ -9,21 +9,21 @@
     </div>
     <div class="row">
       <div class="col-md-6" v-bind:key="poolEvent.id" v-for="poolEvent in poolEvents">
-        <Action v-bind:poolEvent ="poolEvent"/>
+        <PoolEventCard v-bind:poolEvent ="poolEvent"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Action from "../components/Action";
+import PoolEventCard from "../components/PoolEventCard";
 import ActionFilter from "../components/ActionFilter";
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
 
 export default {
   name: "Actions",
-  components: { Action, ActionFilter },
+  components: { PoolEventCard , ActionFilter },
   computed: {
     poolEvents (){
       return this.$store.getters.getAllPoolEvents;

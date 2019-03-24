@@ -32,7 +32,6 @@ export const store = new Vuex.Store({
             axios.get("http://5c9758f58cb32000145d80e7.mockapi.io/poolEvent")
                 .then((res) => {
                     commit('updatePoolEvents', res.data);
-                    console.log(res);
                 }
                 )
 
@@ -41,7 +40,6 @@ export const store = new Vuex.Store({
             axios.post("http://5c9758f58cb32000145d80e7.mockapi.io/poolEvent", poolEvent)
                 .then((res) => {
                     commit('addPoolEvent', poolEvent)
-                    console.log(poolEvent);
                 })
         },
         ADD_POOLEVENT: ({ commit }, poolEvent) => {
