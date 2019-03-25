@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import PoolEvents from './views/PoolEvents';
-import ActionView from './views/ActionView';
-import ActionForm from './views/ActionForm';
+import PoolEventView from './views/PoolEventView';
+import PoolEventForm from './views/PoolEventForm';
 
 
 Vue.use(Router);
@@ -12,18 +12,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'actions',
+      name: 'PoolEvents',
       component: PoolEvents
     },
     {
-      path: '/actionView' ,
-      name: 'actionView',
-      component: ActionView
+      path: '/pooleventview' ,
+      name: 'pooleventview',
+      component: PoolEventView
     },
     {
-      path: '/actionform',
-      name: 'ActionForm',
-      component: ActionForm
+      path: '/pooleventform',
+      name: 'PoolEventForm',
+      component: PoolEventForm
     }
 
   ]

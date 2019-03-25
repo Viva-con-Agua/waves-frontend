@@ -15,7 +15,7 @@
 <script>
 import DropDownFilter from "./DropDownFilter";
 export default {
-  name: "ActionFilter",
+  name: "PoolFilterForm",
   components: {
     DropDownFilter
   },

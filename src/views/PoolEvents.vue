@@ -4,12 +4,12 @@
     <div class="row">
       <div class="col-md-3"></div>
       <div class="col-md-6">
-        <ActionFilter/>
+        <PoolFilterForm/>
       </div>
     </div>
     <div class="row">
       <div class="col-md-6" v-bind:key="poolEvent.id" v-for="poolEvent in poolEvents">
-        <PoolEventCard v-bind:poolEvent ="poolEvent"/>
+        <PoolEventCard v-bind:poolEvent="poolEvent"/>
       </div>
     </div>
   </div>
@@ -17,17 +17,15 @@
 
 <script>
 import PoolEventCard from "../components/PoolEventCard";
-import ActionFilter from "../components/ActionFilter";
-import { mapGetters } from "vuex";
-import { mapState } from "vuex";
+import PoolFilterForm from "../components/PoolFilterForm";
 
 export default {
-  name: "Actions",
-  components: { PoolEventCard , ActionFilter },
+  name: "PoolEvents",
+  components: { PoolEventCard, PoolFilterForm },
   computed: {
-    poolEvents (){
+    poolEvents() {
       return this.$store.getters.getAllPoolEvents;
-    }   
+    }
   },
 
   mounted() {

@@ -1,4 +1,3 @@
-
 import Vuex from 'vuex'
 import Vue from 'vue'
 import axios from 'axios'
@@ -28,21 +27,30 @@ export const store = new Vuex.Store({
         }
     },
     actions: {
-        LOAD_DATA: ({ commit }) => {
+        LOAD_DATA: ({
+            commit
+        }) => {
             axios.get("http://5c9758f58cb32000145d80e7.mockapi.io/poolEvent")
                 .then((res) => {
                     commit('updatePoolEvents', res.data);
-                }
-                )
+                })
 
         },
-        POST_POOLEVENT: ({ commit }, poolEvent) => {
+        POST_POOLEVENT: ({
+            commit
+        }, poolEvent) => {
             axios.post("http://5c9758f58cb32000145d80e7.mockapi.io/poolEvent", poolEvent)
                 .then((res) => {
-                    commit('addPoolEvent', poolEvent)
+                    commit('addPoolEvent', poolEvent);
+                    return {
+                        message: "success",
+                        created: res
+                    };
                 })
         },
-        ADD_POOLEVENT: ({ commit }, poolEvent) => {
+        ADD_POOLEVENT: ({
+            commit
+        }, poolEvent) => {
             commit('addPoolEvent', poolEvent)
         }
     }

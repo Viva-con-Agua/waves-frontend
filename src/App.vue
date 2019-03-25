@@ -40,7 +40,6 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 
 import Vue from "vue";
 
-
 Vue.use(BootstrapVue);
 export default {
   name: "app",

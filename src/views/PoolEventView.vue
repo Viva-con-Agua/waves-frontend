@@ -108,7 +108,7 @@
 <script>
 
 export default {
-  name: "ActionView",
+  name: "PoolEventView",
   computed:{
     actions(){
       return this.$store.state.poolEvents.actions;
