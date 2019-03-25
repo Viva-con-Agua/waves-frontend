@@ -19,6 +19,8 @@
 import PoolEventCard from "../components/PoolEventCard";
 import PoolFilterForm from "../components/PoolFilterForm";
 
+
+
 export default {
   name: "PoolEvents",
   components: { PoolEventCard, PoolFilterForm },

@@ -6,9 +6,13 @@ import axios from 'axios'
 Vue.use(Vuex);
 Vue.use(axios);
 
+const apiMockUrl = 'http://5c9758f58cb32000145d80e7.mockapi.io/poolEvent'
+
 export const store = new Vuex.Store({
+    
     state: {
-        poolEvents: []
+        poolEvents: [],
+        poolEvent: null
     },
     getters: {
         getAllPoolEvents(state) {
@@ -16,6 +20,9 @@ export const store = new Vuex.Store({
         },
         totalPoolEvents(state) {
             return state.poolEvents.length;
+        },
+        getPoolEvent(state){
+            return state.poolEvent;
         }
     },
     mutations: {
@@ -24,6 +31,9 @@ export const store = new Vuex.Store({
         },
         updatePoolEvents(state, poolEvents) {
             state.poolEvents = poolEvents;
+        },
+        setPoolEvent(state, poolEvent){
+            state.poolEvent = poolEvent;
         }
     },
     actions: {
@@ -33,7 +43,7 @@ export const store = new Vuex.Store({
             axios.get("http://5c9758f58cb32000145d80e7.mockapi.io/poolEvent")
                 .then((res) => {
                     commit('updatePoolEvents', res.data);
-                })
+                });
 
         },
         POST_POOLEVENT: ({
@@ -52,6 +62,15 @@ export const store = new Vuex.Store({
             commit
         }, poolEvent) => {
             commit('addPoolEvent', poolEvent)
+        },
+        GET_POOLEVENT_BY_ID: ({
+            commit
+        }, id) => {
+            axios.get(apiMockUrl + '/' + id  )
+            .then((poolEvent) => {
+                commit('setPoolEvent', poolEvent.data);
+            }
+            )
         }
     }
 })

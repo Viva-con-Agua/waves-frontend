@@ -12,8 +12,8 @@
            <div class="row mb-2">
              <div class="col-md-3"></div>
           <div class="col-md-6 text-center">
-            <form action="/actionform" method="get">
-              <button id="singlebutton" name="singlebutton" class="btn btn-primary">create action</button>
+            <form action="/pooleventform" method="get">
+              <button id="singlebutton" name="singlebutton" class="btn btn-primary">create poolevent</button>
             </form>
             
           </div>
@@ -22,7 +22,7 @@
              <div class="col-md-3"></div>
           <div class="col-md-6 text-center">
 
-            <button id="singlebutton" name="singlebutton" class="btn btn-primary">edit action</button>
+            <button id="singlebutton" name="singlebutton" class="btn btn-primary">edit poolevent</button>
           </div>
              </div>
         </div>
@@ -33,12 +33,12 @@
 
 <script>
 import Header from "./components/layout/Header";
-//AIzaSyDs8s8LB2d6i3rYJPjIOSNdVqQ_V9TtDVI
 import BootstrapVue from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
 import Vue from "vue";
+
 
 Vue.use(BootstrapVue);
 export default {

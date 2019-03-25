@@ -16,7 +16,7 @@ export default new Router({
       component: PoolEvents
     },
     {
-      path: '/pooleventview' ,
+      path: '/pooleventview/:id' ,
       name: 'pooleventview',
       component: PoolEventView
     },
@@ -25,6 +25,5 @@ export default new Router({
       name: 'PoolEventForm',
       component: PoolEventForm
     }
-
   ]
 })

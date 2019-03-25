@@ -10,8 +10,20 @@
       </b-row>
       <b-row>
         <b-col cols="6">
+          <b-form-group label="website:">
+            <b-form-input v-model="poolEvent.website"/>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="6">
           <b-form-group label="type:">
-            <b-form-input v-model="poolEvent.type"/>
+            <b-form-select
+              v-model="poolEvent.type"
+              :options="eventTypes"
+              size="sm"
+              class="mt-3"
+            />
           </b-form-group>
         </b-col>
       </b-row>
@@ -19,6 +31,17 @@
         <b-col cols="6">
           <b-form-group ref="autocomplete" label="address:">
             <b-form-input class="search-location" v-model="poolEvent.address"/>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="6">
+          <b-form-group label="address note:">
+            <textarea
+              class="form-control"
+              v-model="poolEvent.addressNote"
+              placeholder="add multiple lines"
+            ></textarea>
           </b-form-group>
         </b-col>
       </b-row>
@@ -58,6 +81,13 @@
         </b-col>
       </b-row>
       <b-row>
+        <b-col cols="6">
+          <b-form-group label="asp of event:">
+            <b-form-input type="text" v-model="poolEvent.aspOfEvent"/>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
         <b-col cols="6"></b-col>
       </b-row>
       <b-row>
@@ -78,37 +108,45 @@ export default {
     return {
       poolEvent: {
         title: "",
+        website: "",
         type: "",
         address: "",
+        addressNote: "",
         start: null,
         end: null,
         applicationStart: null,
         applicationEnd: null,
-        supporterLimit: 0
-      }
+        supporterLimit: 0,
+        aspOfEvent : ""
+      },
+      eventTypes: [
+        { value: null, text: "Please select an option" },
+        { value: "concert", text: "concert" },
+        { value: "festival", text: "festival" },
+        { value: "goldeimer festival", text: "goldeimer festival" },
+        { value: "network meeting", text: "network meeting" },
+        { value: "Run-4-Wash", text: "Run-4-Wash" },
+        { value: "others", text: "others" }
+      ]
     };
   },
   computed: {},
   methods: {
     addPoolEvent() {
-      //post: http request to create a pool event by using axios.
       let poolEvent = {
         title: this.poolEvent.title,
+        website: this.poolEvent.website,
         type: this.poolEvent.type,
         address: this.poolEvent.address,
+        addressNote: this.poolEvent.addressNote,
         start: this.poolEvent.start,
         end: this.poolEvent.end,
         applicationStart: this.poolEvent.applicationStart,
         applicationEnd: this.poolEvent.applicationEnd,
-        supporterLimit: 0
+        supporterLimit: 0,
+        aspOfEvent : this.poolEvent.aspOfEvent
       };
       this.$store.dispatch("POST_POOLEVENT", poolEvent);
-    },
-    mounted() {
-      this.autocomplete = new google.maps.places.Autocomplete(
-        this.$refs.autocomplete,
-        { types: ["geocode"] }
-      );
     }
   }
 };

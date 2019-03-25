@@ -12,9 +12,9 @@
           <div class="col-md-6">
             <div class="profile-head">
               <h1>
-                <strong>{{actions[0].title}}</strong>
+                <strong>{{poolEvent.title}}</strong>
               </h1>
-              <h3 class="proile-rating">{{actions[0].type}}</h3>
+              <h3 class="proile-rating">{{poolEvent.type}}</h3>
               <ul class="nav nav-tabs" id="myTab" role="tablist"></ul>
             </div>
           </div>
@@ -35,7 +35,7 @@
                     <label>Time period</label>
                   </div>
                   <div class="col-md-6">
-                    <p>{{actions[0].start}} - {{actions[0].end}}</p>
+                    <p>{{poolEvent.start}} - {{poolEvent.end}}</p>
                   </div>
                 </div>
 
@@ -44,45 +44,51 @@
                     <label>Address</label>
                   </div>
                   <div class="col-md-6">
-                    <p>{{actions[0].location.address}}</p>
+                    <p>{{poolEvent.address}}</p>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6">
-                    <label>City</label>
+                    <label>website</label>
                   </div>
                   <div class="col-md-6">
-                    <p>{{actions[0].location.city}}</p>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <label>Post code</label>
-                  </div>
-                  <div class="col-md-6">
-                    <p>{{actions[0].location.postCode}}</p>
+                    <p>{{poolEvent.website}}</p>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="col-md-6">
-                    <label>Application deadline</label>
+                    <label>asp of event</label>
+                  </div>
+                  <div class="col-md-6">
+                    <p>{{poolEvent.aspOfEvent}}</p>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <label>Application start</label>
                   </div>
                   <div class="col-md-6">
                     <p>
-                      {{actions[0].application_deadline.end}},
-                      {{actions[0].application_deadline.day}}
-                      {{actions[0].application_deadline.month}}
+                      {{poolEvent.applicationStart}}
                     </p>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6">
-                    <label>#supporter</label>
+                    <label>Application end</label>
                   </div>
                   <div class="col-md-6">
-                    <p>{{actions[0].participants.limit}}</p>
+                    <p>{{poolEvent.applicationEnd}}</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label>Supporter limit</label>
+                  </div>
+                  <div class="col-md-6">
+                    <p>{{poolEvent.supporterLimit}}</p>
                   </div>
                 </div>
               </div>
@@ -109,12 +115,20 @@
 
 export default {
   name: "PoolEventView",
-  computed:{
-    actions(){
-      return this.$store.state.poolEvents.actions;
+  data(){
+    return {
+      id : this.$route.params.id
     }
+  },
+  computed:{
+    poolEvent(){
+      return this.$store.getters.getPoolEvent
+    }
+  },
+  mounted(){
+    this.$store.dispatch('GET_POOLEVENT_BY_ID' , this.id);
   }
-};
+}
 </script>
 <style>
 </style>
