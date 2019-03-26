@@ -18,19 +18,21 @@
       <b-row>
         <b-col cols="6">
           <b-form-group label="type:">
-            <b-form-select
-              v-model="poolEvent.type"
-              :options="eventTypes"
-              size="sm"
-              class="mt-3"
-            />
+            <b-form-select v-model="poolEvent.type" :options="eventTypes" size="sm" class="mt-3"/>
           </b-form-group>
         </b-col>
       </b-row>
       <b-row>
         <b-col cols="6">
           <b-form-group ref="autocomplete" label="address:">
-            <b-form-input class="search-location" v-model="poolEvent.address"/>
+            <vue-google-autocomplete
+              ref="address"
+              id="map"
+              class="form-control"
+              placeholder="Please type your address"
+              v-on:placechanged="getAddressData"
+            ></vue-google-autocomplete>
+            <br>
           </b-form-group>
         </b-col>
       </b-row>
@@ -103,30 +105,32 @@
 </template>
 
 <script>
+import VueGoogleAutocomplete from "vue-google-autocomplete";
 
 const state = {
-  draft : "DRAFT",
-  released : "RELEASED",
-  refused : "REFUSED",
-  finished : "FINISHED",
-  unreleased : "UNRELEASED"
-}
+  draft: "DRAFT",
+  released: "RELEASED",
+  refused: "REFUSED",
+  finished: "FINISHED",
+  unreleased: "UNRELEASED"
+};
 export default {
+  components: { VueGoogleAutocomplete },
   data() {
     return {
       poolEvent: {
-        title: "",
-        website: "",
-        type: "",
-        address: "",
-        addressNote: "",
+        title: null,
+        website: null,
+        type: null,
+        address: null,
+        addressNote: null,
         start: null,
         end: null,
         applicationStart: null,
         applicationEnd: null,
-        supporterLimit: 0,
-        aspOfEvent : "",
-        state : state.draft
+        supporterLimit: null,
+        aspOfEvent: null,
+        state: state.draft
       },
       eventTypes: [
         { value: null, text: "Please select an option" },
@@ -139,7 +143,6 @@ export default {
       ]
     };
   },
-  computed: {},
   methods: {
     addPoolEvent() {
       let poolEvent = {
@@ -153,11 +156,19 @@ export default {
         applicationStart: this.poolEvent.applicationStart,
         applicationEnd: this.poolEvent.applicationEnd,
         supporterLimit: 0,
-        aspOfEvent : this.poolEvent.aspOfEvent,
-        state : this.state
+        aspOfEvent: this.poolEvent.aspOfEvent,
+        state: this.state
       };
       this.$store.dispatch("POST_POOLEVENT", poolEvent);
+    },
+    getAddressData(addressData, placeResultData, id) {
+      this.poolEvent.address = addressData;
     }
+  },
+  mounted() {
+    // To demonstrate functionality of exposed component functions
+    // Here we make focus on the user input
+    this.$refs.address.focus();
   }
 };
 </script>

@@ -25,16 +25,6 @@
             <div class="col-md-3"></div>
             <div class="col-md-6 text-center">
               <button id="singlebutton" name="singlebutton" class="btn btn-primary">edit poolevent</button>
-
-              <div>
-                <vue-google-autocomplete
-                  :country="['au', 'nz','de']"
-                  id="map"
-                  class="form-control"
-                  placeholder="Start typing"
-                  v-on:placechanged="getAddressData"
-                ></vue-google-autocomplete>
-              </div>
             </div>
           </div>
         </div>
@@ -42,14 +32,11 @@
     </div>
   </div>
 </template>
-
 <script>
 import Header from "./components/layout/Header";
 import BootstrapVue from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-
-import VueGoogleAutocomplete from "vue-google-autocomplete";
 
 import Vue from "vue";
 
@@ -57,35 +44,10 @@ Vue.use(BootstrapVue);
 export default {
   name: "app",
   components: {
-    Header,
-    VueGoogleAutocomplete
-  },
-  data: function () {
-            return {
-              address: ''
-            }
-        },
-        mounted() {
-            // To demonstrate functionality of exposed component functions
-            // Here we make focus on the user input
-            this.$refs.address.focus();
-        },
- 
-        methods: {
-            /**
-            * When the location found
-            * @param {Object} addressData Data of the found location
-            * @param {Object} placeResultData PlaceResult object
-            * @param {String} id Input container ID
-            */
-            getAddressData: function (addressData, placeResultData, id) {
-                this.address = addressData;
-            }
-        }
+    Header
+  }     
 };
 </script>
-
-
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
