@@ -103,6 +103,14 @@
 </template>
 
 <script>
+
+const state = {
+  draft : "DRAFT",
+  released : "RELEASED",
+  refused : "REFUSED",
+  finished : "FINISHED",
+  unreleased : "UNRELEASED"
+}
 export default {
   data() {
     return {
@@ -117,7 +125,8 @@ export default {
         applicationStart: null,
         applicationEnd: null,
         supporterLimit: 0,
-        aspOfEvent : ""
+        aspOfEvent : "",
+        state : state.draft
       },
       eventTypes: [
         { value: null, text: "Please select an option" },
@@ -144,7 +153,8 @@ export default {
         applicationStart: this.poolEvent.applicationStart,
         applicationEnd: this.poolEvent.applicationEnd,
         supporterLimit: 0,
-        aspOfEvent : this.poolEvent.aspOfEvent
+        aspOfEvent : this.poolEvent.aspOfEvent,
+        state : this.state
       };
       this.$store.dispatch("POST_POOLEVENT", poolEvent);
     }

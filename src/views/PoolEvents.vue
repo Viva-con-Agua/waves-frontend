@@ -19,8 +19,6 @@
 import PoolEventCard from "../components/PoolEventCard";
 import PoolFilterForm from "../components/PoolFilterForm";
 
-
-
 export default {
   name: "PoolEvents",
   components: { PoolEventCard, PoolFilterForm },
@@ -29,7 +27,6 @@ export default {
       return this.$store.getters.getAllPoolEvents;
     }
   },
-
   mounted() {
     this.$store.dispatch("LOAD_DATA");
   }
