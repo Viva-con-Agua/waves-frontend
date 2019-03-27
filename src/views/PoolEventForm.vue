@@ -90,6 +90,13 @@
         </b-col>
       </b-row>
       <b-row>
+        <b-col cols="6">
+          <b-form-group label="message:">
+            <quill v-model="poolEvent.message" output="html"></quill>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
         <b-col cols="6"></b-col>
       </b-row>
       <b-row>
@@ -106,6 +113,7 @@
 
 <script>
 import VueGoogleAutocomplete from "vue-google-autocomplete";
+import MessageEditor from "../components/MessageEditor";
 
 const state = {
   draft: "DRAFT",
@@ -115,7 +123,7 @@ const state = {
   unreleased: "UNRELEASED"
 };
 export default {
-  components: { VueGoogleAutocomplete },
+  components: { VueGoogleAutocomplete, MessageEditor },
   data() {
     return {
       poolEvent: {
@@ -130,7 +138,8 @@ export default {
         applicationEnd: null,
         supporterLimit: null,
         aspOfEvent: null,
-        state: state.draft
+        state: state.draft,
+        message : null
       },
       eventTypes: [
         { value: null, text: "Please select an option" },
@@ -140,7 +149,8 @@ export default {
         { value: "network meeting", text: "network meeting" },
         { value: "Run-4-Wash", text: "Run-4-Wash" },
         { value: "others", text: "others" }
-      ]
+      ],
+      model: null
     };
   },
   methods: {
@@ -157,11 +167,12 @@ export default {
         applicationEnd: this.poolEvent.applicationEnd,
         supporterLimit: 0,
         aspOfEvent: this.poolEvent.aspOfEvent,
-        state: this.state
+        state: this.poolEvent.state,
+        message : this.poolEvent.message
       };
       this.$store.dispatch("POST_POOLEVENT", poolEvent);
     },
-    getAddressData(addressData, placeResultData, id) {
+    getAddressData(addressData) {
       this.poolEvent.address = addressData;
     }
   },

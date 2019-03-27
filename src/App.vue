@@ -37,10 +37,16 @@ import Header from "./components/layout/Header";
 import BootstrapVue from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-
+import VueQuill from 'vue-quill'
 import Vue from "vue";
 
 Vue.use(BootstrapVue);
+Vue.component('MessagEditor', require('./components/MessageEditor'));
+
+ 
+Vue.use(VueQuill)
+
+
 export default {
   name: "app",
   components: {

@@ -91,6 +91,14 @@
                     <p>{{poolEvent.supporterLimit}}</p>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label>message:</label>
+                  </div>
+                  <div class="col-md-6">
+                      {{poolEvent.message}}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -100,7 +108,7 @@
           <div class="col-md-6">
             <form>
               <div class="form-group">
-                <label for="comment">message:</label>
+                <label for="comment">Apply:</label>
                 <textarea class="form-control" rows="5" id="comment"></textarea>
                 <button class="btn btn-primary" style="margin:10px">apply</button>
               </div>

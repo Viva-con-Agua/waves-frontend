@@ -19,6 +19,7 @@ import {
 library.add(faCoffee)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('MessageEditor', require('./components/MessageEditor'));
 
 Vue.config.productionTip = false
 
