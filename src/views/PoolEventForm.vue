@@ -1,119 +1,127 @@
 <template>
-  <div class="page-non-script">
-    <b-form @submit.prevent="addPoolEvent">
-      <b-row>
-        <b-col cols="6">
-          <b-form-group label="title:">
-            <b-form-input v-model="poolEvent.title"/>
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="6">
-          <b-form-group label="website:">
-            <b-form-input v-model="poolEvent.website"/>
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="6">
-          <b-form-group label="type:">
-            <b-form-select v-model="poolEvent.type" :options="eventTypes" size="sm" class="mt-3"/>
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="6">
-          <b-form-group ref="autocomplete" label="address:">
-            <vue-google-autocomplete
-              ref="address"
-              id="map"
-              class="form-control"
-              placeholder="Please type your address"
-              v-on:placechanged="getAddressData"
-            ></vue-google-autocomplete>
-            <br>
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="6">
-          <b-form-group label="address note:">
-            <textarea
-              class="form-control"
-              v-model="poolEvent.addressNote"
-              placeholder="add multiple lines"
-            ></textarea>
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="6">
-          <b-form-group label="start:">
-            <b-form-input type="date" v-model="poolEvent.start"/>
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="6">
-          <b-form-group label="end:">
-            <b-form-input type="date" v-model="poolEvent.end"/>
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="6">
-          <b-form-group label="application start:">
-            <b-form-input type="date" v-model="poolEvent.applicationStart"/>
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="6">
-          <b-form-group label="application end:">
-            <b-form-input type="date" v-model="poolEvent.applicationEnd"/>
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="6">
-          <b-form-group label="supporter limit:">
-            <b-form-input type="number" v-model="poolEvent.supporterLimit"/>
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="6">
-          <b-form-group label="asp of event:">
-            <b-form-input type="text" v-model="poolEvent.aspOfEvent"/>
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="6">
-          <b-form-group label="message:">
-            <quill v-model="poolEvent.message" output="html"></quill>
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="6"></b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="12"></b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="12">
-          <b-button type="submit" variant="primary">Submit</b-button>
-        </b-col>
-      </b-row>
-    </b-form>
-  </div>
+  <VcAFrame title="form" hasContainer="true">
+    <VcAColumn size="50%">
+      <VcABox :first="false" title="create a new pool-event">
+        <el-form :model="poolEvent" :rules="rules" class="rows-container">
+          <el-form-item label="Title" :span="11">
+            <el-input v-model="poolEvent.title"></el-input>
+          </el-form-item>
+
+          <el-form-item label="website">
+            <el-input v-model="poolEvent.website"></el-input>
+          </el-form-item>
+
+          <el-form-item label="pool event type">
+            <el-select v-model="poolEvent.type" placeholder="please select your zone">
+              <el-option label="concert" value="concert"></el-option>
+              <el-option label="festival" value="festival"></el-option>
+              <el-option label="goldeimer festival" value="goldeimer festival"></el-option>
+              <el-option label="RUN-4-WASH" value="RUN-4-WASH"></el-option>
+              <el-option label="others" value="others"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="event kick-off">
+            <el-col :span="11">
+              <el-date-picker
+                type="date"
+                placeholder="Pick a date"
+                v-model="poolEvent.start"
+                style="width: 100%;"
+              ></el-date-picker>
+            </el-col>
+            <el-col class="line" :span="2">-</el-col>
+            <el-col :span="11">
+              <el-time-picker
+                placeholder="Pick a time"
+                v-model="poolEvent.end"
+                style="width: 100%;"
+              ></el-time-picker>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="event end">
+            <el-col :span="11">
+              <el-date-picker
+                type="date"
+                placeholder="Pick a date"
+                v-model="poolEvent.end"
+                style="width: 100%;"
+              ></el-date-picker>
+            </el-col>
+            <el-col class="line" :span="2">-</el-col>
+            <el-col :span="11">
+              <el-time-picker
+                placeholder="Pick a time"
+                v-model="poolEvent.end"
+                style="width: 100%;"
+              ></el-time-picker>
+            </el-col>
+          </el-form-item>
+
+          <el-form-item label="application start">
+            <el-col :span="11">
+              <el-date-picker
+                type="date"
+                placeholder="Pick a date"
+                v-model="poolEvent.applicationStart"
+                style="width: 100%;"
+              ></el-date-picker>
+            </el-col>
+            <el-col class="line" :span="2">-</el-col>
+            <el-col :span="11">
+              <el-time-picker
+                placeholder="Pick a time"
+                v-model="poolEvent.applicationEnd"
+                style="width: 100%;"
+              ></el-time-picker>
+            </el-col>
+          </el-form-item>
+
+          <el-form-item label="application end">
+            <el-col :span="11">
+              <el-date-picker
+                type="date"
+                placeholder="Pick a date"
+                v-model="poolEvent.applicationEnd"
+                style="width: 100%;"
+              ></el-date-picker>
+            </el-col>
+            <el-col class="line" :span="2">-</el-col>
+            <el-col :span="11">
+              <el-time-picker
+                placeholder="Pick a time"
+                v-model="poolEvent.applicationEnd"
+                style="width: 100%;"
+              ></el-time-picker>
+            </el-col>
+          </el-form-item>
+
+          <el-form-item label="supporter limit">
+            <el-input-number v-model="poolEvent.supporterLimit" :min="0" :step="1"></el-input-number>
+          </el-form-item>
+
+          <el-form-item label="asp of event">
+            <el-input v-model="poolEvent.aspOfEvent"></el-input>
+          </el-form-item>
+
+          <el-form-item size="large">
+            <el-button type="primary" @click.prevent="addPoolEvent">Create</el-button>
+            <el-button @click.prevent="cancel">Cancel</el-button>
+          </el-form-item>
+        </el-form>
+      </VcABox>
+    </VcAColumn>
+    <VcAColumn>
+      <VcABox :first="false" title="create a new pool-event"></VcABox>
+    </VcAColumn>
+  </VcAFrame>
 </template>
 
 <script>
 import VueGoogleAutocomplete from "vue-google-autocomplete";
 import MessageEditor from "../components/MessageEditor";
+import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
+import "vca-widget-base/dist/vca-widget-base.css";
+import { Input, Form } from "element-ui";
 
 const state = {
   draft: "DRAFT",
@@ -123,12 +131,20 @@ const state = {
   unreleased: "UNRELEASED"
 };
 export default {
-  components: { VueGoogleAutocomplete, MessageEditor },
+  components: {
+    VueGoogleAutocomplete: VueGoogleAutocomplete,
+    MessageEditor: MessageEditor,
+    VcAFrame: VcAFrame,
+    VcAColumn: VcAColumn,
+    VcABox: VcABox,
+    "el-input": Input,
+    "el-form": Form
+  },
   data() {
     return {
       poolEvent: {
-        title: null,
-        website: null,
+        title: [{ required: true, message: '姓名是必填项', trigger: 'change'}],
+        website:  [{ required: true, message: '姓名是必填项', trigger: 'change'}],
         type: null,
         address: null,
         addressNote: null,
@@ -139,7 +155,7 @@ export default {
         supporterLimit: null,
         aspOfEvent: null,
         state: state.draft,
-        message : null
+        message: null
       },
       eventTypes: [
         { value: null, text: "Please select an option" },
@@ -150,7 +166,8 @@ export default {
         { value: "Run-4-Wash", text: "Run-4-Wash" },
         { value: "others", text: "others" }
       ],
-      model: null
+      model: null,
+      rules: null
     };
   },
   methods: {
@@ -168,12 +185,16 @@ export default {
         supporterLimit: 0,
         aspOfEvent: this.poolEvent.aspOfEvent,
         state: this.poolEvent.state,
-        message : this.poolEvent.message
+        message: this.poolEvent.message
       };
       this.$store.dispatch("POST_POOLEVENT", poolEvent);
+      this.$router.push("/");
     },
     getAddressData(addressData) {
       this.poolEvent.address = addressData;
+    },
+    cancel(){
+      this.$router.push('/')
     }
   },
   mounted() {

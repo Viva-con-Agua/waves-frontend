@@ -93,7 +93,7 @@
                 </div>
                 <div class="row">
                   <div class="col-md-6">
-                    <label>message:</label>
+                    <label>description:</label>
                   </div>
                   <div class="col-md-6">
                       {{poolEvent.message}}
