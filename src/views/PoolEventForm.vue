@@ -1,27 +1,26 @@
 <template>
-  <VcAFrame title="form" hasContainer="true">
+  <VcAFrame>
     <VcAColumn size="50%">
       <VcABox :first="false" title="create a new pool-event">
         <el-form :model="poolEvent" :rules="rules" class="rows-container">
-          <el-form-item label="Title" :span="11">
-            <el-input v-model="poolEvent.title"></el-input>
+          <el-form-item label="title">
+            <el-col :span="20" :offset="1">
+              <el-input v-model="poolEvent.title"></el-input>
+            </el-col>
           </el-form-item>
-
-          <el-form-item label="website">
-            <el-input v-model="poolEvent.website"></el-input>
-          </el-form-item>
-
-          <el-form-item label="pool event type">
-            <el-select v-model="poolEvent.type" placeholder="please select your zone">
-              <el-option label="concert" value="concert"></el-option>
-              <el-option label="festival" value="festival"></el-option>
-              <el-option label="goldeimer festival" value="goldeimer festival"></el-option>
-              <el-option label="RUN-4-WASH" value="RUN-4-WASH"></el-option>
-              <el-option label="others" value="others"></el-option>
-            </el-select>
+          <el-form-item label="type">
+            <el-col :span="20" :offset="1">
+              <el-select v-model="poolEvent.type" placeholder="please select your event type">
+                <el-option label="concert" value="concert"></el-option>
+                <el-option label="festival" value="festival"></el-option>
+                <el-option label="goldeimer festival" value="goldeimer festival"></el-option>
+                <el-option label="RUN-4-WASH" value="RUN-4-WASH"></el-option>
+                <el-option label="others" value="others"></el-option>
+              </el-select>
+            </el-col>
           </el-form-item>
           <el-form-item label="event kick-off">
-            <el-col :span="11">
+            <el-col :span="8" :offset="1">
               <el-date-picker
                 type="date"
                 placeholder="Pick a date"
@@ -30,7 +29,7 @@
               ></el-date-picker>
             </el-col>
             <el-col class="line" :span="2">-</el-col>
-            <el-col :span="11">
+            <el-col :span="8">
               <el-time-picker
                 placeholder="Pick a time"
                 v-model="poolEvent.end"
@@ -39,7 +38,7 @@
             </el-col>
           </el-form-item>
           <el-form-item label="event end">
-            <el-col :span="11">
+            <el-col :span="8" :offset="1">
               <el-date-picker
                 type="date"
                 placeholder="Pick a date"
@@ -48,7 +47,7 @@
               ></el-date-picker>
             </el-col>
             <el-col class="line" :span="2">-</el-col>
-            <el-col :span="11">
+            <el-col :span="8" :offset="1">
               <el-time-picker
                 placeholder="Pick a time"
                 v-model="poolEvent.end"
@@ -58,7 +57,7 @@
           </el-form-item>
 
           <el-form-item label="application start">
-            <el-col :span="11">
+            <el-col :span="8" >
               <el-date-picker
                 type="date"
                 placeholder="Pick a date"
@@ -67,7 +66,7 @@
               ></el-date-picker>
             </el-col>
             <el-col class="line" :span="2">-</el-col>
-            <el-col :span="11">
+            <el-col :span="8" >
               <el-time-picker
                 placeholder="Pick a time"
                 v-model="poolEvent.applicationEnd"
@@ -77,7 +76,7 @@
           </el-form-item>
 
           <el-form-item label="application end">
-            <el-col :span="11">
+            <el-col :span="8">
               <el-date-picker
                 type="date"
                 placeholder="Pick a date"
@@ -86,7 +85,7 @@
               ></el-date-picker>
             </el-col>
             <el-col class="line" :span="2">-</el-col>
-            <el-col :span="11">
+            <el-col :span="8">
               <el-time-picker
                 placeholder="Pick a time"
                 v-model="poolEvent.applicationEnd"
@@ -143,8 +142,8 @@ export default {
   data() {
     return {
       poolEvent: {
-        title: [{ required: true, message: '姓名是必填项', trigger: 'change'}],
-        website:  [{ required: true, message: '姓名是必填项', trigger: 'change'}],
+        title: null,
+        website: null,
         type: null,
         address: null,
         addressNote: null,
@@ -157,15 +156,6 @@ export default {
         state: state.draft,
         message: null
       },
-      eventTypes: [
-        { value: null, text: "Please select an option" },
-        { value: "concert", text: "concert" },
-        { value: "festival", text: "festival" },
-        { value: "goldeimer festival", text: "goldeimer festival" },
-        { value: "network meeting", text: "network meeting" },
-        { value: "Run-4-Wash", text: "Run-4-Wash" },
-        { value: "others", text: "others" }
-      ],
       model: null,
       rules: null
     };
@@ -193,8 +183,8 @@ export default {
     getAddressData(addressData) {
       this.poolEvent.address = addressData;
     },
-    cancel(){
-      this.$router.push('/')
+    cancel() {
+      this.$router.push("/");
     }
   },
   mounted() {

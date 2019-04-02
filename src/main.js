@@ -12,7 +12,6 @@ import deElement from 'element-ui/lib/locale/lang/de';
 import {store} from './store'
 
 
-
 import {
   library
 } from '@fortawesome/fontawesome-svg-core'
@@ -27,6 +26,11 @@ library.add(faCoffee)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('MessageEditor', require('./components/MessageEditor'));
+
+import vsm from 'vue-state-machine';
+
+// vsm requires a reference to a vuex store
+Vue.use(vsm.plugin, store)
 
 const dateTimeFormats = {
   'en-US': {
