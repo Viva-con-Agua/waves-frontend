@@ -1,7 +1,7 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 import axios from 'axios'
-import { Machine, interpret } from 'xstate';
+import { Machine} from 'xstate';
 
 
 Vue.use(Vuex);
@@ -14,6 +14,11 @@ const lightMachine = Machine({
     key: "light",
     initial: "unreleased",
     states: {
+        draft : {
+            on: {
+                unrelease: "unreleased"
+            }
+        },
         unreleased: {
             on: {
                 release: "released",
