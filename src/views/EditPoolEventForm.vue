@@ -8,7 +8,6 @@
               <el-input v-model="poolEvent.title"></el-input>
             </el-col>
           </el-form-item>
-
           <el-form-item label="website:" prop="website">
             <el-col :span="20" :offset="1">
               <el-input v-model="poolEvent.website"></el-input>
@@ -23,7 +22,11 @@
 
           <el-form-item label="type:" prop="type">
             <el-col :span="20" :offset="1">
-              <el-select v-model="poolEvent.type" value placeholder="please select your event type">
+              <el-select
+                v-model="poolEvent.type"
+                :value="poolEvent.type"
+                placeholder="please select your event type"
+              >
                 <el-option label="concert" value="concert"></el-option>
                 <el-option label="festival" value="festival"></el-option>
                 <el-option label="goldeimer festival" value="goldeimer festival"></el-option>
@@ -113,8 +116,8 @@
             </el-col>
           </el-form-item>
           <el-form-item size="large">
-            <el-button type="primary" @click.prevent="addPoolEvent">Create</el-button>
-            <el-button type="info" @click.prevent="saveAsDraft">save as draft</el-button>
+            <el-button type="primary" @click.prevent="editPoolEvent">Create</el-button>
+            <el-button v-if="poolEvent.state==='draft'" type="info" @click.prevent="editAndSaveAsDraft">save as draft</el-button>
             <el-button @click.prevent="cancel">Cancel</el-button>
           </el-form-item>
         </el-form>
@@ -127,12 +130,12 @@
 </template>
 
 <script>
+import VueGoogleAutocomplete from "vue-google-autocomplete";
 import MessageEditor from "../components/MessageEditor";
 import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
 import "vca-widget-base/dist/vca-widget-base.css";
 import { Input, Form } from "element-ui";
-import { constants } from "fs";
-import GoogleAutocomplete from "google-autocomplete-vue";
+import { setTimeout } from 'timers';
 
 const state = {
   draft: "draft",
@@ -142,8 +145,9 @@ const state = {
   unreleased: "unreleased"
 };
 export default {
+  name: "EditPoolEventForm",
   components: {
-    GoogleAutocomplete: GoogleAutocomplete,
+    VueGoogleAutocomplete: VueGoogleAutocomplete,
     MessageEditor: MessageEditor,
     VcAFrame: VcAFrame,
     VcAColumn: VcAColumn,
@@ -153,21 +157,8 @@ export default {
   },
   data() {
     return {
-      poolEvent: {
-        title: "",
-        website: "",
-        type: "",
-        address: "",
-        addressNote: "",
-        start: "",
-        end: "",
-        applicationStart: "",
-        applicationEnd: "",
-        supporterLimit: "",
-        aspOfEvent: "",
-        state: state.unreleased,
-        message: ""
-      },
+      poolEvent: this.$store.getters.getPoolEvent,
+      id: this.$route.params.id,
       isValidForm: "",
       rules: {
         title: [
@@ -240,71 +231,32 @@ export default {
     };
   },
   methods: {
-    addPoolEvent() {
-      let poolEvent = {
-        title: this.poolEvent.title,
-        website: this.poolEvent.website,
-        type: this.poolEvent.type,
-        address: this.poolEvent.address,
-        addressNote: this.poolEvent.addressNote,
-        start: this.poolEvent.start,
-        end: this.poolEvent.end,
-        applicationStart: this.poolEvent.applicationStart,
-        applicationEnd: this.poolEvent.applicationEnd,
-        supporterLimit: this.poolEvent.supporterLimit,
-        aspOfEvent: this.poolEvent.aspOfEvent,
-        state: "unreleased",
-        message: this.poolEvent.message
-      };
-      this.submitForm("poolEvent");
-      if (this.isValidForm) {
-        this.$store
-          .dispatch("POST_POOLEVENT", poolEvent)
-          .then(() => {
-            this.$router.push("/");
-          })
-          .catch(() => {
-            alert("Error");
-          });
-      }
-    },
-    saveAsDraft() {
-      let poolEvent = {
-        title: this.poolEvent.title,
-        website: this.poolEvent.website,
-        type: this.poolEvent.type,
-        address: this.poolEvent.address,
-        addressNote: this.poolEvent.addressNote,
-        start: this.poolEvent.start,
-        end: this.poolEvent.end,
-        applicationStart: this.poolEvent.applicationStart,
-        applicationEnd: this.poolEvent.applicationEnd,
-        supporterLimit: 0,
-        aspOfEvent: this.poolEvent.aspOfEvent,
-        state: "draft",
-        descr: this.poolEvent.desc
-      };
-      this.submitForm("poolEvent");
-      if (this.isValidForm) {
-        this.$store
-          .dispatch("POST_POOLEVENT", poolEvent)
-          .then(() => {
-            this.$router.push("/");
-          })
-          .catch(err => {
-            console.log(err.message);
-          });
-      }
-    },
-    getAddressData(addressData) {
-      this.poolEvent.address = addressData;
-    },
     cancel() {
       this.$router.push("/");
     },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+    editPoolEvent() {
+      this.submitForm("poolEvent");
+      if (this.isValidForm) {
+        this.$store.dispatch("EDIT_POOLEVENT", this.poolEvent);
+        setTimeout(() => {
+            this.$router.push('/');
+        },2000);
+      }
+    },
+    editAndSaveAsDraft() {
+      this.submitForm("poolEvent");
+      if (this.isValidForm) {
+        this.$store.dispatch("EDIT_AND_SAVE_POOLEVENT", this.poolEvent);
+        setTimeout(() => {
+            this.$router.push('/');
+        },2000);
+      }
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
-        console.log(valid);
         if (valid) {
           this.isValidForm = valid;
         } else {
@@ -312,15 +264,10 @@ export default {
         }
       });
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    }
-  } //,
-  //mounted() {
-  // To demonstrate functionality of exposed component functions
-  // Here we make focus on the user input
-  //this.$refs.address.focus();
-  //}
+  },
+  mounted() {
+    this.$store.dispatch("GET_POOLEVENT_BY_ID", this.id);
+  }
 };
 </script>
 <style>

@@ -11,6 +11,7 @@
     </VcAColumn>
     <VcAColumn>
       <VcABox>
+        <el-button type="success"><i class="el-icon-circle-plus"></i> add event</el-button>
       </VcABox>
     </VcAColumn>
   </VcAFrame>
@@ -30,6 +31,11 @@ export default {
   },
   mounted() {
     this.$store.dispatch("LOAD_DATA");
+  },
+  methods : {
+    editPoolEvent(){
+        this.$router.push();
+    }
   }
 };
 </script>
@@ -37,4 +43,9 @@ export default {
 .row {
   margin: 10px;
 }
+
+.PoolEventCard {
+  margin: 10px
+}
+
 </style>

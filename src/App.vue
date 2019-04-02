@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-      <WidgetTopNavigation/>
-      <router-view/>
-      <WidgetBottomNavigation/>
+    <WidgetTopNavigation/>
+    <router-view/>
+    <WidgetBottomNavigation/>
   </div>
 </template>
 <script>
@@ -10,7 +10,7 @@ import BootstrapVue from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
-import 'vca-widget-base/dist/vca-widget-base.css'
+import "vca-widget-base/dist/vca-widget-base.css";
 
 import VueQuill from "vue-quill";
 import Vue from "vue";
@@ -48,4 +48,5 @@ export default {
   display: flex;
   overflow: auto;
 }
+
 </style>

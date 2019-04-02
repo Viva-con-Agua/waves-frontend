@@ -28,6 +28,11 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('MessageEditor', require('./components/MessageEditor'));
 
 import vsm from 'vue-state-machine';
+import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete';
+ 
+Vue.use(VuetifyGoogleAutocomplete, {
+  apiKey: 'AIzaSyBDBrWOEiYNTbOp05CoWBGuq4hIwAA6yEs', // Can also be an object. E.g, for Google Maps Premium API, pass `{ client: <YOUR-CLIENT-ID> }` // Optional
+});
 
 // vsm requires a reference to a vuex store
 Vue.use(vsm.plugin, store)

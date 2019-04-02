@@ -1,7 +1,7 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 import axios from 'axios'
-import { Machine} from 'xstate';
+import { Machine } from 'xstate';
 
 
 Vue.use(Vuex);
@@ -14,7 +14,7 @@ const lightMachine = Machine({
     key: "light",
     initial: "unreleased",
     states: {
-        draft : {
+        draft: {
             on: {
                 unrelease: "unreleased"
             }
@@ -22,7 +22,7 @@ const lightMachine = Machine({
         unreleased: {
             on: {
                 release: "released",
-                refuse : "refused"
+                refuse: "refused"
             }
         },
         released: {
@@ -67,7 +67,7 @@ export const store = new Vuex.Store({
             state.poolEvent = poolEvent;
         },
         transition(state, action) {
-            state.currentState = lightMachine.transition(state.currentState, action).value
+            state.poolEvent.state = lightMachine.transition(state.poolEvent.state, action).value
         }
     },
     actions: {
@@ -77,8 +77,9 @@ export const store = new Vuex.Store({
             axios.get(apiMockUrl)
                 .then((res) => {
                     commit('updatePoolEvents', res.data);
+                }).catch((err) => {
+                    console.log(err.message);
                 });
-
         },
         POST_POOLEVENT: ({
             commit
@@ -90,12 +91,38 @@ export const store = new Vuex.Store({
                         message: "success",
                         created: res
                     };
+                }).catch((err) => {
+                    console.log(err.message);
                 })
         },
         ADD_POOLEVENT: ({
             commit
         }, poolEvent) => {
             commit('addPoolEvent', poolEvent)
+        }, DELETE_POOLEVENT: ({ commit }, id) => {
+            axios.delete(apiMockUrl + '/' + id)
+                .then((resp) => {
+                    console.log(resp);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        EDIT_POOLEVENT: ({ commit }, poolEvent) => {
+            poolEvent.state = "unreleased";
+            axios.put(apiMockUrl + '/' + poolEvent.id, poolEvent)
+                .then((resp) => {
+                    commit('transition', "unrelease")
+                    console.log(resp);
+                })
+                .catch((err) => { err.message });
+        },
+        EDIT_AND_SAVE_AS_DRAFT: ({commit} , poolEvent) =>{
+            axios.put(apiMockUrl + '/' + poolEvent.id, poolEvent)
+            .then((resp) => {
+                console.log(resp);
+            })
+            .catch((err) => { err.message });
         },
         GET_POOLEVENT_BY_ID: ({
             commit
@@ -105,6 +132,37 @@ export const store = new Vuex.Store({
                     commit('setPoolEvent', poolEvent.data);
                 }
                 )
+        },
+        SET_TO_RELEASED: ({ commit }, id) => {
+            axios.put(apiMockUrl + '/' + id, { state: "released" })
+                .then((resp, err) => {
+                    commit('transition', "release")
+                })
+                .catch((err) => {
+                    console.log(err)
+                });
+        },
+        SET_TO_REFUSED: ({ commit }, id) => {
+            axios.put(apiMockUrl + '/' + id, { state: "refused" })
+                .then((resp, err) => {
+                    console.log(resp)
+                    commit('transition', "refuse")
+                })
+                .catch((err) => {
+                    console.log(err)
+                });
+        },
+        SET_TO_UNRELEASED: ({ commit }, id) => {
+            axios.put(apiMockUrl + '/' + id, { state: "unreleased" })
+                .then((resp, err) => {
+                    console.log(resp)
+                    commit('transition', "unrelease")
+                })
+                .catch((err) => {
+                    console.log(err)
+                });
         }
     }
-})
+}
+)
+
