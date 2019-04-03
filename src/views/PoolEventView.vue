@@ -118,8 +118,9 @@
                   <strong>description:</strong>
                 </p>
               </el-col>
+              
               <el-col :span="6" :offset="1">
-                <div v-html="getDescription"></div>
+                <div  v-html="getDescription"></div>
               </el-col>
             </el-row>
           </form>
@@ -169,7 +170,16 @@
           :zoom="15"
           map-type-id="terrain"
           style="width: 350px; height: 300px"
-        ></GmapMap>
+        >
+          <GmapMarker
+            :key="index"
+            v-for="(m, index) in markers"
+            :position="m.position"
+            :clickable="true"
+            :draggable="true"
+            @click="center=m.position"
+          />
+        </GmapMap>
       </VcABox>
     </VcAColumn>
   </VcAFrame>
@@ -231,15 +241,15 @@ export default {
     getDescription() {
       return this.poolEvent.description;
     },
-    getLatLong(){
+    getLatLong() {
       console.log({
         lat: this.poolEvent.address.latitude,
-        long : this.poolEvent.address.longitude
+        long: this.poolEvent.address.longitude
       });
       return {
         lat: this.poolEvent.address.latitude,
-        lng : this.poolEvent.address.longitude
-      }
+        lng: this.poolEvent.address.longitude
+      };
     }
   },
   mounted() {

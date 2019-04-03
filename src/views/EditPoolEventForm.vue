@@ -16,7 +16,7 @@
 
           <el-form-item label="address:" prop="address">
             <el-col :span="20" :offset="1">
-              <el-input v-model="poolEvent.address"></el-input>
+              <el-input v-model="poolEvent.address.route"></el-input>
             </el-col>
           </el-form-item>
 
@@ -192,12 +192,6 @@ export default {
           {
             required: true,
             message: "Please input address",
-            trigger: "blur"
-          },
-          {
-            min: 3,
-            max: 100,
-            message: "Length should be 3 to 24",
             trigger: "blur"
           }
         ],
