@@ -18,7 +18,7 @@
         <i class="el-icon-location"> {{address}}</i>
       </div>
       <div class="col-auto d-none d-lg-block">
-        <img v-if="poolEvent.state==='festival'" :src="icons.festival" width="100%" heigh t="100%">
+        <img  :src="icons.festival" width="100%" heigh t="100%">
         <img v-if="poolEvent.state==='concert'" :src="icons.concert" width="100%" heigh t="100%">
         <img v-if="poolEvent.state==='others'" :src="icons.others" width="100%" heigh t="100%">
         <img

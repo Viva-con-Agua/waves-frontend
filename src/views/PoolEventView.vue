@@ -32,13 +32,13 @@
                 <p>{{address}}</p>
               </el-col>
             </el-row>
-            <el-row>
+            <el-row >
               <el-col :span="4">
                 <p>
-                  <strong>address note:</strong>
+                  <strong v-if="poolEvent.addressNote" >address note:</strong>
                 </p>
               </el-col>
-              <el-col :span="6" :offset="1">
+              <el-col v-if="poolEvent.addressNote" :span="6" :offset="1">
                 <h3>{{poolEvent.addressNote}}</h3>
               </el-col>
             </el-row>
@@ -110,6 +110,16 @@
               </el-col>
               <el-col :span="6" :offset="1">
                 <p>{{poolEvent.supporterLimit}}</p>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="4">
+                <p>
+                  <strong>description:</strong>
+                </p>
+              </el-col>
+              <el-col :span="6" :offset="1">
+                <div v-html="getDescription"></div>
               </el-col>
             </el-row>
           </form>
@@ -209,6 +219,9 @@ export default {
     getApplicationEnd(){
         let date = new Date(this.poolEvent.applicationEnd);
         return  date.toLocaleTimeString() +", "+ date.toDateString();
+    },
+    getDescription(){
+      return this.poolEvent.description;
     } 
   },
   mounted() {

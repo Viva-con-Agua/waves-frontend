@@ -118,8 +118,7 @@
             />
           </el-form-item>
           <el-form-item label="description:">
-            <quill v-model="content"></quill>
-
+            <quill v-model="poolEvent.description" output="html"></quill>
           </el-form-item>
         </el-form>
       </VcABox>
@@ -182,7 +181,7 @@ export default {
         supporterLimit: "",
         aspOfEvent: "",
         state: state.unreleased,
-        message: ""
+        description: ""
       },
       address: "",
       isValidForm: "",
@@ -265,7 +264,7 @@ export default {
         supporterLimit: this.poolEvent.supporterLimit,
         aspOfEvent: this.poolEvent.aspOfEvent,
         state: "unreleased",
-        message: this.poolEvent.message
+        description: this.poolEvent.description
       };
       this.submitForm("poolEvent");
       if (this.isValidForm) {
@@ -293,7 +292,7 @@ export default {
         supporterLimit: 0,
         aspOfEvent: this.poolEvent.aspOfEvent,
         state: "draft",
-        descr: this.poolEvent.desc
+        description: this.poolEvent.description
       };
       this.submitForm("poolEvent");
       if (this.isValidForm) {
