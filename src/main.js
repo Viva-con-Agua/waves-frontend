@@ -10,33 +10,21 @@ import de from '@/lang/de_DE.json';
 import enElement from 'element-ui/lib/locale/lang/en';
 import deElement from 'element-ui/lib/locale/lang/de';
 import {store} from './store'
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {faCoffee} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import vsm from 'vue-state-machine';
+import WidgetUserList from 'vca-widget-user'
+import VueQuill from "vue-quill";
 
-
-import {
-  library
-} from '@fortawesome/fontawesome-svg-core'
-import {
-  faCoffee
-} from '@fortawesome/free-solid-svg-icons'
-import {
-  FontAwesomeIcon
-} from '@fortawesome/vue-fontawesome'
-
-library.add(faCoffee)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('MessageEditor', require('./components/MessageEditor'));
-
-import vsm from 'vue-state-machine';
-import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete';
- 
-Vue.use(VuetifyGoogleAutocomplete, {
-  apiKey: 'AIzaSyBDBrWOEiYNTbOp05CoWBGuq4hIwAA6yEs', // Can also be an object. E.g, for Google Maps Premium API, pass `{ client: <YOUR-CLIENT-ID> }` // Optional
-});
+library.add(faCoffee)
 
 // vsm requires a reference to a vuex store
 Vue.use(vsm.plugin, store)
-
+Vue.use(VueQuill)
 const dateTimeFormats = {
   'en-US': {
     short: {
@@ -75,11 +63,10 @@ const i18n = new VueI18n({
 Vue.use(ElementUI, {
   i18n: (key, value) => i18n.t(key, value)
 });
+Vue.use(WidgetUserList, { 'i18n': i18n })
 Vue.use(WidgetUserAutocomplete, { 'i18n': i18n })
 Vue.use(WidgetBottomNavigation, { 'i18n': i18n })
 Vue.use(WidgetTopNavigation, { 'i18n': i18n })
-
-
 
 new Vue({
   router,

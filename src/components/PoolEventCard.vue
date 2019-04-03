@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <div
       class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
     >
@@ -9,12 +9,13 @@
         </a>
         <div class="mb-1 text-muted">
           <i class="el-icon-date"></i>
-          {{poolEvent.start}} - {{poolEvent.end}}
+          {{getStart}} - {{getEnd}}
         </div>
         <div class="mb-1 text-muted">
           <i class="el-icon-time"></i>
-          {{poolEvent.start}} - {{poolEvent.end}}
+          {{getApplicationStart}} - {{getApplicationEnd}}
         </div>
+        <i class="el-icon-location"> {{address}}</i>
       </div>
       <div class="col-auto d-none d-lg-block">
         <img v-if="poolEvent.state==='festival'" :src="icons.festival" width="100%" heigh t="100%">
@@ -49,10 +50,40 @@ export default {
   computed: {
     url() {
       return "/pooleventview/" + this.poolEvent.id;
-    }
+    },
+    address() {
+      return (
+        this.poolEvent.address.route +
+        " " +
+        this.poolEvent.address.street_number +
+        "," +
+        this.poolEvent.address.postal_code +
+        " " +
+        this.poolEvent.address.locality
+      );
+    },
+    getStart(){
+        let date = new Date(this.poolEvent.start);
+        return  date.toLocaleTimeString() +", "+ date.toDateString();
+    },
+    getEnd(){
+        let date = new Date(this.poolEvent.end);
+        return  date.toLocaleTimeString() +", "+ date.toDateString();
+    },
+    getApplicationStart(){
+        let date = new Date(this.poolEvent.applicationStart);
+        return  date.toLocaleTimeString() +", "+ date.toDateString();
+    },
+    getApplicationEnd(){
+        let date = new Date(this.poolEvent.applicationEnd);
+        return  date.toLocaleTimeString() +", "+ date.toDateString();
+    } 
   }
 };
 </script>
 
 <style>
+.card{
+  margin: 10px
+}
 </style>

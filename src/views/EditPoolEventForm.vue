@@ -4,9 +4,9 @@
       <VcABox :first="false" title="create a new pool-event">
         <el-form :model="poolEvent" :rules="rules" ref="poolEvent" class="rows-container">
           <el-form-item label="title" prop="title">
-            <el-col :span="20" :offset="1">
+
               <el-input v-model="poolEvent.title"></el-input>
-            </el-col>
+
           </el-form-item>
           <el-form-item label="website:" prop="website">
             <el-col :span="20" :offset="1">
@@ -31,6 +31,7 @@
                 <el-option label="festival" value="festival"></el-option>
                 <el-option label="goldeimer festival" value="goldeimer festival"></el-option>
                 <el-option label="RUN-4-WASH" value="RUN-4-WASH"></el-option>
+                <el-option label="RUN-4-WASH" value="network meeting"></el-option>
                 <el-option label="others" value="others"></el-option>
               </el-select>
             </el-col>

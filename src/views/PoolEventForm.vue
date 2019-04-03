@@ -2,38 +2,43 @@
   <VcAFrame>
     <VcAColumn size="50%">
       <VcABox :first="false" title="create a new pool-event">
-        <el-form :model="poolEvent" :rules="rules" ref="poolEvent" class="rows-container">
+        <el-form
+          label-position="left"
+          label-width="140px"
+          :model="poolEvent"
+          :rules="rules"
+          ref="poolEvent"
+          class="rows-container"
+        >
           <el-form-item label="title" prop="title">
-            <el-col :span="20" :offset="1">
-              <el-input v-model="poolEvent.title"></el-input>
-            </el-col>
+            <el-input v-model="poolEvent.title" placeholder="please type your title"></el-input>
           </el-form-item>
-
           <el-form-item label="website:" prop="website">
-            <el-col :span="20" :offset="1">
-              <el-input v-model="poolEvent.website"></el-input>
-            </el-col>
+            <el-input v-model="poolEvent.website" placeholder="Please type your website"></el-input>
           </el-form-item>
-
           <el-form-item label="address:" prop="address">
-            <el-col :span="20" :offset="1">
-              <el-input v-model="poolEvent.address"></el-input>
-            </el-col>
+            <div>
+              <vue-google-autocomplete
+                ref="address"
+                id="map"
+                class="form-control"
+                placeholder="Please type your address"
+                v-on:placechanged="getAddressData"
+                country="de"
+              ></vue-google-autocomplete>
+            </div>
           </el-form-item>
-
           <el-form-item label="type:" prop="type">
-            <el-col :span="20" :offset="1">
-              <el-select v-model="poolEvent.type" value placeholder="please select your event type">
-                <el-option label="concert" value="concert"></el-option>
-                <el-option label="festival" value="festival"></el-option>
-                <el-option label="goldeimer festival" value="goldeimer festival"></el-option>
-                <el-option label="RUN-4-WASH" value="RUN-4-WASH"></el-option>
-                <el-option label="others" value="others"></el-option>
-              </el-select>
-            </el-col>
+            <el-select v-model="poolEvent.type" value placeholder="please select your event type">
+              <el-option label="concert" value="concert"></el-option>
+              <el-option label="festival" value="festival"></el-option>
+              <el-option label="goldeimer festival" value="goldeimer festival"></el-option>
+              <el-option label="RUN-4-WASH" value="RUN-4-WASH"></el-option>
+              <el-option label="others" value="others"></el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item label="event kick-off" prop="start">
-            <el-col :span="8" :offset="1">
+          <el-form-item label="event start" prop="start">
+            <el-col :span="8">
               <el-date-picker
                 type="date"
                 placeholder="Pick a date"
@@ -103,36 +108,42 @@
             </el-col>
           </el-form-item>
           <el-form-item label="supporter limit">
-            <el-col :span="8">
-              <el-input-number v-model="poolEvent.supporterLimit" :min="0" :step="1"></el-input-number>
-            </el-col>
+            <el-input-number v-model="poolEvent.supporterLimit" :min="0" :step="1"></el-input-number>
           </el-form-item>
           <el-form-item label="asp of event">
-            <el-col :span="8">
-              <el-input v-model="poolEvent.aspOfEvent"></el-input>
-            </el-col>
+            <WidgetUserAutocomplete
+              placeholder
+              :preselection="involvedSupporter"
+              @vca-user-selection="selectSupporter"
+            />
           </el-form-item>
-          <el-form-item size="large">
-            <el-button type="primary" @click.prevent="addPoolEvent">Create</el-button>
-            <el-button type="info" @click.prevent="saveAsDraft">save as draft</el-button>
-            <el-button @click.prevent="cancel">Cancel</el-button>
+          <el-form-item label="description:">
+            <quill v-model="content"></quill>
+
           </el-form-item>
         </el-form>
       </VcABox>
     </VcAColumn>
     <VcAColumn>
-      <VcABox :first="false" title="create a new pool-event"></VcABox>
+      <VcABox :first="false" title>
+        <el-button type="primary" @click.prevent="addPoolEvent">Create</el-button>
+        <el-button type="info" @click.prevent="saveAsDraft">save as draft</el-button>
+        <el-button type="danger" @click.prevent="cancel">Cancel</el-button>
+      </VcABox>
     </VcAColumn>
   </VcAFrame>
 </template>
 
 <script>
-import MessageEditor from "../components/MessageEditor";
 import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
 import "vca-widget-base/dist/vca-widget-base.css";
 import { Input, Form } from "element-ui";
-import { constants } from "fs";
-import GoogleAutocomplete from "google-autocomplete-vue";
+import VueGoogleAutocomplete from "vue-google-autocomplete";
+import { WidgetUserAutocomplete } from "vca-widget-user";
+import "vca-widget-user/dist/vca-widget-user.css";
+import VueQuill from "vue-quill";
+
+
 
 const state = {
   draft: "draft",
@@ -143,8 +154,9 @@ const state = {
 };
 export default {
   components: {
-    GoogleAutocomplete: GoogleAutocomplete,
-    MessageEditor: MessageEditor,
+    VueQuill,
+    WidgetUserAutocomplete: WidgetUserAutocomplete,
+    VueGoogleAutocomplete,
     VcAFrame: VcAFrame,
     VcAColumn: VcAColumn,
     VcABox: VcABox,
@@ -153,6 +165,10 @@ export default {
   },
   data() {
     return {
+      content: {
+        ops: []
+      },
+      involvedSupporter: [],
       poolEvent: {
         title: "",
         website: "",
@@ -168,6 +184,7 @@ export default {
         state: state.unreleased,
         message: ""
       },
+      address: "",
       isValidForm: "",
       rules: {
         title: [
@@ -200,12 +217,6 @@ export default {
           {
             required: true,
             message: "Please input address",
-            trigger: "blur"
-          },
-          {
-            min: 3,
-            max: 100,
-            message: "Length should be 3 to 24",
             trigger: "blur"
           }
         ],
@@ -296,9 +307,6 @@ export default {
           });
       }
     },
-    getAddressData(addressData) {
-      this.poolEvent.address = addressData;
-    },
     cancel() {
       this.$router.push("/");
     },
@@ -314,13 +322,19 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    getAddressData: function(addressData, placeResultData, id) {
+      this.poolEvent.address = addressData;
+    },
+    selectSupporter(supporter) {
+      this.involvedSupporter = supporter;
     }
-  } //,
-  //mounted() {
-  // To demonstrate functionality of exposed component functions
-  // Here we make focus on the user input
-  //this.$refs.address.focus();
-  //}
+  },
+  mounted() {
+    // To demonstrate functionality of exposed component functions
+    // Here we make focus on the user input
+    this.$refs.address.focus();
+  }
 };
 </script>
 <style>

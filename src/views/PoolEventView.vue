@@ -24,82 +24,92 @@
             </div>
             <el-row>
               <el-col :span="4">
-                <h3>
+                <p>
                   <strong>address:</strong>
-                </h3>
+                </p>
               </el-col>
-              <el-col :span="4" :offset="1">
-                <h3>{{poolEvent.address}}</h3>
+              <el-col :span="6" :offset="1">
+                <p>{{address}}</p>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="4">
-                <h3>
+                <p>
                   <strong>address note:</strong>
-                </h3>
+                </p>
               </el-col>
-              <el-col :span="4" :offset="1">
+              <el-col :span="6" :offset="1">
                 <h3>{{poolEvent.addressNote}}</h3>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="4">
-                <h3>
+                <p>
                   <strong>website:</strong>
-                </h3>
+                </p>
               </el-col>
-              <el-col :span="4" :offset="1">
-                <h3>{{poolEvent.website}}</h3>
+              <el-col :span="6" :offset="1">
+                <p>{{poolEvent.website}}</p>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="4">
-                <h3>
+                <p>
                   <strong>start:</strong>
-                </h3>
+                </p>
               </el-col>
-              <el-col :span="4" :offset="1">
-                <h3>{{poolEvent.start}}</h3>
+              <el-col :span="6" :offset="1">
+                <p>{{getStart}}</p>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="4">
-                <h3>
+                <p>
                   <strong>end:</strong>
-                </h3>
+                </p>
               </el-col>
-              <el-col :span="4" :offset="1">
-                <h3>{{poolEvent.end}}</h3>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="4">
-                <h3>
-                  <strong>application strat:</strong>
-                </h3>
-              </el-col>
-              <el-col :span="4" :offset="1">
-                <h3>{{poolEvent.applicationStart}}</h3>
+              <el-col :span="6" :offset="1">
+                <p>{{getEnd}}</p>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="4">
-                <h3>
+                <p>
+                  <strong>application start:</strong>
+                </p>
+              </el-col>
+              <el-col :span="6" :offset="1">
+                <p>{{getApplicationStart}}</p>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="4">
+                <p>
                   <strong>application end:</strong>
-                </h3>
+                </p>
               </el-col>
-              <el-col :span="4" :offset="1">
-                <h3>{{poolEvent.applicationEnd}}</h3>
+              <el-col :span="6" :offset="1">
+                <p>{{getApplicationEnd}}</p>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="4">
-                <h3>
+                <p>
                   <strong>asp of event:</strong>
-                </h3>
+                </p>
               </el-col>
-              <el-col :span="4" :offset="1">
-                <h3>{{poolEvent.aspOfEvent}}</h3>
+              <el-col :span="6" :offset="1">
+                <p>{{poolEvent.aspOfEvent}}</p>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="4">
+                <p>
+                  <strong>suppoter limit:</strong>
+                </p>
+              </el-col>
+              <el-col :span="6" :offset="1">
+                <p>{{poolEvent.supporterLimit}}</p>
               </el-col>
             </el-row>
           </form>
@@ -149,6 +159,7 @@
 <script>
 import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
 import "vca-widget-base/dist/vca-widget-base.css";
+import { constants } from "fs";
 export default {
   name: "PoolEventView",
   data() {
@@ -171,7 +182,34 @@ export default {
     },
     state() {
       return this.$store.state.currentState;
-    }
+    },
+    address() {
+      return (
+        this.poolEvent.address.route +
+        " " +
+        this.poolEvent.address.street_number +
+        "," +
+        this.poolEvent.address.postal_code +
+        " " +
+        this.poolEvent.address.locality
+      );
+    },
+    getStart(){
+        let date = new Date(this.poolEvent.start);
+        return  date.toLocaleTimeString() +", "+ date.toDateString();
+    },
+    getEnd(){
+        let date = new Date(this.poolEvent.end);
+        return  date.toLocaleTimeString() +", "+ date.toDateString();
+    },
+    getApplicationStart(){
+        let date = new Date(this.poolEvent.applicationStart);
+        return  date.toLocaleTimeString() +", "+ date.toDateString();
+    },
+    getApplicationEnd(){
+        let date = new Date(this.poolEvent.applicationEnd);
+        return  date.toLocaleTimeString() +", "+ date.toDateString();
+    } 
   },
   mounted() {
     this.$store.dispatch("GET_POOLEVENT_BY_ID", this.id);

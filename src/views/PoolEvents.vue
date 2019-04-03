@@ -1,7 +1,7 @@
 <template>
   <VcAFrame>
     <VcAColumn size="60%">
-      <VcABox>
+      <VcABox title="Pool-Events">
         <div class="row">
           <div class="col-md-6" v-bind:key="poolEvent.id" v-for="poolEvent in poolEvents">
             <PoolEventCard v-bind:poolEvent="poolEvent"/>
