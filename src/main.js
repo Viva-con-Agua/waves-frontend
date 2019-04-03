@@ -25,6 +25,14 @@ library.add(faCoffee)
 // vsm requires a reference to a vuex store
 Vue.use(vsm.plugin, store)
 Vue.use(VueQuill)
+
+import * as VueGoogleMaps from 'vue2-google-maps'
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyDnoNOeMPDa7WkC8NVxO6IZV3K6MRNLA0M',
+  },
+})
 const dateTimeFormats = {
   'en-US': {
     short: {

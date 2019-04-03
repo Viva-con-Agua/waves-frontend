@@ -11,7 +11,7 @@
     </VcAColumn>
     <VcAColumn>
       <VcABox>
-        <el-button type="success"><i class="el-icon-circle-plus"></i> add event</el-button>
+        <el-button type="success" @click="createNewPoolEvent"><i class="el-icon-circle-plus"></i> add event</el-button>
       </VcABox>
     </VcAColumn>
   </VcAFrame>
@@ -35,6 +35,9 @@ export default {
   methods : {
     editPoolEvent(){
         this.$router.push();
+    },
+    createNewPoolEvent(){
+      this.$router.push('/pooleventform');
     }
   }
 };

@@ -32,10 +32,10 @@
                 <p>{{address}}</p>
               </el-col>
             </el-row>
-            <el-row >
+            <el-row>
               <el-col :span="4">
                 <p>
-                  <strong v-if="poolEvent.addressNote" >address note:</strong>
+                  <strong v-if="poolEvent.addressNote">address note:</strong>
                 </p>
               </el-col>
               <el-col v-if="poolEvent.addressNote" :span="6" :offset="1">
@@ -163,13 +163,21 @@
           </el-col>
         </el-row>
       </VcABox>
+      <VcABox>
+        <GmapMap
+          :center="getLatLong"
+          :zoom="15"
+          map-type-id="terrain"
+          style="width: 350px; height: 300px"
+        ></GmapMap>
+      </VcABox>
     </VcAColumn>
   </VcAFrame>
 </template>
 <script>
 import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
 import "vca-widget-base/dist/vca-widget-base.css";
-import { constants } from "fs";
+
 export default {
   name: "PoolEventView",
   data() {
@@ -204,25 +212,35 @@ export default {
         this.poolEvent.address.locality
       );
     },
-    getStart(){
-        let date = new Date(this.poolEvent.start);
-        return  date.toLocaleTimeString() +", "+ date.toDateString();
+    getStart() {
+      let date = new Date(this.poolEvent.start);
+      return date.toLocaleTimeString() + ", " + date.toDateString();
     },
-    getEnd(){
-        let date = new Date(this.poolEvent.end);
-        return  date.toLocaleTimeString() +", "+ date.toDateString();
+    getEnd() {
+      let date = new Date(this.poolEvent.end);
+      return date.toLocaleTimeString() + ", " + date.toDateString();
     },
-    getApplicationStart(){
-        let date = new Date(this.poolEvent.applicationStart);
-        return  date.toLocaleTimeString() +", "+ date.toDateString();
+    getApplicationStart() {
+      let date = new Date(this.poolEvent.applicationStart);
+      return date.toLocaleTimeString() + ", " + date.toDateString();
     },
-    getApplicationEnd(){
-        let date = new Date(this.poolEvent.applicationEnd);
-        return  date.toLocaleTimeString() +", "+ date.toDateString();
+    getApplicationEnd() {
+      let date = new Date(this.poolEvent.applicationEnd);
+      return date.toLocaleTimeString() + ", " + date.toDateString();
     },
-    getDescription(){
+    getDescription() {
       return this.poolEvent.description;
-    } 
+    },
+    getLatLong(){
+      console.log({
+        lat: this.poolEvent.address.latitude,
+        long : this.poolEvent.address.longitude
+      });
+      return {
+        lat: this.poolEvent.address.latitude,
+        lng : this.poolEvent.address.longitude
+      }
+    }
   },
   mounted() {
     this.$store.dispatch("GET_POOLEVENT_BY_ID", this.id);

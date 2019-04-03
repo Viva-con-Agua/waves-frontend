@@ -8,12 +8,12 @@
           <strong class="d-inline-block mb-2 text-primary">{{poolEvent.title}}</strong>
         </a>
         <div class="mb-1 text-muted">
-          <i class="el-icon-date"></i>
-          {{getStart}} - {{getEnd}}
+          <i class="el-icon-time"></i>
+          {{getStartTime}}
         </div>
         <div class="mb-1 text-muted">
-          <i class="el-icon-time"></i>
-          {{getApplicationStart}} - {{getApplicationEnd}}
+          <i class="el-icon-date"></i>          
+          {{getStartDate}}
         </div>
         <i class="el-icon-location"> {{address}}</i>
       </div>
@@ -62,21 +62,13 @@ export default {
         this.poolEvent.address.locality
       );
     },
-    getStart(){
+    getStartTime(){
         let date = new Date(this.poolEvent.start);
-        return  date.toLocaleTimeString() +", "+ date.toDateString();
+        return  date.toLocaleTimeString();
     },
-    getEnd(){
-        let date = new Date(this.poolEvent.end);
-        return  date.toLocaleTimeString() +", "+ date.toDateString();
-    },
-    getApplicationStart(){
-        let date = new Date(this.poolEvent.applicationStart);
-        return  date.toLocaleTimeString() +", "+ date.toDateString();
-    },
-    getApplicationEnd(){
-        let date = new Date(this.poolEvent.applicationEnd);
-        return  date.toLocaleTimeString() +", "+ date.toDateString();
+    getStartDate(){
+        let date = new Date(this.poolEvent.start);
+        return  date.toDateString();
     } 
   }
 };

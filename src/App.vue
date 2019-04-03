@@ -2,7 +2,7 @@
   <div id="app">
     <WidgetTopNavigation/>
     <router-view/>
-    <WidgetBottomNavigation/>
+    <WidgetBottomNavigation class="a"/>
   </div>
 </template>
 <script>
@@ -43,5 +43,4 @@ export default {
     display: flex;
     overflow: auto;
   }
-
 </style>
