@@ -110,6 +110,9 @@
           <el-form-item label="supporter limit">
             <el-input-number v-model="poolEvent.supporterLimit" :min="0" :step="1"></el-input-number>
           </el-form-item>
+          <el-form-item label="active user">
+          <el-switch v-model="poolEvent.activeUserOnly"></el-switch>
+          </el-form-item>
           <el-form-item label="asp of event">
             <WidgetUserAutocomplete
               placeholder
@@ -181,7 +184,8 @@ export default {
         supporterLimit: "",
         aspOfEvent: "",
         state: state.unreleased,
-        description: ""
+        description: "",
+        activeUserOnly : ""
       },
       address: "",
       isValidForm: "",

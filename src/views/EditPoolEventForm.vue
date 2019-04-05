@@ -116,6 +116,9 @@
               <el-input v-model="poolEvent.aspOfEvent"></el-input>
             </el-col>
           </el-form-item>
+          <el-form-item label="active user">
+          <el-switch v-model="form.delivery"></el-switch>
+          </el-form-item>
           <el-form-item size="large">
             <el-button type="primary" @click.prevent="editPoolEvent">Create</el-button>
             <el-button v-if="poolEvent.state==='draft'" type="info" @click.prevent="editAndSaveAsDraft">save as draft</el-button>
@@ -193,7 +196,7 @@ export default {
             required: true,
             message: "Please input address",
             trigger: "blur"
-          }
+          } 
         ],
         type: [
           {
