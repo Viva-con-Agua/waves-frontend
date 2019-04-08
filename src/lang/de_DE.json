@@ -222,6 +222,12 @@
   },
   "poolEventForm": {
     "title": "erstelle einen neuen Pool-Event",
+    "editFormTitle" : "edit pool-event",
+    "button" : {
+      "saveAsDraft" : "Entwurf erstellen",
+      "create" : "erstellen" , 
+      "cancel" : "abbrechen"
+    },
     "input": {
       "title": {
         "placeholder": "Bitte Titel eingeben",
@@ -237,7 +243,7 @@
       },
       "type": {
         "placeholder": "Bitte Type eingeben",
-        "label" : "Bitte Type eingeben",
+        "label" : "Type",
         "options": {
           "concert" : "Konzert",
           "festival" : "Festival",
@@ -305,6 +311,29 @@
         "label": "Description",
       "placeholder" : "Bitte Beschreibung eingeben"
       } 
+     }
+  },
+  "poolEventView" : {
+    "address" : "Adresse:",
+     "addressNote" : "adressbezeichnung:",
+     "website" : "Webseite:",
+     "start" : "Start:",
+     "end" : "End:",
+     "applicationStart" : "Bewerbungsstart:",
+     "applicationEnd" : "Bewerbungssende:",
+     "aspOfEvent" : "Asp des Events:",
+     "supporterLimit" : "Bewerberlimit:",
+     "description" : "Beschreibung:",
+     "button" : {
+        "refuse" : "ablehnen",
+        "release" : "veröffentlichen",
+        "edit": "bearbeiten",
+        "delete": "löschen"
+     },
+     "state" : {
+       "draft" : "Entwurf",
+       "released" : "veröffentlicht",
+       "refused" : "abgelehnt"
      }
   }
 }

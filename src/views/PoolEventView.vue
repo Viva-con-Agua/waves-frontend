@@ -10,13 +10,25 @@
                   <h1>
                     <strong>
                       {{poolEvent.title}}
-                      <el-tag v-if="poolEvent.state==='unreleased'" type="gray">{{poolEvent.state}}</el-tag>
-                      <el-tag v-if="poolEvent.state==='released'" type="success">{{poolEvent.state}}</el-tag>
-                      <el-tag v-if="poolEvent.state==='refused'" type="danger">{{poolEvent.state}}</el-tag>
-                      <el-tag v-if="poolEvent.state==='draft'" type="standard">{{poolEvent.state}}</el-tag>
+                      <el-tag
+                        v-if="poolEvent.state==='unreleased'"
+                        type="gray"
+                      >{{$t('poolEventView.state.draft')}}</el-tag>
+                      <el-tag
+                        v-if="poolEvent.state==='released'"
+                        type="success"
+                      >{{$t('poolEventView.state.released')}}</el-tag>
+                      <el-tag
+                        v-if="poolEvent.state==='refused'"
+                        type="danger"
+                      >{{$t('poolEventView.state.refused')}}</el-tag>
+                      <el-tag
+                        v-if="poolEvent.state==='draft'"
+                        type="standard"
+                      >{{$t('poolEventView.state.draft')}}</el-tag>
                     </strong>
                   </h1>
-                  <h3 class="proile-rating">{{poolEvent.type}}</h3>
+                  <a class="proile-rating">{{poolEvent.type}}</a>
                   <ul class="nav nav-tabs" id="myTab" role="tablist"></ul>
                 </div>
               </div>
@@ -25,7 +37,7 @@
             <el-row>
               <el-col :span="4">
                 <p>
-                  <strong>address:</strong>
+                  <strong>{{$t('poolEventForm.input.address.label')}}</strong>
                 </p>
               </el-col>
               <el-col :span="6" :offset="1">
@@ -35,17 +47,17 @@
             <el-row>
               <el-col :span="4">
                 <p>
-                  <strong v-if="poolEvent.addressNote">address note:</strong>
+                  <strong v-if="poolEvent.addressNote">{{poolEventForm.addressNote}}</strong>
                 </p>
               </el-col>
               <el-col v-if="poolEvent.addressNote" :span="6" :offset="1">
-                <h3>{{poolEvent.addressNote}}</h3>
+                <h3>{{$t('poolEvent.addressNote')}}</h3>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="4">
                 <p>
-                  <strong>website:</strong>
+                  <strong>{{$t('poolEventView.website')}}</strong>
                 </p>
               </el-col>
               <el-col :span="6" :offset="1">
@@ -55,7 +67,7 @@
             <el-row>
               <el-col :span="4">
                 <p>
-                  <strong>start:</strong>
+                  <strong>{{$t('poolEventView.start')}}</strong>
                 </p>
               </el-col>
               <el-col :span="6" :offset="1">
@@ -65,7 +77,7 @@
             <el-row>
               <el-col :span="4">
                 <p>
-                  <strong>end:</strong>
+                  <strong>{{$t('poolEventView.end')}}</strong>
                 </p>
               </el-col>
               <el-col :span="6" :offset="1">
@@ -75,7 +87,7 @@
             <el-row>
               <el-col :span="4">
                 <p>
-                  <strong>application start:</strong>
+                  <strong>{{$t('poolEventView.applicationStart')}}</strong>
                 </p>
               </el-col>
               <el-col :span="6" :offset="1">
@@ -85,7 +97,7 @@
             <el-row>
               <el-col :span="4">
                 <p>
-                  <strong>application end:</strong>
+                  <strong>{{$t('poolEventView.applicationEnd')}}</strong>
                 </p>
               </el-col>
               <el-col :span="6" :offset="1">
@@ -95,7 +107,7 @@
             <el-row>
               <el-col :span="4">
                 <p>
-                  <strong>asp of event:</strong>
+                  <strong>{{$t('poolEventView.aspOfEvent')}}</strong>
                 </p>
               </el-col>
               <el-col :span="6" :offset="1">
@@ -105,7 +117,7 @@
             <el-row>
               <el-col :span="4">
                 <p>
-                  <strong>suppoter limit:</strong>
+                  <strong>{{$t('poolEventView.supporterLimit')}}</strong>
                 </p>
               </el-col>
               <el-col :span="6" :offset="1">
@@ -115,17 +127,17 @@
             <el-row>
               <el-col :span="4">
                 <p>
-                  <strong>description:</strong>
+                  <strong>{{$t('poolEventView.description')}}</strong>
                 </p>
               </el-col>
-              
               <el-col :span="6" :offset="1">
-                <div  v-html="getDescription"></div>
+                <div v-html="getDescription"></div>
               </el-col>
             </el-row>
           </form>
         </div>
       </VcABox>
+      <ApplicationForm v-bind:poolEvent="poolEvent"/>
     </VcAColumn>
     <VcAColumn>
       <VcABox>
@@ -135,7 +147,7 @@
               v-if="poolEvent.state==='unreleased'|| poolEvent.state === 'refused'"
               @click.prevent="releasePooleEvent"
               type="success"
-            >release</el-button>
+            >{{$t('poolEventView.button.release')}}</el-button>
           </el-col>
         </el-row>
         <el-row>
@@ -151,15 +163,16 @@
               @click.prevent="refusePoolEvent"
               type="danger"
             >
-              <i class="el-icon-circle-close"></i> refuse
+              <i class="el-icon-circle-close"></i>
+              {{$t('poolEventView.button.refuse')}}
             </el-button>
             <el-button style="width: 100%" @click.prevent="editPoolEvent" type="primary">
               <i class="el-icon-edit"></i>
-              edit
+              {{$t('poolEventView.button.edit')}}
             </el-button>
             <el-button @click.prevent="deletePoolEvent" type="danger">
               <i class="el-icon-delete"></i>
-              delete
+              {{$t('poolEventView.button.delete')}}
             </el-button>
           </el-col>
         </el-row>
@@ -187,6 +200,7 @@
 <script>
 import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
 import "vca-widget-base/dist/vca-widget-base.css";
+import ApplicationForm from "../components/ApplicationForm";
 
 export default {
   name: "PoolEventView",
@@ -200,7 +214,7 @@ export default {
       }
     };
   },
-  components: { VcAFrame, VcAColumn, VcABox },
+  components: { VcAFrame, VcAColumn, VcABox, ApplicationForm },
   computed: {
     poolEvent() {
       return this.$store.getters.getPoolEvent;
@@ -242,10 +256,6 @@ export default {
       return this.poolEvent.description;
     },
     getLatLong() {
-      console.log({
-        lat: this.poolEvent.address.latitude,
-        long: this.poolEvent.address.longitude
-      });
       return {
         lat: this.poolEvent.address.latitude,
         lng: this.poolEvent.address.longitude

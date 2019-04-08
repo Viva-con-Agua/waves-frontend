@@ -1,0 +1,44 @@
+{
+    "rules": {
+        "title": [
+          {
+            "required": true,
+            "message": "Please input title",
+            "trigger": "blur"
+          },
+          {
+            "min": 3,
+            "max": 100,
+            "message": "Length should be 3 to 100",
+            "trigger": "blur"
+          }
+        ],
+        "website": [
+          {
+            "required": true,
+            "message": "Please input website",
+            "trigger": "blur"
+          },
+          {
+            "min": 3,
+            "max": 100,
+            "message": "Length should be 3 to 100",
+            "trigger": "blur"
+          }
+        ],
+        "address": [
+          {
+            "required": true,
+            "message": "Please input address",
+            "trigger": "blur"
+          }
+        ],
+        "type": [
+          {
+            "required": true,
+            "message": "Please select event type",
+            "trigger": "change"
+          }
+        ]
+}
+}

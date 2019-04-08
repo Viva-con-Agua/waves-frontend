@@ -1,7 +1,7 @@
 <template>
   <VcAFrame>
     <VcAColumn size="50%">
-      <VcABox :first="false" :title="$t('poolEventForm.title')">
+      <VcABox :first="false" :title="$t('poolEventForm.editFormTitle')">
         <el-form
           label-position="left"
           label-width="140px"
@@ -127,8 +127,8 @@
     </VcAColumn>
     <VcAColumn>
       <VcABox :first="false" title>
-        <el-button type="primary" @click.prevent="addPoolEvent">Create</el-button>
-        <el-button type="info" @click.prevent="saveAsDraft">save as draft</el-button>
+        <el-button type="primary" @click.prevent="editPoolEvent">Create</el-button>
+        <el-button type="info" @click.prevent="editAndSaveAsDraft">save as draft</el-button>
         <el-button type="danger" @click.prevent="cancel">Cancel</el-button>
       </VcABox>
     </VcAColumn>
@@ -136,21 +136,21 @@
 </template>
 
 <script>
+import VueGoogleAutocomplete from "vue-google-autocomplete";
 import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
 import "vca-widget-base/dist/vca-widget-base.css";
 import { Input, Form } from "element-ui";
-import VueGoogleAutocomplete from "vue-google-autocomplete";
+import { setTimeout } from 'timers';
 import { WidgetUserAutocomplete } from "vca-widget-user";
 import "vca-widget-user/dist/vca-widget-user.css";
-import VueQuill from "vue-quill";
 import rulesJon from "../rules/form";
 
+
 export default {
-  name: "PoolEventForm",
+  name: "EditPoolEventForm",
   components: {
-    VueQuill,
     WidgetUserAutocomplete: WidgetUserAutocomplete,
-    VueGoogleAutocomplete,
+    VueGoogleAutocomplete: VueGoogleAutocomplete,
     VcAFrame: VcAFrame,
     VcAColumn: VcAColumn,
     VcABox: VcABox,
@@ -159,95 +159,40 @@ export default {
   },
   data() {
     return {
-      content: {
-        ops: []
-      },
       involvedSupporter: [],
-      poolEvent: {
-        title: "",
-        website: "",
-        type: "",
-        address: "",
-        addressNote: "",
-        start: "",
-        end: "",
-        applicationStart: "",
-        applicationEnd: "",
-        supporterLimit: "",
-        aspOfEvent: "",
-        state: "unreleased",
-        description: "",
-        activeUserOnly: "",
-        applications : []
-      },
-      address: "",
+      poolEvent: this.$store.getters.getPoolEvent,
+      id: this.$route.params.id,
       isValidForm: "",
-      rules: rulesJon.rules
+      rules: rulesJon.rules,
     };
   },
   methods: {
-    addPoolEvent() {
-      let poolEvent = {
-        title: this.poolEvent.title,
-        website: this.poolEvent.website,
-        type: this.poolEvent.type,
-        address: this.poolEvent.address,
-        addressNote: this.poolEvent.addressNote,
-        start: this.poolEvent.start,
-        end: this.poolEvent.end,
-        applicationStart: this.poolEvent.applicationStart,
-        applicationEnd: this.poolEvent.applicationEnd,
-        supporterLimit: this.poolEvent.supporterLimit,
-        aspOfEvent: this.poolEvent.aspOfEvent,
-        state: "unreleased",
-        description: this.poolEvent.description
-      };
-      this.submitForm("poolEvent");
-      if (this.isValidForm) {
-        this.$store
-          .dispatch("POST_POOLEVENT", poolEvent)
-          .then(() => {
-            this.$router.push("/");
-          })
-          .catch(() => {
-            alert("Error");
-          });
-      }
-    },
-    saveAsDraft() {
-      let poolEvent = {
-        title: this.poolEvent.title,
-        website: this.poolEvent.website,
-        type: this.poolEvent.type,
-        address: this.poolEvent.address,
-        addressNote: this.poolEvent.addressNote,
-        start: this.poolEvent.start,
-        end: this.poolEvent.end,
-        applicationStart: this.poolEvent.applicationStart,
-        applicationEnd: this.poolEvent.applicationEnd,
-        supporterLimit: 0,
-        aspOfEvent: this.poolEvent.aspOfEvent,
-        state: "draft",
-        description: this.poolEvent.description
-      };
-      this.submitForm("poolEvent");
-      if (this.isValidForm) {
-        this.$store
-          .dispatch("POST_POOLEVENT", poolEvent)
-          .then(() => {
-            this.$router.push("/");
-          })
-          .catch(err => {
-            console.log(err.message);
-          });
-      }
-    },
     cancel() {
       this.$router.push("/");
     },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+    editPoolEvent() {
+      this.submitForm("poolEvent");
+      if (this.isValidForm) {
+        this.$store.dispatch("EDIT_POOLEVENT", this.poolEvent);
+        setTimeout(() => {
+            this.$router.push('/');
+        },2000);
+      }
+    },
+    editAndSaveAsDraft() {
+      this.submitForm("poolEvent");
+      if (this.isValidForm) {
+        this.$store.dispatch("EDIT_AND_SAVE_POOLEVENT", this.poolEvent);
+        setTimeout(() => {
+            this.$router.push('/');
+        },2000);
+      }
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
-        console.log(valid);
         if (valid) {
           this.isValidForm = valid;
         } else {
@@ -255,19 +200,15 @@ export default {
         }
       });
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
+     selectSupporter(supporter) {
+      this.involvedSupporter = supporter;
+    },    
     getAddressData: function(addressData, placeResultData, id) {
       this.poolEvent.address = addressData;
-    },
-    selectSupporter(supporter) {
-      this.involvedSupporter = supporter;
     }
   },
   mounted() {
-    // To demonstrate functionality of exposed component functions
-    // Here we make focus on the user input
+    this.$store.dispatch("GET_POOLEVENT_BY_ID", this.id);
     this.$refs.address.focus();
   }
 };

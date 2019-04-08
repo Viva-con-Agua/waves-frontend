@@ -221,91 +221,87 @@
     }
   },
   "poolEventForm": {
-    "title": "erstelle einen neuen Pool-Event",
+    "title": "create a new Pool-Event",
     "input": {
       "title": {
-        "placeholder": "Bitte Titel eingeben",
-        "label" : "Titel"
+        "placeholder": "Please input title",
+        "label": "Title"
       },
       "address": {
-        "placeholder": "Bitte Adresse eingeben",
-        "label" : "Adresse"
+        "placeholder": "Please input address",
+        "label": "Address"
       },
-      "website" : {
-        "label" : "Webseite",
-        "placeholder" : "Bitte Webseite eingeben"
+      "website": {
+        "label": "Website",
+        "placeholder": "Please input website"
       },
       "type": {
-        "placeholder": "Bitte Type eingeben",
-        "label" : "Bitte Type eingeben",
+        "placeholder": "Please input type",
+        "label": "type",
         "options": {
-          "concert" : "Konzert",
-          "festival" : "Festival",
-          "goldEimer" : "Goldeimer",
-          "RUN4WASH" : "RUN4WASH",
-          "others" : "Anders" 
+          "concert": "concert",
+          "festival": "festival",
+          "goldEimer": "goldeimer",
+          "RUN4WASH": "RUN4WASH",
+          "others": "others"
         },
         "value": {
-          "concert" : "Konzert",
-          "festival" : "Festival",
-          "goldEimer" : "Goldeimer",
-          "RUN4WASH" : "RUN4WASH",
-          "others" : "Anders" 
+          "concert": "concert",
+          "festival": "festival",
+          "goldEimer": "goldeimer",
+          "RUN4WASH": "RUN4WASH",
+          "others": "others"
         }
       },
       "start": {
-        "label" : "Start",
-        "timePicker" : {
-          "placeholder": "Bitte Startszeit eingeben"
+        "label": "Start",
+        "timePicker": {
+          "placeholder": "Please input start time"
         },
         "datePicker": {
-          "placeholder" : "Bitte Startsdatum eingeben"
+          "placeholder": "Please input start date"
         }
       },
       "end": {
-        "label" : "end",
-        "timePicker" : {
-          "placeholder": "Bitte Endzeit eingeben"
+        "label": "end",
+        "timePicker": {
+          "placeholder": "Please input end time"
         },
         "datePicker": {
-          "placeholder" : "Bitte Enddatum eingeben"
+          "placeholder": "Please input start date"
         }
       },
       "applicationStart": {
-        "placeholder": "Bitte Bewernungsstart eingeben",
-        "label" : "Bewernungsstart",
-        "timePicker" : {
-          "placeholder": "Bitte Bewerbungsstart eingeben"
+        "label": "Bewernungsstart",
+        "timePicker": {
+          "placeholder": "Please input appliction start time"
         },
         "datePicker": {
-          "placeholder" : "Bitte Bewerbungsstartsdatum eingeben"
+          "placeholder": "Please input application start date"
         }
       },
       "applicationEnd": {
-        "placeholder": "Bitte Bewerbungsend eingeben",
-        "label" : "Bewerbungsend",
-        "timePicker" : {
-          "placeholder": "Bitte Bewerbungsend eingeben"
+        "label": "application end",
+        "timePicker": {
+          "placeholder": "Please input end time"
         },
         "datePicker": {
-          "placeholder" : "Bitte Bewerbungsenddatum eingeben"
+          "placeholder": "Please input end date"
         }
       },
       "supporterLimit": {
-        "label" : "Supporterlimit"
+        "label": "Supporterlimit"
       },
       "activeUserOnly": {
-        "label" : "Sichtbar für aktive User"
+        "label": "active user only"
       },
       "aspOfEvent": {
-        "label" : "Sichtbar für aktive User",
-        "placeholder": "Bitte Asp des Event eingeben"
+        "label": "asp of event"
       },
-      "description" : {
+      "description": {
         "label": "Description",
-      "placeholder" : "Bitte Beschreibung eingeben"
-      } 
-     }
+        "placeholder": ""
+      }
+    }
   }
-  
 }
