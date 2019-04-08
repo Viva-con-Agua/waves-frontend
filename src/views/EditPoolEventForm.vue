@@ -135,7 +135,6 @@
 
 <script>
 import VueGoogleAutocomplete from "vue-google-autocomplete";
-import MessageEditor from "../components/MessageEditor";
 import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
 import "vca-widget-base/dist/vca-widget-base.css";
 import { Input, Form } from "element-ui";
@@ -152,7 +151,6 @@ export default {
   name: "EditPoolEventForm",
   components: {
     VueGoogleAutocomplete: VueGoogleAutocomplete,
-    MessageEditor: MessageEditor,
     VcAFrame: VcAFrame,
     VcAColumn: VcAColumn,
     VcABox: VcABox,

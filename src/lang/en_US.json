@@ -219,5 +219,13 @@
         "reasonForPayment": "@:externalTransaction.reasonForPayment: {generated}"
       }
     }
+  },
+  "poolEventForm" : {
+    "title" : "create new pool-event"
+  },
+  "input": {
+    "title": {
+      "placeholder": "Bitte Titel eingeben"
+    }
   }
 }

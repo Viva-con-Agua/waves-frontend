@@ -1,7 +1,7 @@
 <template>
   <VcAFrame>
     <VcAColumn size="50%">
-      <VcABox :first="false" title="create a new pool-event">
+      <VcABox :first="false" :title="$t('poolEventForm.title')">
         <el-form
           label-position="left"
           label-width="140px"
@@ -11,7 +11,7 @@
           class="rows-container"
         >
           <el-form-item label="title" prop="title">
-            <el-input v-model="poolEvent.title" placeholder="please type your title"></el-input>
+            <el-input v-model="poolEvent.title" :placeholder="$t('poolEventForm.input.title.placeholder')"></el-input>
           </el-form-item>
           <el-form-item label="website:" prop="website">
             <el-input v-model="poolEvent.website" placeholder="Please type your website"></el-input>
@@ -111,7 +111,7 @@
             <el-input-number v-model="poolEvent.supporterLimit" :min="0" :step="1"></el-input-number>
           </el-form-item>
           <el-form-item label="active user">
-          <el-switch v-model="poolEvent.activeUserOnly"></el-switch>
+            <el-switch v-model="poolEvent.activeUserOnly"></el-switch>
           </el-form-item>
           <el-form-item label="asp of event">
             <WidgetUserAutocomplete
@@ -145,16 +145,10 @@ import { WidgetUserAutocomplete } from "vca-widget-user";
 import "vca-widget-user/dist/vca-widget-user.css";
 import VueQuill from "vue-quill";
 
+const inter = {};
 
-
-const state = {
-  draft: "draft",
-  released: "released",
-  refused: "refused",
-  finished: "finnished",
-  unreleased: "unreleased"
-};
 export default {
+  name: "PoolEventForm",
   components: {
     VueQuill,
     WidgetUserAutocomplete: WidgetUserAutocomplete,
@@ -170,6 +164,18 @@ export default {
       content: {
         ops: []
       },
+      inter: {
+        en: {
+          message: {
+            title: "create new pool-event"
+          }
+        },
+        de: {
+          message: {
+            title: "erstelle einen neuen Pool-event"
+          }
+        }
+      },
       involvedSupporter: [],
       poolEvent: {
         title: "",
@@ -183,9 +189,9 @@ export default {
         applicationEnd: "",
         supporterLimit: "",
         aspOfEvent: "",
-        state: state.unreleased,
+        state: "unreleased",
         description: "",
-        activeUserOnly : ""
+        activeUserOnly: ""
       },
       address: "",
       isValidForm: "",

@@ -2,7 +2,7 @@
   <div id="app">
     <WidgetTopNavigation/>
     <router-view/>
-    <WidgetBottomNavigation class="a"/>
+    <WidgetBottomNavigation/>
   </div>
 </template>
 <script>
@@ -15,7 +15,6 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import "vca-widget-base/dist/vca-widget-base.css";
 
 Vue.use(BootstrapVue);
-Vue.component("MessagEditor", require("./components/MessageEditor"));
 Vue.use(VueQuill);
 
 export default {

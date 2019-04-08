@@ -19,7 +19,6 @@ import VueQuill from "vue-quill";
 
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-Vue.component('MessageEditor', require('./components/MessageEditor'));
 library.add(faCoffee)
 
 // vsm requires a reference to a vuex store

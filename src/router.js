@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import PoolEvents from './views/PoolEvents';
 import PoolEventView from './views/PoolEventView';
-import PoolEventForm from './views/PoolEventForm';
+import PoolEventFormView from './views/PoolEventFormView';
 import EditPoolEventForm from './views/EditPoolEventForm';
 
 
@@ -23,8 +23,8 @@ export default new Router({
     },
     {
       path: '/pooleventform',
-      name: 'PoolEventForm',
-      component: PoolEventForm
+      name: 'PoolEventFormView',
+      component: PoolEventFormView
     },
     {
       path: '/editpooleventform/:id',
