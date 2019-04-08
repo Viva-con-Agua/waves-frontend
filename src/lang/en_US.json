@@ -220,12 +220,92 @@
       }
     }
   },
-  "poolEventForm" : {
-    "title" : "create new pool-event"
-  },
-  "input": {
-    "title": {
-      "placeholder": "Bitte Titel eingeben"
-    }
+  "poolEventForm": {
+    "title": "erstelle einen neuen Pool-Event",
+    "input": {
+      "title": {
+        "placeholder": "Bitte Titel eingeben",
+        "label" : "Titel"
+      },
+      "address": {
+        "placeholder": "Bitte Adresse eingeben",
+        "label" : "Adresse"
+      },
+      "website" : {
+        "label" : "Webseite",
+        "placeholder" : "Bitte Webseite eingeben"
+      },
+      "type": {
+        "placeholder": "Bitte Type eingeben",
+        "label" : "Bitte Type eingeben",
+        "options": {
+          "concert" : "Konzert",
+          "festival" : "Festival",
+          "goldEimer" : "Goldeimer",
+          "RUN4WASH" : "RUN4WASH",
+          "others" : "Anders" 
+        },
+        "value": {
+          "concert" : "Konzert",
+          "festival" : "Festival",
+          "goldEimer" : "Goldeimer",
+          "RUN4WASH" : "RUN4WASH",
+          "others" : "Anders" 
+        }
+      },
+      "start": {
+        "label" : "Start",
+        "timePicker" : {
+          "placeholder": "Bitte Startszeit eingeben"
+        },
+        "datePicker": {
+          "placeholder" : "Bitte Startsdatum eingeben"
+        }
+      },
+      "end": {
+        "label" : "end",
+        "timePicker" : {
+          "placeholder": "Bitte Endzeit eingeben"
+        },
+        "datePicker": {
+          "placeholder" : "Bitte Enddatum eingeben"
+        }
+      },
+      "applicationStart": {
+        "placeholder": "Bitte Bewernungsstart eingeben",
+        "label" : "Bewernungsstart",
+        "timePicker" : {
+          "placeholder": "Bitte Bewerbungsstart eingeben"
+        },
+        "datePicker": {
+          "placeholder" : "Bitte Bewerbungsstartsdatum eingeben"
+        }
+      },
+      "applicationEnd": {
+        "placeholder": "Bitte Bewerbungsend eingeben",
+        "label" : "Bewerbungsend",
+        "timePicker" : {
+          "placeholder": "Bitte Bewerbungsend eingeben"
+        },
+        "datePicker": {
+          "placeholder" : "Bitte Bewerbungsenddatum eingeben"
+        }
+      },
+      "supporterLimit": {
+        "label" : "Supporterlimit"
+      },
+      "activeUserOnly": {
+        "label" : "Sichtbar für aktive User"
+      },
+      "aspOfEvent": {
+        "label" : "Sichtbar für aktive User",
+        "placeholder": "Bitte Asp des Event eingeben"
+      },
+      "description" : {
+        "label": "Description",
+      "placeholder" : "Bitte Beschreibung eingeben"
+      } 
+     }
   }
+  
 }

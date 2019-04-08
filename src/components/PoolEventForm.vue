@@ -10,118 +10,117 @@
           ref="poolEvent"
           class="rows-container"
         >
-          <el-form-item label="title" prop="title">
+          <el-form-item :label="$t('poolEventForm.input.title.label')" prop="title">
             <el-input v-model="poolEvent.title" :placeholder="$t('poolEventForm.input.title.placeholder')"></el-input>
           </el-form-item>
-          <el-form-item label="website:" prop="website">
-            <el-input v-model="poolEvent.website" placeholder="Please type your website"></el-input>
+          <el-form-item :label="$t('poolEventForm.input.website.label')" prop="website">
+            <el-input v-model="poolEvent.website" :placeholder="$t('poolEventForm.input.website.placeholder')"></el-input>
           </el-form-item>
-          <el-form-item label="address:" prop="address">
+          <el-form-item :label="$t('poolEventForm.input.address.label')" prop="address">
             <div>
               <vue-google-autocomplete
                 ref="address"
                 id="map"
                 class="form-control"
-                placeholder="Please type your address"
+                :placeholder="$t('poolEventForm.input.address.placeholder')"
                 v-on:placechanged="getAddressData"
                 country="de"
               ></vue-google-autocomplete>
             </div>
           </el-form-item>
-          <el-form-item label="type:" prop="type">
-            <el-select v-model="poolEvent.type" value placeholder="please select your event type">
-              <el-option label="concert" value="concert"></el-option>
-              <el-option label="festival" value="festival"></el-option>
-              <el-option label="goldeimer festival" value="goldeimer festival"></el-option>
-              <el-option label="RUN-4-WASH" value="RUN-4-WASH"></el-option>
-              <el-option label="others" value="others"></el-option>
+          <el-form-item :label="$t('poolEventForm.input.type.label')" prop="type">
+            <el-select v-model="poolEvent.type" value :placeholder="$t('poolEventForm.input.type.placeholder')">
+              <el-option :label="$t('poolEventForm.input.type.options.concert')" :value="$t('poolEventForm.input.type.value.concert')"></el-option>
+              <el-option :label="$t('poolEventForm.input.type.options.festival')" :value="$t('poolEventForm.input.type.value.festival')"></el-option>
+              <el-option :label="$t('poolEventForm.input.type.options.goldEimer')" :value="$t('poolEventForm.input.type.value.goldrEimer')"></el-option>
+              <el-option :label="$t('poolEventForm.input.type.options.RUN4WASH')" :value="$t('poolEventForm.input.type.value.RUN4WASH')"></el-option>
+              <el-option :label="$t('poolEventForm.input.type.options.others')" :value="$t('poolEventForm.input.type.value.others')"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="event start" prop="start">
+          <el-form-item :label="$t('poolEventForm.input.start.label')" prop="start">
             <el-col :span="8">
               <el-date-picker
                 type="date"
-                placeholder="Pick a date"
+                :placeholder="$t('poolEventForm.input.start.datePicker.placeholder')"
                 v-model="poolEvent.start"
                 style="width: 100%;"
               ></el-date-picker>
             </el-col>
             <el-col :span="8">
               <el-time-picker
-                placeholder="Pick a time"
+                :placeholder="$t('poolEventForm.input.start.timePicker.placeholder')"
                 v-model="poolEvent.start"
                 style="width: 100%;"
               ></el-time-picker>
             </el-col>
           </el-form-item>
-          <el-form-item label="event end" prop="end">
+          <el-form-item :label="$t('poolEventForm.input.end.label')" prop="end">
             <el-col :span="8">
               <el-date-picker
                 type="date"
-                placeholder="Pick a date"
+                :placeholder="$t('poolEventForm.input.end.datePicker.placeholder')"
                 v-model="poolEvent.end"
                 style="width: 100%;"
               ></el-date-picker>
             </el-col>
             <el-col :span="8">
               <el-time-picker
-                placeholder="Pick a time"
+                :placeholder="$t('poolEventForm.input.end.timePicker.placeholder')"
                 v-model="poolEvent.end"
                 style="width: 100%;"
               ></el-time-picker>
             </el-col>
           </el-form-item>
 
-          <el-form-item label="application start" prop="applicationStart">
+          <el-form-item :label="$t('poolEventForm.input.applicationStart.label')" prop="applicationStart">
             <el-col :span="8">
               <el-date-picker
                 type="date"
-                placeholder="Pick a date"
+                :placeholder="$t('poolEventForm.input.applicationStart.datePicker.placeholder')"
                 v-model="poolEvent.applicationStart"
                 style="width: 100%;"
               ></el-date-picker>
             </el-col>
             <el-col :span="8">
               <el-time-picker
-                placeholder="Pick a time"
+                :placeholder="$t('poolEventForm.input.applicationEnd.timePicker.placeholder')"
                 v-model="poolEvent.applicationStart"
                 style="width: 100%;"
               ></el-time-picker>
             </el-col>
           </el-form-item>
 
-          <el-form-item label="application end" prop="applicationEnd">
+          <el-form-item :label="$t('poolEventForm.input.applicationEnd.label')" prop="applicationEnd">
             <el-col :span="8">
               <el-date-picker
                 type="date"
-                placeholder="Pick a date"
+                :placeholder="$t('poolEventForm.input.applicationEnd.datePicker.placeholder')"
                 v-model="poolEvent.applicationEnd"
                 style="width: 100%;"
               ></el-date-picker>
             </el-col>
             <el-col :span="8">
               <el-time-picker
-                placeholder="Pick a time"
+                :placeholder="$t('poolEventForm.input.applicationEnd.timePicker.placeholder')"
                 v-model="poolEvent.applicationEnd"
                 style="width: 100%;"
               ></el-time-picker>
             </el-col>
           </el-form-item>
-          <el-form-item label="supporter limit">
+          <el-form-item :label="$t('poolEventForm.input.supporterLimit.label')">
             <el-input-number v-model="poolEvent.supporterLimit" :min="0" :step="1"></el-input-number>
           </el-form-item>
-          <el-form-item label="active user">
+          <el-form-item :label="$t('poolEventForm.input.activeUserOnly.label')">
             <el-switch v-model="poolEvent.activeUserOnly"></el-switch>
           </el-form-item>
-          <el-form-item label="asp of event">
+          <el-form-item :label="$t('poolEventForm.input.aspOfEvent.label')">
             <WidgetUserAutocomplete
-              placeholder
               :preselection="involvedSupporter"
               @vca-user-selection="selectSupporter"
             />
           </el-form-item>
-          <el-form-item label="description:">
-            <quill v-model="poolEvent.description" output="html"></quill>
+          <el-form-item :label="$t('poolEventForm.input.description.label')">
+            <quill :placeholder="$t('poolEventForm.input.description.placeholder')" v-model="poolEvent.description" output="html"></quill>
           </el-form-item>
         </el-form>
       </VcABox>
