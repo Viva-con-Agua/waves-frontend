@@ -247,14 +247,14 @@
         "options": {
           "concert" : "Konzert",
           "festival" : "Festival",
-          "goldEimer" : "Goldeimer",
+          "goldEimer" : "Goldeimer festival",
           "RUN4WASH" : "RUN4WASH",
           "others" : "Anders" 
         },
         "value": {
           "concert" : "Konzert",
           "festival" : "Festival",
-          "goldEimer" : "Goldeimer",
+          "goldEimer" : "Goldeimer festival",
           "RUN4WASH" : "RUN4WASH",
           "others" : "Anders" 
         }
@@ -333,7 +333,8 @@
      "state" : {
        "draft" : "Entwurf",
        "released" : "veröffentlicht",
-       "refused" : "abgelehnt"
+       "refused" : "abgelehnt",
+       "unreleased": "unveröffentlicht"
      }
   }
 }

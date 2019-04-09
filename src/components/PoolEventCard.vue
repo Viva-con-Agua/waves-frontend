@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <div
       class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
     >
@@ -12,13 +12,13 @@
           {{getStartTime}}
         </div>
         <div class="mb-1 text-muted">
-          <i class="el-icon-date"></i>          
+          <i class="el-icon-date"></i>
           {{getStartDate}}
         </div>
-        <i class="el-icon-location"> {{address}}</i>
+        <i class="el-icon-location">{{address}}</i>
       </div>
       <div class="col-auto d-none d-lg-block">
-        <img  :src="icons.festival" width="120px" heigh t="100%">
+        <img :src="icons.festival" width="120px" heigh t="100%">
         <img v-if="poolEvent.state==='concert'" :src="icons.concert" width="80px" heigh t="100%">
         <img v-if="poolEvent.state==='others'" :src="icons.others" width="80px" heigh t="100%">
         <img
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import icons_ from "../assets/action_icons.json";
+import icons_ from "../assets/poolEventIcons.json";
 export default {
   name: "PoolEventCard",
   props: ["poolEvent"],
@@ -49,7 +49,7 @@ export default {
   },
   computed: {
     url() {
-      return "/pooleventview/" + this.poolEvent.id;
+      return "/poolevent/" + this.poolEvent.id;
     },
     address() {
       return (
@@ -62,20 +62,20 @@ export default {
         this.poolEvent.address.locality
       );
     },
-    getStartTime(){
-        let date = new Date(this.poolEvent.start);
-        return  date.toLocaleTimeString();
+    getStartTime() {
+      let date = new Date(this.poolEvent.start);
+      return date.toLocaleTimeString();
     },
-    getStartDate(){
-        let date = new Date(this.poolEvent.start);
-        return  date.toDateString();
-    } 
+    getStartDate() {
+      let date = new Date(this.poolEvent.start);
+      return date.toDateString();
+    }
   }
 };
 </script>
 
 <style>
-.card{
-  margin: 10px
+.card {
+  margin: 10px;
 }
 </style>

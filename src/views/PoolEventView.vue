@@ -13,7 +13,7 @@
                       <el-tag
                         v-if="poolEvent.state==='unreleased'"
                         type="gray"
-                      >{{$t('poolEventView.state.draft')}}</el-tag>
+                      >{{$t('poolEventView.state.unreleased')}}</el-tag>
                       <el-tag
                         v-if="poolEvent.state==='released'"
                         type="success"
@@ -156,7 +156,7 @@
               v-if="poolEvent.state==='unreleased'"
               @click.prevent="refusePoolEvent"
               type="danger"
-            >refuse</el-button>
+            >{{$t('poolEventView.button.refuse')}}</el-button>
             <el-button
               style="width: 100%"
               v-else-if="poolEvent.state==='released'"
@@ -166,7 +166,13 @@
               <i class="el-icon-circle-close"></i>
               {{$t('poolEventView.button.refuse')}}
             </el-button>
-            <el-button style="width: 100%" @click.prevent="editPoolEvent" type="primary">
+          </el-col>
+        </el-row>
+      </VcABox>
+      <VcABox>
+        <el-row>
+        <el-col :span="16" :offset="4">
+        <el-button style="width: 100%" @click.prevent="editPoolEvent" type="primary">
               <i class="el-icon-edit"></i>
               {{$t('poolEventView.button.edit')}}
             </el-button>
@@ -174,6 +180,7 @@
               <i class="el-icon-delete"></i>
               {{$t('poolEventView.button.delete')}}
             </el-button>
+          <PoolEventDuplicator v-bind:poolEvent="poolEvent"/>
           </el-col>
         </el-row>
       </VcABox>
@@ -201,6 +208,7 @@
 import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
 import "vca-widget-base/dist/vca-widget-base.css";
 import ApplicationForm from "../components/ApplicationForm";
+import PoolEventDuplicator from "../components/PoolEventDuplicator";
 
 export default {
   name: "PoolEventView",
@@ -214,7 +222,13 @@ export default {
       }
     };
   },
-  components: { VcAFrame, VcAColumn, VcABox, ApplicationForm },
+  components: {
+    VcAFrame,
+    VcAColumn,
+    VcABox,
+    ApplicationForm,
+    PoolEventDuplicator
+  },
   computed: {
     poolEvent() {
       return this.$store.getters.getPoolEvent;

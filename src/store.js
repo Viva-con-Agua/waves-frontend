@@ -9,8 +9,7 @@ Vue.use(axios);
 
 const apiMockUrl = 'http://5c9758f58cb32000145d80e7.mockapi.io/poolEvent'
 
-
-const lightMachine = Machine({
+const poolEventStateMachine = Machine({
     key: "light",
     initial: "unreleased",
     states: {
@@ -43,7 +42,7 @@ export const store = new Vuex.Store({
     state: {
         poolEvents: [],
         poolEvent: null,
-        currentState: lightMachine.initial
+        currentState: poolEventStateMachine.initial
     },
     getters: {
         getAllPoolEvents(state) {
@@ -67,7 +66,10 @@ export const store = new Vuex.Store({
             state.poolEvent = poolEvent;
         },
         transition(state, action) {
-            state.poolEvent.state = lightMachine.transition(state.poolEvent.state, action).value
+            state.poolEvent.state = poolEventStateMachine.transition(state.poolEvent.state, action).value
+        },
+        applyToEvent(state , poolEvent){
+            state.poolEvent = poolEvent; 
         }
     },
     actions: {
@@ -84,6 +86,7 @@ export const store = new Vuex.Store({
         POST_POOLEVENT: ({
             commit
         }, poolEvent) => {
+            console.log(poolEvent);
             axios.post(apiMockUrl, poolEvent)
                 .then((res) => {
                     commit('addPoolEvent', poolEvent);
@@ -161,6 +164,16 @@ export const store = new Vuex.Store({
                 .catch((err) => {
                     console.log(err)
                 });
+        },
+        APPLY : ({commit}, poolEvent) => {
+            console.log(poolEvent)
+            axios.put(apiMockUrl + "/"+ poolEvent.id , {applications : poolEvent.applications})
+            .then((resp , err) => {
+                commit('applyToEvent', {applications : poolEvent.applications})
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         }
     }
 }

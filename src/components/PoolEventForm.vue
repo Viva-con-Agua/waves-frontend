@@ -32,7 +32,7 @@
             <el-select v-model="poolEvent.type" value :placeholder="$t('poolEventForm.input.type.placeholder')">
               <el-option :label="$t('poolEventForm.input.type.options.concert')" :value="$t('poolEventForm.input.type.value.concert')"></el-option>
               <el-option :label="$t('poolEventForm.input.type.options.festival')" :value="$t('poolEventForm.input.type.value.festival')"></el-option>
-              <el-option :label="$t('poolEventForm.input.type.options.goldEimer')" :value="$t('poolEventForm.input.type.value.goldrEimer')"></el-option>
+              <el-option :label="$t('poolEventForm.input.type.options.goldEimer')" :value="$t('poolEventForm.input.type.value.goldEimer')"></el-option>
               <el-option :label="$t('poolEventForm.input.type.options.RUN4WASH')" :value="$t('poolEventForm.input.type.value.RUN4WASH')"></el-option>
               <el-option :label="$t('poolEventForm.input.type.options.others')" :value="$t('poolEventForm.input.type.value.others')"></el-option>
             </el-select>
@@ -144,6 +144,7 @@ import { WidgetUserAutocomplete } from "vca-widget-user";
 import "vca-widget-user/dist/vca-widget-user.css";
 import VueQuill from "vue-quill";
 import rulesJon from "../rules/form";
+import { setTimeout } from 'timers';
 
 export default {
   name: "PoolEventForm",
@@ -200,14 +201,17 @@ export default {
         supporterLimit: this.poolEvent.supporterLimit,
         aspOfEvent: this.poolEvent.aspOfEvent,
         state: "unreleased",
-        description: this.poolEvent.description
+        description: this.poolEvent.description,
+        applications : []
       };
       this.submitForm("poolEvent");
       if (this.isValidForm) {
         this.$store
           .dispatch("POST_POOLEVENT", poolEvent)
           .then(() => {
+            setTimeout(() =>{
             this.$router.push("/");
+            },3000);
           })
           .catch(() => {
             alert("Error");

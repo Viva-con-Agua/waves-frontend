@@ -32,7 +32,7 @@
             <el-select v-model="poolEvent.type" value :placeholder="$t('poolEventForm.input.type.placeholder')">
               <el-option :label="$t('poolEventForm.input.type.options.concert')" :value="$t('poolEventForm.input.type.value.concert')"></el-option>
               <el-option :label="$t('poolEventForm.input.type.options.festival')" :value="$t('poolEventForm.input.type.value.festival')"></el-option>
-              <el-option :label="$t('poolEventForm.input.type.options.goldEimer')" :value="$t('poolEventForm.input.type.value.goldrEimer')"></el-option>
+              <el-option :label="$t('poolEventForm.input.type.options.goldEimer')" :value="$t('poolEventForm.input.type.value.goldEimer')"></el-option>
               <el-option :label="$t('poolEventForm.input.type.options.RUN4WASH')" :value="$t('poolEventForm.input.type.value.RUN4WASH')"></el-option>
               <el-option :label="$t('poolEventForm.input.type.options.others')" :value="$t('poolEventForm.input.type.value.others')"></el-option>
             </el-select>

@@ -4,6 +4,7 @@ import PoolEvents from './views/PoolEvents';
 import PoolEventView from './views/PoolEventView';
 import PoolEventFormView from './views/PoolEventFormView';
 import EditPoolEventFormView from './views/EditPoolEventFormView';
+import ApplicationHandlerView from "./views/ApplicationHandlerView.vue";
 
 
 Vue.use(Router);
@@ -17,7 +18,7 @@ export default new Router({
       component: PoolEvents 
     },
     {
-      path: '/pooleventview/:id' ,
+      path: '/poolevent/:id' ,
       name: 'pooleventview',
       component: PoolEventView
     },
@@ -30,6 +31,11 @@ export default new Router({
       path: '/editpooleventform/:id',
       name: 'EditPoolEventFormView',
       component: EditPoolEventFormView  
+    },
+    {
+      path: '/applications',
+      name: 'applications',
+      component: ApplicationHandlerView  
     }
   ]
 })

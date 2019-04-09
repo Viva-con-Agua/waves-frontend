@@ -10,7 +10,6 @@ name : "EditPoolEventFormView",
 components : {
     EditPoolEventForm : EditPoolEventForm
 }
-
 }
 </script>
 <style>
