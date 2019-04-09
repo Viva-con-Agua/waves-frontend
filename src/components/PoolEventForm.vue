@@ -165,6 +165,7 @@ export default {
       },
       involvedSupporter: [],
       poolEvent: {
+        created : new Date(),
         title: "",
         website: "",
         type: "",
@@ -220,6 +221,7 @@ export default {
     },
     saveAsDraft() {
       let poolEvent = {
+        created : new Date(),
         title: this.poolEvent.title,
         website: this.poolEvent.website,
         type: this.poolEvent.type,

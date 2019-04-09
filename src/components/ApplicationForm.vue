@@ -41,8 +41,10 @@ export default {
     return {
       application: {
         userName: "",
+        age : "18",
         message: "",
-        created: new Date().now
+        created: new Date(),
+        state : "WAITING_LIST"
       },
       applied: false
     };

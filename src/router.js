@@ -33,7 +33,7 @@ export default new Router({
       component: EditPoolEventFormView  
     },
     {
-      path: '/applications',
+      path: '/applications/:id',
       name: 'applications',
       component: ApplicationHandlerView  
     }

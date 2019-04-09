@@ -37,12 +37,38 @@ const poolEventStateMachine = Machine({
     }
 });
 
+const applicationStateMachine = Machine({
+    key: "light",
+    initial: "WAITING_LIST",
+    states: {
+        WAITING_LIST: {
+            on: {
+                SET_TO_ACCEPTED: "ACCEPTED",
+                SET_TO_DECLINED: "DECLINED"
+            }
+        },
+        ACCEPTED: {
+            on: {
+                SET_TO_WAITING_LIST: "WAITING_LIST",
+                SET_TO_DECLINED: "DECLINED"
+            }
+        },
+        DECLINED: {
+            on: {
+                SET_TO_ACCEPTED: "ACCEPTED",
+                SET_TO_WAITING_LIST: "WAITING_LIST"
+            }
+        }
+    }
+});
+
 export const store = new Vuex.Store({
 
     state: {
         poolEvents: [],
         poolEvent: null,
-        currentState: poolEventStateMachine.initial
+        currentState: poolEventStateMachine.initial,
+        currentApplicationState: applicationStateMachine.initial
     },
     getters: {
         getAllPoolEvents(state) {
@@ -68,8 +94,11 @@ export const store = new Vuex.Store({
         transition(state, action) {
             state.poolEvent.state = poolEventStateMachine.transition(state.poolEvent.state, action).value
         },
-        applyToEvent(state , poolEvent){
-            state.poolEvent = poolEvent; 
+        applicationStateTransition(state, action) {
+            state.currentApplicationState = applicationStateMachine.transition(state.currentApplicationState, action).value
+        },
+        applyToEvent(state, poolEvent) {
+            state.poolEvent = poolEvent;
         }
     },
     actions: {
@@ -120,12 +149,12 @@ export const store = new Vuex.Store({
                 })
                 .catch((err) => { err.message });
         },
-        EDIT_AND_SAVE_AS_DRAFT: ({commit} , poolEvent) =>{
+        EDIT_AND_SAVE_AS_DRAFT: ({ commit }, poolEvent) => {
             axios.put(apiMockUrl + '/' + poolEvent.id, poolEvent)
-            .then((resp) => {
-                console.log(resp);
-            })
-            .catch((err) => { err.message });
+                .then((resp) => {
+                    console.log(resp);
+                })
+                .catch((err) => { err.message });
         },
         GET_POOLEVENT_BY_ID: ({
             commit
@@ -165,15 +194,15 @@ export const store = new Vuex.Store({
                     console.log(err)
                 });
         },
-        APPLY : ({commit}, poolEvent) => {
+        APPLY: ({ commit }, poolEvent) => {
             console.log(poolEvent)
-            axios.put(apiMockUrl + "/"+ poolEvent.id , {applications : poolEvent.applications})
-            .then((resp , err) => {
-                commit('applyToEvent', {applications : poolEvent.applications})
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            axios.put(apiMockUrl + "/" + poolEvent.id, { applications: poolEvent.applications })
+                .then((resp, err) => {
+                    commit('applyToEvent', { applications: poolEvent.applications })
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         }
     }
 }
