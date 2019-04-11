@@ -171,8 +171,8 @@
       </VcABox>
       <VcABox>
         <el-row>
-        <el-col :span="16" :offset="4">
-        <el-button style="width: 100%" @click.prevent="editPoolEvent" type="primary">
+          <el-col :span="16" :offset="4">
+            <el-button style="width: 100%" @click.prevent="editPoolEvent" type="primary">
               <i class="el-icon-edit"></i>
               {{$t('poolEventView.button.edit')}}
             </el-button>
@@ -180,7 +180,10 @@
               <i class="el-icon-delete"></i>
               {{$t('poolEventView.button.delete')}}
             </el-button>
-          <PoolEventDuplicator v-bind:poolEvent="poolEvent"/>
+            <PoolEventDuplicator v-bind:poolEvent="poolEvent"/>
+            <el-badge :value="poolEvent.applications.length" type="primary">
+              <el-button @click="applicationHandler">applications</el-button>
+            </el-badge>
           </el-col>
         </el-row>
       </VcABox>
@@ -292,6 +295,9 @@ export default {
     },
     editPoolEvent() {
       this.$router.push("/editpooleventform/" + this.id);
+    },
+    applicationHandler(){
+      this.$router.push('/applications/' + this.id)
     }
   }
 };
