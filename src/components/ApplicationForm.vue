@@ -28,7 +28,6 @@
 import { Input, Form } from "element-ui";
 import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
 import "vca-widget-base/dist/vca-widget-base.css";
-import { constants } from "crypto";
 export default {
   name: "ApplicationForm",
   components: {
@@ -51,11 +50,8 @@ export default {
   },
   methods: {
     submitApplication() {
-      let poolEvent = this.$props.poolEvent;
-      poolEvent.applications.push(this.application);
-      console.log(this.application);
-      this.$store.dispatch("APPLY", poolEvent);
-      this.applied = true;
+      this.$store.dispatch("APPLY", {poolEventId : this.poolEvent.id, application : this.application });
+      //this.applied = true;
     }
   }
 };

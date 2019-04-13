@@ -328,7 +328,8 @@
         "refuse" : "ablehnen",
         "release" : "veröffentlichen",
         "edit": "bearbeiten",
-        "delete": "löschen"
+        "delete": "löschen",
+        "applications" : "Bewerbungen" 
      },
      "state" : {
        "draft" : "Entwurf",

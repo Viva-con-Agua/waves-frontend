@@ -63,22 +63,22 @@ const applicationStateMachine = Machine({
 });
 
 export const store = new Vuex.Store({
-
     state: {
         poolEvents: [],
         poolEvent: null,
         currentState: poolEventStateMachine.initial,
-        currentApplicationState: applicationStateMachine.initial
+        currentApplicationState: applicationStateMachine.initial,
+        applications : []
     },
     getters: {
         getAllPoolEvents(state) {
             return state.poolEvents;
         },
-        totalPoolEvents(state) {
-            return state.poolEvents.length;
-        },
         getPoolEvent(state) {
             return state.poolEvent;
+        },
+        getApplications(state){
+            return state.applications;
         }
     },
     mutations: {
@@ -97,8 +97,26 @@ export const store = new Vuex.Store({
         applicationStateTransition(state, action) {
             state.currentApplicationState = applicationStateMachine.transition(state.currentApplicationState, action).value
         },
-        applyToEvent(state, poolEvent) {
-            state.poolEvent = poolEvent;
+        setApplications(state , applications){
+            state.applications = applications;
+        },
+        addApplication : (state, application) =>{
+            state.applications.push(application);
+        },
+        acceptApplication : (state , application) =>{
+            let index = state.applications.findIndex( appl => appl.id === application.id);
+            state.applications[index] = application;
+            console.log(state.applications)
+        },
+        rejectApplication : (state , application) =>{
+            let index = state.applications.findIndex( appl => appl.id === application.id);
+            state.applications[index] = application;
+            console.log(state.applications)
+        },
+        setApplicationToWaitingList : (state , application) =>{
+            let index = state.applications.findIndex( appl => appl.id === application.id);
+            state.applications[index] = application;
+            console.log(state.applications)
         }
     },
     actions: {
@@ -194,15 +212,51 @@ export const store = new Vuex.Store({
                     console.log(err)
                 });
         },
-        APPLY: ({ commit }, poolEvent) => {
-            console.log(poolEvent)
-            axios.put(apiMockUrl + "/" + poolEvent.id, { applications: poolEvent.applications })
-                .then((resp, err) => {
-                    commit('applyToEvent', { applications: poolEvent.applications })
+        APPLY: ({ commit }, application) => {
+            axios.post(apiMockUrl + "/" + application.poolEventId + "/application", application.application)
+                .then((resp) => {
+                    commit('addApplication' , resp);
                 })
                 .catch((err) => {
                     console.log(err);
                 });
+        },
+        ACCEPT_APPLICATIONS: ({ commit }, application) => {
+            axios.put(apiMockUrl + "/" + application.poolEventId + '/application/' + application.id, {state : 'ACCEPTED'})
+                .then((resp) => {
+                    commit('acceptApplication' , resp.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        REJECT_APPLICATIONS: ({ commit }, application) => {
+            axios.put(apiMockUrl + "/" + application.poolEventId + '/application/' + application.id, {state : 'REJECTED'})
+                .then((resp) => {
+                    commit('rejectApplication' , resp.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        SET_TO_APPLICATION_WAITINGLIST: ({ commit }, application) => {
+            axios.put(apiMockUrl + "/" + application.poolEventId + '/application/' + application.id, {state : 'WAITING_LIST'})
+                .then((resp) => {
+                    commit('setApplicationToWaitingList' , resp.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        GET_APPLICATIONS : ({commit} , id)=>{
+            axios.get(apiMockUrl + '/' + id + "/application")
+            .then((resp)=>{
+                commit('setApplications', resp.data)
+                console.log(resp.data)
+            })
+            .catch((err)=>{
+                console.log(err.message);
+            })
         }
     }
 }

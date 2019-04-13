@@ -4,7 +4,7 @@
       <VcABox>
         <el-table
           ref="multipleTable"
-          :data="getApplications()"
+          :data="applications"
           style="width: 100%"
           @selection-change="handleSelectionChange"
         >
@@ -47,45 +47,44 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch("GET_POOLEVENT_BY_ID", this.$route.params.id);
+    this.$store.dispatch("GET_APPLICATIONS", this.$route.params.id);
+  },
+  computed: {
+    applications() {
+      return this.$store.state.applications;
+    }
   },
   methods: {
     getApplications() {
-      return this.$store.getters.getPoolEvent.applications;
+      return this.$store.getters.getApplications;
     },
     getPoolEvent() {
       return this.$store.getters.getPoolEvent;
     },
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row);
-        });
-      } else {
-        this.$refs.multipleTable.clearSelection();
-      }
-    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
+    },
+    getList(val) {
+      console.log(val);
     },
     acceptApplication() {
       if (this.multipleSelection) {
         this.multipleSelection.forEach(application => {
-          application.state = this.states.ACCEPTED;
+          this.$store.dispatch("ACCEPT_APPLICATIONS", application);
         });
       }
     },
     rejectApplication() {
       if (this.multipleSelection) {
         this.multipleSelection.forEach(application => {
-          application.state = this.states.REJECTED;
+          this.$store.dispatch("REJECT_APPLICATIONS", application);
         });
       }
     },
     setToWaitingList() {
       if (this.multipleSelection) {
         this.multipleSelection.forEach(application => {
-          application.state = this.states.WAITING_LIST;
+          this.$store.dispatch("SET_TO_APPLICATION_WAITINGLIST", application);
         });
       }
     }

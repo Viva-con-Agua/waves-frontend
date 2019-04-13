@@ -181,8 +181,8 @@
               {{$t('poolEventView.button.delete')}}
             </el-button>
             <PoolEventDuplicator v-bind:poolEvent="poolEvent"/>
-            <el-badge :value="poolEvent.applications.length" type="primary">
-              <el-button @click="applicationHandler">applications</el-button>
+            <el-badge style="width: 100%" :value="getApplications().length" type="primary">
+              <el-button  @click="applicationHandler">{{$t('poolEventView.button.applications')}}</el-button>
             </el-badge>
           </el-col>
         </el-row>
@@ -190,7 +190,7 @@
       <VcABox>
         <GmapMap
           :center="getLatLong"
-          :zoom="15"
+          :zoom="18"
           map-type-id="terrain"
           style="width: 350px; height: 300px"
         >
@@ -281,10 +281,10 @@ export default {
   },
   mounted() {
     this.$store.dispatch("GET_POOLEVENT_BY_ID", this.id);
+    this.$store.dispatch("GET_APPLICATIONS", this.$route.params.id);
   },
   methods: {
     releasePooleEvent() {
-      console.log(this.state.released);
       this.$store.dispatch("SET_TO_RELEASED", this.id);
     },
     refusePoolEvent() {
@@ -296,8 +296,11 @@ export default {
     editPoolEvent() {
       this.$router.push("/editpooleventform/" + this.id);
     },
-    applicationHandler(){
-      this.$router.push('/applications/' + this.id)
+    applicationHandler() {
+      this.$router.push("/applications/" + this.id);
+    },
+    getApplications() {
+      return this.$store.getters.getApplications;
     }
   }
 };

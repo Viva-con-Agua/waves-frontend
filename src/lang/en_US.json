@@ -303,5 +303,29 @@
         "placeholder": ""
       }
     }
+  },
+  "poolEventView" : {
+    "address" : "Address:",
+     "addressNote" : "Address note:",
+     "website" : "Website:",
+     "start" : "Start:",
+     "end" : "End:",
+     "applicationStart" : "Application start:",
+     "applicationEnd" : "Application end:",
+     "aspOfEvent" : "Asp of Event:",
+     "supporterLimit" : "Supporter limit:",
+     "description" : "Description:",
+     "button" : {
+        "refuse" : "refuse",
+        "release" : "release",
+        "edit": "edit",
+        "delete": "delete"
+     },
+     "state" : {
+       "draft" : "draft",
+       "released" : "released",
+       "refused" : "refused",
+       "unreleased": "unreleased"
+     }
   }
 }
