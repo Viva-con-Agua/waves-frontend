@@ -2,11 +2,11 @@
   <VcAFrame>
     <VcAColumn size="60%">
       <VcABox title="Pool-Events">
-        <div class="row">
-          <div class="col-md-6" v-bind:key="poolEvent.id" v-for="poolEvent in poolEvents">
+        <el-row>
+          <el-col :span="6" v-for="poolEvent in poolEvents" :key="poolEvent.id" :offset="1">
             <PoolEventCard v-bind:poolEvent="poolEvent"/>
-          </div>
-        </div>
+          </el-col>
+        </el-row>
         <el-row :gutter="20">
           <el-col :span="12" :offset="6">
             <Pagination/>
@@ -16,15 +16,11 @@
     </VcAColumn>
     <VcAColumn>
       <VcABox>
-        <el-button type="success" @click="createNewPoolEvent">
+        <el-button size="mini" type="success" @click="createNewPoolEvent">
           <i class="el-icon-circle-plus"></i> add event
         </el-button>
-        <el-button  >
-           my pool-events
-        </el-button>
-        <el-button  >
-          my applications
-        </el-button>
+        <el-button size="mini">my pool-events</el-button>
+        <el-button size="mini">my applications</el-button>
       </VcABox>
     </VcAColumn>
   </VcAFrame>

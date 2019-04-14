@@ -1,36 +1,31 @@
 <template>
-  <div>
-    <div
-      class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
-    >
-      <div class="col p-4 d-flex flex-column position-static">
-        <a v-bind:href="url">
-          <strong class="d-inline-block mb-2 text-primary">{{poolEvent.title}}</strong>
+  <el-card :body-style="{ padding: '0px' }">
+    <el-col :span="16">
+      <div style="padding: 14px;">
+        <a :href="url">
+          <span>{{poolEvent.title}}</span>
         </a>
-        <div class="mb-1 text-muted">
-          <i class="el-icon-time"></i>
-          {{getStartTime}}
+        <div class="bottom clearfix">
+          <time class="time">
+            <i class="el-icon-time"></i>
+            {{ getStartTime }}
+          </time>
         </div>
-        <div class="mb-1 text-muted">
-          <i class="el-icon-date"></i>
-          {{getStartDate}}
+        <div class="bottom clearfix">
+          <date class="date">
+            <i class="el-icon-date"></i>
+            {{ getStartDate }}
+          </date>
         </div>
-        <i class="el-icon-location">{{address}}</i>
       </div>
-      <div class="col-auto d-none d-lg-block">
-        <img :src="icons.festival" width="120px" heigh t="100%">
-        <img v-if="poolEvent.state==='concert'" :src="icons.concert" width="80px" heigh t="100%">
-        <img v-if="poolEvent.state==='others'" :src="icons.others" width="80px" heigh t="100%">
-        <img
-          v-if="poolEvent.state==='networkmeeting'"
-          :src="icons.networkmeeting"
-          width="100%"
-          heigh
-          t="100%"
-        >
-      </div>
-    </div>
-  </div>
+    </el-col>
+    <el-col :span="8">
+      <img v-if="poolEvent.type === 'festival'" :src="icons.festival" class="image">
+      <img v-if="poolEvent.type === 'others'" :src="icons.others" class="image">
+      <img v-if="poolEvent.type === 'concert'" :src="icons.concert" class="image">
+      <img v-if="poolEvent.type === 'networkmeeting'" :src="icons.networkmeeting" class="image">
+    </el-col>
+  </el-card>
 </template>
 
 <script>
@@ -77,5 +72,38 @@ export default {
 <style>
 .card {
   margin: 10px;
+}
+.time {
+  font-size: 13px;
+  color: #999;
+}
+.date {
+  font-size: 13px;
+  color: #999;
+}
+
+.bottom {
+  margin-top: 13px;
+  line-height: 12px;
+}
+
+.button {
+  padding: 0;
+  float: right;
+}
+
+.image {
+  width: 100%;
+  display: block;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+
+.clearfix:after {
+  clear: both;
 }
 </style>

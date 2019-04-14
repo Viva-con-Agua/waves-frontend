@@ -39,6 +39,34 @@
             "message": "Please select event type",
             "trigger": "change"
           }
-        ]
+        ],
+        "start": [
+          {
+            "required": true,
+            "message": "Please select event type",
+            "trigger": "change"
+          }
+        ],
+        "end" :[
+          {
+            "required": true,
+            "message": "Please select event type",
+            "trigger": "change"
+          }
+        ] ,
+        "applicationStart": [
+          {
+            "required": true,
+            "message": "Please select event type",
+            "trigger": "change"
+          }
+        ],
+        "applicationEnd" :[
+          {
+            "required": true,
+            "message": "Please select event type",
+            "trigger": "change"
+          }
+        ] 
 }
 }

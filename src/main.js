@@ -16,7 +16,7 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import vsm from 'vue-state-machine';
 import WidgetUserList from 'vca-widget-user'
 import VueQuill from "vue-quill";
-
+import * as VueGoogleMaps from 'vue2-google-maps'
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 library.add(faCoffee)
@@ -25,7 +25,6 @@ library.add(faCoffee)
 Vue.use(vsm.plugin, store)
 Vue.use(VueQuill)
 
-import * as VueGoogleMaps from 'vue2-google-maps'
 
 Vue.use(VueGoogleMaps, {
   load: {

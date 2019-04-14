@@ -337,5 +337,17 @@
        "refused" : "abgelehnt",
        "unreleased": "unveröffentlicht"
      }
+  },
+  "applicationHandler": {
+    "applications": "Bewerbungen",
+    "name": "name",
+    "age": "alter",
+    "message": "nachricht",
+    "state": "zustand",
+    "button": {
+      "reject": "ablehnen",
+      "accept": "annehmen",
+      "waitingList": "warteliste"
+    }
   }
 }

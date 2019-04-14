@@ -6,15 +6,11 @@
   </div>
 </template>
 <script>
-import BootstrapVue from "bootstrap-vue";
+
 import VueQuill from "vue-quill";
 import Vue from "vue";
 import {WidgetTopNavigation,WidgetBottomNavigation} from "vca-widget-navigation";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
-import "vca-widget-base/dist/vca-widget-base.css";
 
-Vue.use(BootstrapVue);
 Vue.use(VueQuill);
 
 export default {

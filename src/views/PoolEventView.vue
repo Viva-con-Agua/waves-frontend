@@ -143,7 +143,7 @@
       <VcABox>
         <el-row>
           <el-col :span="16" :offset="4">
-            <el-button
+            <el-button size="mini"
               v-if="poolEvent.state==='unreleased'|| poolEvent.state === 'refused'"
               @click.prevent="releasePooleEvent"
               type="success"
@@ -157,7 +157,7 @@
               @click.prevent="refusePoolEvent"
               type="danger"
             >{{$t('poolEventView.button.refuse')}}</el-button>
-            <el-button
+            <el-button size="mini"
               style="width: 100%"
               v-else-if="poolEvent.state==='released'"
               @click.prevent="refusePoolEvent"
@@ -172,17 +172,17 @@
       <VcABox>
         <el-row>
           <el-col :span="16" :offset="4">
-            <el-button style="width: 100%" @click.prevent="editPoolEvent" type="primary">
+            <el-button size="mini" style="width: 100%" @click.prevent="editPoolEvent" type="primary">
               <i class="el-icon-edit"></i>
               {{$t('poolEventView.button.edit')}}
             </el-button>
-            <el-button @click.prevent="deletePoolEvent" type="danger">
+            <el-button size="mini" @click.prevent="deletePoolEvent" type="danger">
               <i class="el-icon-delete"></i>
               {{$t('poolEventView.button.delete')}}
             </el-button>
             <PoolEventDuplicator v-bind:poolEvent="poolEvent"/>
-            <el-badge style="width: 100%" :value="getApplications().length" type="primary">
-              <el-button  @click="applicationHandler">{{$t('poolEventView.button.applications')}}</el-button>
+            <el-badge size="mini" style="width: 100%" :value="getApplications().length" type="primary">
+              <el-button  size="mini" @click="applicationHandler">{{$t('poolEventView.button.applications')}}</el-button>
             </el-badge>
           </el-col>
         </el-row>

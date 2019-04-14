@@ -1,31 +1,31 @@
 <template>
   <VcAFrame>
     <VcAColumn size="60%">
-      <VcABox>
+      <VcABox :title="$t('applicationHandler.applications')">
         <el-table
           ref="multipleTable"
-          :data="applications"
+          :data="getApplications()"
           style="width: 100%"
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column label="name" width="120">
+          <el-table-column :label="$t('applicationHandler.name')" width="120">
             <template slot-scope="scope">{{ scope.row.userName }}</template>
           </el-table-column>
-          <el-table-column property="name" label="age" width="120">
+          <el-table-column property="age" :label="$t('applicationHandler.age')" width="120">
             <template slot-scope="scope">{{ scope.row.age }}</template>
           </el-table-column>
-          <el-table-column property="message" label="message" show-overflow-tooltip></el-table-column>
-          <el-table-column property="state" label="state" show-overflow-tooltip></el-table-column>
+          <el-table-column property="message" :label="$t('applicationHandler.message')" show-overflow-tooltip></el-table-column>
+          <el-table-column property="state" :label="$t('applicationHandler.state')" show-overflow-tooltip></el-table-column>
         </el-table>
       </VcABox>
     </VcAColumn>
     <VcAColumn size="20%">
       <VcABox>
         <template>
-          <el-button size="mini" type="success" @click="acceptApplication">accept</el-button>
-          <el-button size="mini" @click="setToWaitingList">waiting list</el-button>
-          <el-button size="mini" type="danger" @click="rejectApplication">reject</el-button>
+          <el-button size="mini" type="success" @click="acceptApplication">{{$t('applicationHandler.button.accept')}}</el-button>
+          <el-button size="mini" @click="setToWaitingList">{{$t('applicationHandler.button.waitingList')}}</el-button>
+          <el-button size="mini" type="danger" @click="rejectApplication">{{$t('applicationHandler.button.reject')}}</el-button>
         </template>
       </VcABox>
     </VcAColumn>
@@ -51,7 +51,7 @@ export default {
   },
   computed: {
     applications() {
-      return this.$store.state.applications;
+      return this.$store.getters.getApplications
     }
   },
   methods: {
@@ -63,9 +63,6 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-    },
-    getList(val) {
-      console.log(val);
     },
     acceptApplication() {
       if (this.multipleSelection) {

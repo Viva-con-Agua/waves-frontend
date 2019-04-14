@@ -1,5 +1,5 @@
 <template>
-    <el-button type="primary" @click="submit">duplicate</el-button>
+    <el-button size="mini" type="primary" @click="submit">duplicate</el-button>
 </template>
 
 <script>

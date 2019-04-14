@@ -30,11 +30,11 @@
           </el-form-item>
           <el-form-item :label="$t('poolEventForm.input.type.label')" prop="type">
             <el-select v-model="poolEvent.type" value :placeholder="$t('poolEventForm.input.type.placeholder')">
-              <el-option :label="$t('poolEventForm.input.type.options.concert')" :value="$t('poolEventForm.input.type.value.concert')"></el-option>
-              <el-option :label="$t('poolEventForm.input.type.options.festival')" :value="$t('poolEventForm.input.type.value.festival')"></el-option>
-              <el-option :label="$t('poolEventForm.input.type.options.goldEimer')" :value="$t('poolEventForm.input.type.value.goldEimer')"></el-option>
-              <el-option :label="$t('poolEventForm.input.type.options.RUN4WASH')" :value="$t('poolEventForm.input.type.value.RUN4WASH')"></el-option>
-              <el-option :label="$t('poolEventForm.input.type.options.others')" :value="$t('poolEventForm.input.type.value.others')"></el-option>
+              <el-option :label="$t('poolEventForm.input.type.options.concert')" value="concert"></el-option>
+              <el-option :label="$t('poolEventForm.input.type.options.festival')" value="festival"></el-option>
+              <el-option :label="$t('poolEventForm.input.type.options.goldEimer')" value="festival"></el-option>
+              <el-option :label="$t('poolEventForm.input.type.options.RUN4WASH')" value="RUN4WASH"></el-option>
+              <el-option :label="$t('poolEventForm.input.type.options.others')" value="others"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('poolEventForm.input.start.label')" prop="start">
@@ -189,26 +189,11 @@ export default {
   },
   methods: {
     addPoolEvent() {
-      let poolEvent = {
-        title: this.poolEvent.title,
-        website: this.poolEvent.website,
-        type: this.poolEvent.type,
-        address: this.poolEvent.address,
-        addressNote: this.poolEvent.addressNote,
-        start: this.poolEvent.start,
-        end: this.poolEvent.end,
-        applicationStart: this.poolEvent.applicationStart,
-        applicationEnd: this.poolEvent.applicationEnd,
-        supporterLimit: this.poolEvent.supporterLimit,
-        aspOfEvent: this.poolEvent.aspOfEvent,
-        state: "unreleased",
-        description: this.poolEvent.description,
-        applications : []
-      };
+      this.poolEvent.state = "unreleased"
       this.submitForm("poolEvent");
       if (this.isValidForm) {
         this.$store
-          .dispatch("POST_POOLEVENT", poolEvent)
+          .dispatch("POST_POOLEVENT", this.poolEvent)
           .then(() => {
             setTimeout(() =>{
             this.$router.push("/");
@@ -220,26 +205,11 @@ export default {
       }
     },
     saveAsDraft() {
-      let poolEvent = {
-        created : new Date(),
-        title: this.poolEvent.title,
-        website: this.poolEvent.website,
-        type: this.poolEvent.type,
-        address: this.poolEvent.address,
-        addressNote: this.poolEvent.addressNote,
-        start: this.poolEvent.start,
-        end: this.poolEvent.end,
-        applicationStart: this.poolEvent.applicationStart,
-        applicationEnd: this.poolEvent.applicationEnd,
-        supporterLimit: 0,
-        aspOfEvent: this.poolEvent.aspOfEvent,
-        state: "draft",
-        description: this.poolEvent.description
-      };
+      this.poolEvent.state = "draft";
       this.submitForm("poolEvent");
       if (this.isValidForm) {
         this.$store
-          .dispatch("POST_POOLEVENT", poolEvent)
+          .dispatch("POST_POOLEVENT", this.poolEvent)
           .then(() => {
             this.$router.push("/");
           })

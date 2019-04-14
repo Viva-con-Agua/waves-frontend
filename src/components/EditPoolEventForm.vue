@@ -30,11 +30,11 @@
           </el-form-item>
           <el-form-item :label="$t('poolEventForm.input.type.label')" prop="type">
             <el-select v-model="poolEvent.type" value :placeholder="$t('poolEventForm.input.type.placeholder')">
-              <el-option :label="$t('poolEventForm.input.type.options.concert')" :value="$t('poolEventForm.input.type.value.concert')"></el-option>
-              <el-option :label="$t('poolEventForm.input.type.options.festival')" :value="$t('poolEventForm.input.type.value.festival')"></el-option>
-              <el-option :label="$t('poolEventForm.input.type.options.goldEimer')" :value="$t('poolEventForm.input.type.value.goldEimer')"></el-option>
-              <el-option :label="$t('poolEventForm.input.type.options.RUN4WASH')" :value="$t('poolEventForm.input.type.value.RUN4WASH')"></el-option>
-              <el-option :label="$t('poolEventForm.input.type.options.others')" :value="$t('poolEventForm.input.type.value.others')"></el-option>
+              <el-option :label="$t('poolEventForm.input.type.options.concert')" value="concert"></el-option>
+              <el-option :label="$t('poolEventForm.input.type.options.festival')" value="festival"></el-option>
+              <el-option :label="$t('poolEventForm.input.type.options.goldEimer')" value="goldeimerFestival"></el-option>
+              <el-option :label="$t('poolEventForm.input.type.options.RUN4WASH')" value="RUN4WASH"></el-option>
+              <el-option :label="$t('poolEventForm.input.type.options.others')" value="others"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('poolEventForm.input.start.label')" prop="start">
