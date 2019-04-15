@@ -5,6 +5,7 @@ import PoolEventView from './views/PoolEventView';
 import PoolEventFormView from './views/PoolEventFormView';
 import EditPoolEventFormView from './views/EditPoolEventFormView';
 import ApplicationHandlerView from "./views/ApplicationHandlerView.vue";
+import home from "./views/home.vue";
 
 
 Vue.use(Router);
@@ -36,6 +37,11 @@ export default new Router({
       path: '/applications/:id',
       name: 'applications',
       component: ApplicationHandlerView  
+    },
+    {
+      path: '/home',
+      name: 'heme',
+      component: home  
     }
   ]
 })

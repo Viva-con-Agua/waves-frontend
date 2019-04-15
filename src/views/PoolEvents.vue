@@ -3,7 +3,7 @@
     <VcAColumn size="60%">
       <VcABox title="Pool-Events">
         <el-row>
-          <el-col :span="6" v-for="poolEvent in poolEvents" :key="poolEvent.id" :offset="1">
+          <el-col :span="7" v-for="poolEvent in poolEvents" :key="poolEvent.id" :offset="1">
             <PoolEventCard v-bind:poolEvent="poolEvent"/>
           </el-col>
         </el-row>

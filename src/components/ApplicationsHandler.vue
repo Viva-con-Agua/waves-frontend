@@ -3,6 +3,7 @@
     <VcAColumn size="60%">
       <VcABox :title="$t('applicationHandler.applications')">
         <el-table
+          v-loading="loading"
           ref="multipleTable"
           :data="getApplications()"
           style="width: 100%"
@@ -43,7 +44,8 @@ export default {
         ACCEPTED: "ACCEPTED",
         REJECTED: "REJECTED"
       },
-      multipleSelection: []
+      multipleSelection: [],
+      loading : false
     };
   },
   mounted() {

@@ -16,6 +16,13 @@
             <i class="el-icon-date"></i>
             {{ getStartDate }}
           </date>
+          
+        </div>
+        <div class="bottom clearfix">
+          <span class="location">
+            <i class="el-icon-location-outline"></i>
+            {{address}}
+          </span>
         </div>
       </div>
     </el-col>
@@ -78,6 +85,10 @@ export default {
   color: #999;
 }
 .date {
+  font-size: 13px;
+  color: #999;
+}
+.location {
   font-size: 13px;
   color: #999;
 }

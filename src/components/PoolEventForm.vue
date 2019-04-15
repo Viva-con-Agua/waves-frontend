@@ -11,10 +11,16 @@
           class="rows-container"
         >
           <el-form-item :label="$t('poolEventForm.input.title.label')" prop="title">
-            <el-input v-model="poolEvent.title" :placeholder="$t('poolEventForm.input.title.placeholder')"></el-input>
+            <el-input
+              v-model="poolEvent.title"
+              :placeholder="$t('poolEventForm.input.title.placeholder')"
+            ></el-input>
           </el-form-item>
           <el-form-item :label="$t('poolEventForm.input.website.label')" prop="website">
-            <el-input v-model="poolEvent.website" :placeholder="$t('poolEventForm.input.website.placeholder')"></el-input>
+            <el-input
+              v-model="poolEvent.website"
+              :placeholder="$t('poolEventForm.input.website.placeholder')"
+            ></el-input>
           </el-form-item>
           <el-form-item :label="$t('poolEventForm.input.address.label')" prop="address">
             <div>
@@ -29,7 +35,11 @@
             </div>
           </el-form-item>
           <el-form-item :label="$t('poolEventForm.input.type.label')" prop="type">
-            <el-select v-model="poolEvent.type" value :placeholder="$t('poolEventForm.input.type.placeholder')">
+            <el-select
+              v-model="poolEvent.type"
+              value
+              :placeholder="$t('poolEventForm.input.type.placeholder')"
+            >
               <el-option :label="$t('poolEventForm.input.type.options.concert')" value="concert"></el-option>
               <el-option :label="$t('poolEventForm.input.type.options.festival')" value="festival"></el-option>
               <el-option :label="$t('poolEventForm.input.type.options.goldEimer')" value="festival"></el-option>
@@ -72,7 +82,10 @@
             </el-col>
           </el-form-item>
 
-          <el-form-item :label="$t('poolEventForm.input.applicationStart.label')" prop="applicationStart">
+          <el-form-item
+            :label="$t('poolEventForm.input.applicationStart.label')"
+            prop="applicationStart"
+          >
             <el-col :span="8">
               <el-date-picker
                 type="date"
@@ -90,7 +103,10 @@
             </el-col>
           </el-form-item>
 
-          <el-form-item :label="$t('poolEventForm.input.applicationEnd.label')" prop="applicationEnd">
+          <el-form-item
+            :label="$t('poolEventForm.input.applicationEnd.label')"
+            prop="applicationEnd"
+          >
             <el-col :span="8">
               <el-date-picker
                 type="date"
@@ -120,16 +136,24 @@
             />
           </el-form-item>
           <el-form-item :label="$t('poolEventForm.input.description.label')">
-            <quill :placeholder="$t('poolEventForm.input.description.placeholder')" v-model="poolEvent.description" output="html"></quill>
+            <quill
+              :placeholder="$t('poolEventForm.input.description.placeholder')"
+              v-model="poolEvent.description"
+              output="html"
+            ></quill>
           </el-form-item>
         </el-form>
       </VcABox>
     </VcAColumn>
     <VcAColumn>
       <VcABox :first="false" title>
-        <el-button type="primary" @click.prevent="addPoolEvent">Create</el-button>
-        <el-button type="info" @click.prevent="saveAsDraft">save as draft</el-button>
-        <el-button type="danger" @click.prevent="cancel">Cancel</el-button>
+        <el-row>
+          <el-col :span="16" :offset="4">
+            <el-button id="button" type="primary" @click.prevent="addPoolEvent">create</el-button>
+            <el-button id="button" type="info" @click.prevent="saveAsDraft">save as draft</el-button>
+            <el-button id="button" type="danger" @click.prevent="cancel">cancel</el-button>
+          </el-col>
+        </el-row>
       </VcABox>
     </VcAColumn>
   </VcAFrame>
@@ -144,7 +168,6 @@ import { WidgetUserAutocomplete } from "vca-widget-user";
 import "vca-widget-user/dist/vca-widget-user.css";
 import VueQuill from "vue-quill";
 import rulesJon from "../rules/form";
-import { setTimeout } from 'timers';
 
 export default {
   name: "PoolEventForm",
@@ -165,7 +188,7 @@ export default {
       },
       involvedSupporter: [],
       poolEvent: {
-        created : new Date(),
+        created: new Date(),
         title: "",
         website: "",
         type: "",
@@ -180,7 +203,7 @@ export default {
         state: "unreleased",
         description: "",
         activeUserOnly: "",
-        applications : []
+        applications: []
       },
       address: "",
       isValidForm: "",
@@ -189,15 +212,15 @@ export default {
   },
   methods: {
     addPoolEvent() {
-      this.poolEvent.state = "unreleased"
+      this.poolEvent.state = "unreleased";
       this.submitForm("poolEvent");
       if (this.isValidForm) {
         this.$store
           .dispatch("POST_POOLEVENT", this.poolEvent)
           .then(() => {
-            setTimeout(() =>{
-            this.$router.push("/");
-            },3000);
+            setTimeout(() => {
+              this.$router.push("/");
+            }, 3000);
           })
           .catch(() => {
             alert("Error");
@@ -248,8 +271,36 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .b-container.fluid {
   margin: 10px;
+}
+input {
+  position: relative;
+  font-size: 14px;
+  display: inline-block;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #dcdfe6;
+  box-sizing: border-box;
+  color: #606266;
+  height: 40px;
+  line-height: 40px;
+  outline: 0;
+  padding: 0 15px;
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+#tag {
+  float: left;
+}
+
+#button {
+  margin-left: 10px;
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+  float: left;
 }
 </style>
