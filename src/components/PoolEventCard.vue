@@ -1,6 +1,6 @@
 <template>
-  <el-card :body-style="{ padding: '0px' }">
-    <el-col :span="16">
+  <el-card id="card" :body-style="{ padding: '0px'}">
+    <el-col :span="20">
       <div style="padding: 14px;">
         <a :href="url">
           <span>{{poolEvent.title}}</span>
@@ -26,7 +26,7 @@
         </div>
       </div>
     </el-col>
-    <el-col :span="8">
+    <el-col :span="4">
       <img v-if="poolEvent.type === 'festival'" :src="icons.festival" class="image">
       <img v-if="poolEvent.type === 'others'" :src="icons.others" class="image">
       <img v-if="poolEvent.type === 'concert'" :src="icons.concert" class="image">
@@ -116,5 +116,8 @@ export default {
 
 .clearfix:after {
   clear: both;
+}
+#card{
+  margin-bottom: 20px
 }
 </style>

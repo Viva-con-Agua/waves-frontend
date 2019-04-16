@@ -25,6 +25,7 @@
                 :placeholder="$t('poolEventForm.input.address.placeholder')"
                 v-on:placechanged="getAddressData"
                 country="de"
+                :value="poolEvent.address.route"
               ></vue-google-autocomplete>
             </div>
           </el-form-item>
@@ -209,7 +210,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch("GET_POOLEVENT_BY_ID", this.id);
-    this.$refs.address.focus();
   }
 };
 </script>

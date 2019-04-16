@@ -105,7 +105,7 @@
       </VcABox>
     </VcAColumn>
     <VcAColumn>
-      <VcABox>
+      <VcABox title="state">
         <el-row>
           <el-col :span="16" :offset="4">
             <el-button
