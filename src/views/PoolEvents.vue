@@ -1,13 +1,13 @@
 <template>
   <VcAFrame>
     <VcAColumn size="60%">
-      <VcABox title="Pool-Events">
+      <VcABox height="100%" title="Pool-Events"     :yv-loading="loading">
         <el-row>
           <el-col :span="7" v-for="poolEvent in poolEvents" :key="poolEvent.id" :offset="1">
             <PoolEventCard v-bind:poolEvent="poolEvent"/>
           </el-col>
         </el-row>
-        <el-row :gutter="20">
+        <el-row >
           <el-col :span="12" :offset="6">
             <Pagination/>
           </el-col>
@@ -45,6 +45,11 @@ export default {
   computed: {
     poolEvents() {
       return this.$store.getters.getAllPoolEvents;
+    }
+  },
+  data(){
+    return {
+      loadding : false
     }
   },
   mounted() {

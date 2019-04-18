@@ -1,40 +1,36 @@
 <template>
   <el-form width="100px">
-    <el-form-item prop="type">
-      <el-select v-model="poolEvent.type" :placeholder="$t('poolEventForm.input.type.placeholder')">
-        <el-option :label="$t('poolEventForm.input.type.options.concert')" value="concert"></el-option>
-        <el-option :label="$t('poolEventForm.input.type.options.festival')" value="festival"></el-option>
-        <el-option :label="$t('poolEventForm.input.type.options.goldEimer')" value="festival"></el-option>
-        <el-option :label="$t('poolEventForm.input.type.options.RUN4WASH')" value="RUN4WASH"></el-option>
-        <el-option :label="$t('poolEventForm.input.type.options.others')" value="others"></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item prop="type">
-      <el-select v-model="poolEvent.region" placeholder="region">
-        <el-option :label="$t('poolEventForm.input.type.options.concert')" value="concert"></el-option>
-        <el-option :label="$t('poolEventForm.input.type.options.festival')" value="festival"></el-option>
-        <el-option :label="$t('poolEventForm.input.type.options.goldEimer')" value="festival"></el-option>
-        <el-option :label="$t('poolEventForm.input.type.options.RUN4WASH')" value="RUN4WASH"></el-option>
-        <el-option :label="$t('poolEventForm.input.type.options.others')" value="others"></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item prop="type">
-      <el-select v-model="poolEvent.month" placeholder="select month">
-        <el-option
-          v-for="month in getMonths()"
-          :key="month"
-          :label="month"
-          :value="month"
-
-        ></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-itm>
-      <el-col>
+    <el-col :span="20"> 
+      <el-form-item prop="type">
+        <el-select
+          v-model="poolEvent.type"
+          :placeholder="$t('poolEventForm.input.type.placeholder')"
+        >
+          <el-option :label="$t('poolEventForm.input.type.options.concert')" value="concert"></el-option>
+          <el-option :label="$t('poolEventForm.input.type.options.festival')" value="festival"></el-option>
+          <el-option :label="$t('poolEventForm.input.type.options.goldEimer')" value="festival"></el-option>
+          <el-option :label="$t('poolEventForm.input.type.options.RUN4WASH')" value="RUN4WASH"></el-option>
+          <el-option :label="$t('poolEventForm.input.type.options.others')" value="others"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item prop="type">
+        <el-select v-model="poolEvent.region" placeholder="region">
+          <el-option :label="$t('poolEventForm.input.type.options.concert')" value="concert"></el-option>
+          <el-option :label="$t('poolEventForm.input.type.options.festival')" value="festival"></el-option>
+          <el-option :label="$t('poolEventForm.input.type.options.goldEimer')" value="festival"></el-option>
+          <el-option :label="$t('poolEventForm.input.type.options.RUN4WASH')" value="RUN4WASH"></el-option>
+          <el-option :label="$t('poolEventForm.input.type.options.others')" value="others"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item prop="type">
+        <el-select v-model="poolEvent.month" placeholder="select month">
+          <el-option v-for="month in getMonths()" :key="month" :label="month" :value="month"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-itm>
         <el-button>filter</el-button>
-      </el-col>
-      <span>{{}}</span>
-    </el-form-itm>
+      </el-form-itm>
+    </el-col>
   </el-form>
 </template>
 
@@ -47,8 +43,8 @@ export default {
     return {
       poolEvent: {
         type: "",
-        month : "",
-        region : ""
+        month: "",
+        region: ""
       }
     };
   },
@@ -56,12 +52,13 @@ export default {
     getMonths() {
       return moment.months();
     },
-    getRegions(){
-
-    }
+    getRegions() {}
   }
 };
 </script>
 
 <style>
+.el-select {
+  display: block;
+}
 </style>

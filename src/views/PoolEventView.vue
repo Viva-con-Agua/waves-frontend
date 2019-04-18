@@ -158,11 +158,13 @@
               {{$t('poolEventView.button.delete')}}
             </el-button>
             <PoolEventDuplicator v-bind:poolEvent="poolEvent"/>
-            <el-badge
-              style="width: 100%"
-              :value="getApplications().length"
-              type="primary"
-            >
+          </el-col>
+        </el-row>
+      </VcABox>
+      <VcABox title="application">
+        <el-row>
+          <el-col>
+            <el-badge style="width: 100%" :value="getApplications().length" type="primary">
               <el-button
                 id="button"
                 size="mini"
