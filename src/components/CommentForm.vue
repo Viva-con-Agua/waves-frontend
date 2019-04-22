@@ -2,10 +2,10 @@
   <el-card>
     <el-form :model="comment">
       <el-row>
-        <el-col span="1" :offset="0">
+        <el-col :span="1" :offset="0">
           <img src="https://img.icons8.com/dotty/80/000000/login-as-user.png">
         </el-col>
-        <el-col span="21" :offset="1">
+        <el-col :span="21" :offset="1">
           <el-row>
             <span class="user-name">username</span>
           </el-row>
@@ -15,7 +15,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col span="3" :offset="20">
+        <el-col :span="3" :offset="20">
           <el-button v-if="comment.text" class="vca-button-primary" @click.prevent="submit">comment</el-button>
           <el-button v-else class="vca-button-primary" @click.prevent="submit" disabled>comment</el-button>
         </el-col>

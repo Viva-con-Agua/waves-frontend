@@ -3,7 +3,11 @@
     <VcAColumn size="60%">
       <VcABox :title="poolEvent.title">
         <div slot="header">
-          <el-tag v-if="poolEvent.activeUserOnly" type="warning">active users only</el-tag>
+          <el-tag
+            class="active-user-tag"
+            v-if="poolEvent.activeUserOnly"
+            type="warning"
+          >active users only</el-tag>
           <el-tag
             v-if="poolEvent.state==='unreleased'"
             type="gray"
@@ -49,7 +53,7 @@
         <div class="user">
           <div class="vca-profile">
             <el-row>
-              <el-col span="12">
+              <el-col :span="12">
                 <el-row>
                   <ul>
                     <li>
@@ -62,14 +66,12 @@
                   <ul>
                     <li>
                       <span class="vca-user-label" v-if="poolEvent.addressNote">location note:</span>
-                      <span
-                        v-if="poolEvent.addressNote"
-                      >{{poolEvent.addressNote}}</span>
+                      <span class="address-note" v-if="poolEvent.addressNote">{{poolEvent.addressNote}}</span>
                     </li>
                   </ul>
                 </el-row>
               </el-col>
-              <el-col span="12">
+              <el-col :span="12">
                 <span class="vca-user-label" v-if="poolEvent.addressNote">map:</span>
                 <span class="vca-user-value">
                   <GmapMap
@@ -114,7 +116,7 @@
         </div>
       </VcABox>
 
-      <VcABox title="description">
+      <VcABox :title="$t('poolEventView.description')">
         <div class="user">
           <div class="vca-profile">
             <ul class="crew">
@@ -126,10 +128,6 @@
                 <span class="vca-user-value">{{poolEvent.aspOfEvent}}</span>
               </li>
               <li>
-                <span
-                  class="vca-user-label"
-                  v-if="poolEvent.description"
-                >{{$t('poolEventView.description')}}</span>
                 <div v-html="getDescription"></div>
               </li>
             </ul>
@@ -229,7 +227,6 @@ import PoolEventDuplicator from "../components/PoolEventDuplicator";
 import CommentCard from "../components/CommentCard";
 import CommentForm from "../components/CommentForm";
 
-
 export default {
   name: "PoolEventView",
   data() {
@@ -304,8 +301,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch("GET_POOLEVENT_BY_ID", this.id);
-    this.$store.dispatch("GET_APPLICATIONS", this.$route.params.id);
-    this.$store.dispatch('FETCH_COMMENTS' , this.id);
+    this.$store.dispatch("GET_APPLICATIONS", this.id);
+    this.$store.dispatch("FETCH_COMMENTS", this.id);
   },
   methods: {
     releasePooleEvent() {
@@ -345,6 +342,7 @@ export default {
   }
 };
 </script>
+
 <style lang="less">
 .vca-button-primary {
   background-color: #0a6b91;
@@ -487,5 +485,13 @@ export default {
   padding-top: 0;
   padding-bottom: 0;
   float: left;
+}
+
+.active-user-tag {
+  margin-right: 10px;
+}
+
+.address-note {
+  text-align: center
 }
 </style>

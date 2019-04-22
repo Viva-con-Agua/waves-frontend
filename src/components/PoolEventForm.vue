@@ -10,7 +10,7 @@
               :placeholder="$t('poolEventForm.input.title.placeholder')"
             ></el-input>
           </el-form-item>
-            
+
           <el-form-item :label="$t('poolEventForm.input.type.label')" prop="type">
             <el-select
               v-model="poolEvent.type"
@@ -30,7 +30,11 @@
             ></el-input>
           </el-form-item>
           <el-form-item :label="$t('poolEventForm.input.activeUserOnly.label')">
-            <el-switch value="true" v-model="poolEvent.activeUserOnly"></el-switch>
+            <el-switch
+              :active-value="1"
+              :inactive-value="0"
+              v-model="poolEvent.activeUserOnly"
+            ></el-switch>
           </el-form-item>
           <el-form-item :label="$t('poolEventForm.input.start.label')" prop="start">
             <el-date-picker
@@ -39,7 +43,6 @@
               v-model="poolEvent.start"
               style="width: 100%;"
             ></el-date-picker>
-
             <el-time-picker
               :placeholder="$t('poolEventForm.input.start.timePicker.placeholder')"
               v-model="poolEvent.start"
@@ -66,11 +69,7 @@
               @vca-user-selection="selectSupporter"
             />
           </el-form-item>
-            <quill
-            :config="config"
-              v-model="poolEvent.description"
-              output="html"
-            ></quill>
+          <quill :config="config" v-model="poolEvent.description" output="html"></quill>
         </VcABox>
       </VcAColumn>
       <VcAColumn>
@@ -100,13 +99,13 @@
             prop="applicationStart"
           >
             <el-date-picker
-      style="width: 100%;"
+              style="width: 100%;"
               :placeholder="$t('poolEventForm.input.applicationStart.datePicker.placeholder')"
               v-model="poolEvent.applicationStart"
             ></el-date-picker>
 
             <el-time-picker
-style="width: 100%;"
+              style="width: 100%;"
               :placeholder="$t('poolEventForm.input.applicationEnd.timePicker.placeholder')"
               v-model="poolEvent.applicationStart"
             ></el-time-picker>
@@ -116,13 +115,13 @@ style="width: 100%;"
             prop="applicationEnd"
           >
             <el-date-picker
-            style="width: 100%;"
+              style="width: 100%;"
               :placeholder="$t('poolEventForm.input.applicationEnd.datePicker.placeholder')"
               v-model="poolEvent.applicationEnd"
             ></el-date-picker>
 
             <el-time-picker
-            style="width: 100%;"
+              style="width: 100%;"
               :placeholder="$t('poolEventForm.input.applicationEnd.timePicker.placeholder')"
               v-model="poolEvent.applicationEnd"
             ></el-time-picker>
@@ -195,8 +194,8 @@ export default {
       address: "",
       isValidForm: "",
       rules: rulesJon.rules,
-      config :{
-        placeholder: 'Compose a description',
+      config: {
+        placeholder: "Compose a description",
         label: "Description"
       }
     };

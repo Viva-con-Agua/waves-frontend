@@ -1,5 +1,5 @@
 <template>
-  <VcAFrame title="Pool-Event erstellen" hasContainer="true">
+  <VcAFrame title="Pool-Event bearbeiten" hasContainer="true">
     <el-form :model="poolEvent" :rules="rules" ref="poolEvent" class="columns-container">
       <VcAColumn>
         <VcABox :first="true" title="Eventdaten">
@@ -130,10 +130,10 @@
         </VcABox>
         <VcABox title="Erstellen">
           <el-row>
-            <el-col :span="16" :offset="4">
-              <el-button id="button" type="primary" @click.prevent="addPoolEvent">create</el-button>
-              <el-button id="button" type="info" @click.prevent="saveAsDraft">save as draft</el-button>
-              <el-button id="button" type="danger" @click.prevent="cancel">cancel</el-button>
+            <el-col :span="23">
+              <el-button class="vca-button-primary" id="button" type="primary" @click.prevent="editPoolEvent">create</el-button>
+              <el-button class="vca-button-primary" id="button" type="info" @click.prevent="editAndSaveAsDraft">save as draft</el-button>
+              <el-button class="vca-button-warn" id="button" type="danger" @click.prevent="cancel">cancel</el-button>
             </el-col>
           </el-row>
         </VcABox>
@@ -168,7 +168,6 @@ export default {
     return {
       involvedSupporter: [],
       poolEvent: this.$store.getters.getPoolEvent,
-      id: this.$route.params.id,
       isValidForm: "",
       rules: rulesJon.rules
     };
@@ -183,6 +182,7 @@ export default {
     editPoolEvent() {
       this.submitForm("poolEvent");
       if (this.isValidForm) {
+        console.log(this.poolEvent)
         this.$store.dispatch("EDIT_POOLEVENT", this.poolEvent);
         setTimeout(() => {
           this.$router.push("/");
@@ -214,8 +214,10 @@ export default {
       this.poolEvent.address = addressData;
     }
   },
-  mounted() {
-    this.$store.dispatch("GET_POOLEVENT_BY_ID", this.id);
+  computed : {
+    getPoolEvent(){
+      return this.$store.getters.getPoolEvent
+    }
   }
 };
 </script>
@@ -225,5 +227,42 @@ export default {
 }
 .el-select {
   display: block;
+}
+
+.vca-button-primary {
+  background-color: #0a6b91;
+  color: #ffffff;
+  padding: 0.5em 0;
+  border: 0;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    width: 100%
+}
+
+.vca-button-warn {
+  background-color: #d50000;
+  color: #ffffff;
+  padding: 0.5em 0;
+  border: 0;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 3px 10px 0 rgba(0, 0, 0, 0.19);
 }
 </style>

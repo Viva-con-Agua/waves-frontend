@@ -142,8 +142,6 @@ import { WidgetUserAutocomplete } from "vca-widget-user";
 import "vca-widget-user/dist/vca-widget-user.css";
 import VueQuill from "vue-quill";
 
-
-
 const state = {
   draft: "draft",
   released: "released",

@@ -1,13 +1,13 @@
 <template>
   <VcAFrame>
-    <VcAColumn height='100%' size="60%">
-      <VcABox  title="Pool-Events" :v-loading="loading">
+    <VcAColumn height="100%" size="60%">
+      <VcABox title="Pool-Events" :v-loading="loading">
         <el-row>
-          <el-col :span="8" v-for="poolEvent in poolEvents" :key="poolEvent.id" >
+          <el-col :span="8" v-for="poolEvent in poolEvents" :key="poolEvent.id">
             <PoolEventCard v-bind:poolEvent="poolEvent"/>
           </el-col>
         </el-row>
-        <el-row >
+        <el-row>
           <el-col :span="12" :offset="6">
             <Pagination/>
           </el-col>
@@ -16,12 +16,12 @@
     </VcAColumn>
     <VcAColumn>
       <VcABox>
-        <el-col :span="16" :offset="4">
-          <el-button id="button" size="mini" type="success" @click="createNewPoolEvent">
+        <el-col>
+          <el-button class="vca-button-primary" type="success" @click="createNewPoolEvent">
             <i class="el-icon-circle-plus"></i> add event
           </el-button>
-          <el-button id="button" >my pool-events</el-button>
-          <el-button id="button" >my applications</el-button>
+          <el-button class="vca-button-primary">my pool-events</el-button>
+          <el-button class="vca-button-primary">my applications</el-button>
         </el-col>
       </VcABox>
       <VcABox title="filter">
@@ -37,20 +37,27 @@
 import PoolEventCard from "../components/PoolEventCard";
 import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
 import Pagination from "../components/Pagination";
-import PoolEventFilter from "../components/PoolEventFilter"
+import PoolEventFilter from "../components/PoolEventFilter";
 
 export default {
   name: "PoolEvents",
-  components: { PoolEventCard, VcAFrame, VcAColumn, VcABox, Pagination , PoolEventFilter},
+  components: {
+    PoolEventCard,
+    VcAFrame,
+    VcAColumn,
+    VcABox,
+    Pagination,
+    PoolEventFilter
+  },
   computed: {
     poolEvents() {
       return this.$store.getters.getAllPoolEvents;
     }
   },
-  data(){
+  data() {
     return {
-      loadding : false
-    }
+      loadding: false
+    };
   },
   mounted() {
     this.$store.dispatch("LOAD_DATA");
@@ -92,12 +99,22 @@ input {
 #tag {
   float: left;
 }
-#button {
-  margin-left: 10px;
-  height: 32px;
-  line-height: 30px;
-  padding-top: 0;
-  padding-bottom: 0;
-  float: left;
+
+.vca-button-primary {
+  background-color: #0a6b91;
+  color: #ffffff;
+  padding: 0.5em 0;
+  border: 0;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 3px 10px 0 rgba(0, 0, 0, 0.19);
 }
 </style>

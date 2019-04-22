@@ -41,11 +41,11 @@ const poolEventStateMachine = Machine({
 export const store = new Vuex.Store({
     state: {
         poolEvents: [],
-        poolEvent: null,
+        poolEvent: '',
         currentState: poolEventStateMachine.initial,
-        applications : [],
-        isAdmin : true,
-        comments : []
+        applications: [],
+        isAdmin: true,
+        comments: []
     },
     getters: {
         getAllPoolEvents(state) {
@@ -54,10 +54,10 @@ export const store = new Vuex.Store({
         getPoolEvent(state) {
             return state.poolEvent;
         },
-        getApplications(state){
+        getApplications(state) {
             return state.applications;
         },
-        getComments(state){
+        getComments(state) {
             return state.comments;
         }
     },
@@ -74,28 +74,28 @@ export const store = new Vuex.Store({
         transition(state, action) {
             state.poolEvent.state = poolEventStateMachine.transition(state.poolEvent.state, action).value
         },
-        setApplications(state , applications){
+        setApplications(state, applications) {
             state.applications = applications;
         },
-        addApplication : (state, application) =>{
+        addApplication: (state, application) => {
             state.applications.push(application);
         },
-        acceptApplication : (state , application) =>{
-            let index = state.applications.findIndex( appl => appl.id === application.id);
+        acceptApplication: (state, application) => {
+            let index = state.applications.findIndex(appl => appl.id === application.id);
             state.applications[index] = application;
         },
-        rejectApplication : (state , application) =>{
-            let index = state.applications.findIndex( appl => appl.id === application.id);
+        rejectApplication: (state, application) => {
+            let index = state.applications.findIndex(appl => appl.id === application.id);
             state.applications[index] = application;
         },
-        setApplicationToWaitingList : (state , application) =>{
-            let index = state.applications.findIndex( appl => appl.id === application.id);
+        setApplicationToWaitingList: (state, application) => {
+            let index = state.applications.findIndex(appl => appl.id === application.id);
             state.applications[index] = application;
         },
-        addComment : (state , comment) => {
+        addComment: (state, comment) => {
             state.comments.unshift(comment);
         },
-        setComments : (state , comments) => {
+        setComments: (state, comments) => {
             state.comments = comments;
         }
     },
@@ -158,8 +158,8 @@ export const store = new Vuex.Store({
             commit
         }, id) => {
             axios.get(apiMockUrl + '/' + id)
-                .then((poolEvent) => {
-                    commit('setPoolEvent', poolEvent.data);
+                .then((resp) => {
+                    commit('setPoolEvent', resp.data);
                 }
                 )
         },
@@ -195,66 +195,66 @@ export const store = new Vuex.Store({
         APPLY: ({ commit }, application) => {
             axios.post(apiMockUrl + "/" + application.poolEventId + "/application", application.application)
                 .then((resp) => {
-                    commit('addApplication' , resp);
+                    commit('addApplication', resp);
                 })
                 .catch((err) => {
                     console.log(err);
                 });
         },
         ACCEPT_APPLICATIONS: ({ commit }, application) => {
-            axios.put(apiMockUrl + "/" + application.poolEventId + '/application/' + application.id, {state : 'ACCEPTED'})
+            axios.put(apiMockUrl + "/" + application.poolEventId + '/application/' + application.id, { state: 'ACCEPTED' })
                 .then((resp) => {
-                    commit('acceptApplication' , resp.data);
+                    commit('acceptApplication', resp.data);
                 })
                 .catch((err) => {
                     console.log(err);
                 });
         },
         REJECT_APPLICATIONS: ({ commit }, application) => {
-            axios.put(apiMockUrl + "/" + application.poolEventId + '/application/' + application.id, {state : 'REJECTED'})
+            axios.put(apiMockUrl + "/" + application.poolEventId + '/application/' + application.id, { state: 'REJECTED' })
                 .then((resp) => {
-                    commit('rejectApplication' , resp.data);
+                    commit('rejectApplication', resp.data);
                 })
                 .catch((err) => {
                     console.log(err);
                 });
         },
         SET_TO_APPLICATION_WAITINGLIST: ({ commit }, application) => {
-            axios.put(apiMockUrl + "/" + application.poolEventId + '/application/' + application.id, {state : 'WAITING_LIST'})
+            axios.put(apiMockUrl + "/" + application.poolEventId + '/application/' + application.id, { state: 'WAITING_LIST' })
                 .then((resp) => {
-                    commit('setApplicationToWaitingList' , resp.data);
+                    commit('setApplicationToWaitingList', resp.data);
                 })
                 .catch((err) => {
                     console.log(err);
                 });
         },
-        GET_APPLICATIONS : ({commit} , id)=>{
+        GET_APPLICATIONS: ({ commit }, id) => {
             axios.get(apiMockUrl + '/' + id + "/application")
-            .then((resp)=>{
-                commit('setApplications', resp.data)
-                console.log(resp.data)
-            })
-            .catch((err)=>{
-                console.log(err.message);
-            })
+                .then((resp) => {
+                    commit('setApplications', resp.data)
+                    console.log(resp.data)
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                })
         },
-        SUBMIT_COMMENT : ({commit} , comment) => {
-            axios.post(apiMockUrl + '/' + comment.id + "/comment" , comment.data)
-            .then((resp)=>{
-                commit('addComment' , resp.data);
-            })
-            .catch((err)=>{
+        SUBMIT_COMMENT: ({ commit }, comment) => {
+            axios.post(apiMockUrl + '/' + comment.id + "/comment", comment.data)
+                .then((resp) => {
+                    commit('addComment', resp.data);
+                })
+                .catch((err) => {
 
-            });
+                });
         },
-        FETCH_COMMENTS : ({commit} , id) => {
+        FETCH_COMMENTS: ({ commit }, id) => {
             axios.get(apiMockUrl + '/' + id + "/comment?sortBy=createdAt&order=desc")
-            .then((resp)=>{
-                commit('setComments' , resp.data);
-            })
-            .catch((err)=>{
+                .then((resp) => {
+                    commit('setComments', resp.data);
+                })
+                .catch((err) => {
 
-            });
+                });
         }
     }
 }

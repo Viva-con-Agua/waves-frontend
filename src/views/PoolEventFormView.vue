@@ -3,15 +3,14 @@
 </template>
 
 <script>
-import PoolEventForm from "../components/PoolEventForm"
+import PoolEventForm from "../components/PoolEventForm";
 export default {
-    name: "PoolEventFormView",
-    components : {
-        "PoolEventForm" : PoolEventForm
-    }
-}
+  name: "PoolEventFormView",
+  components: {
+    PoolEventForm: PoolEventForm
+  }
+};
 </script>
 
 <style>
-
 </style>

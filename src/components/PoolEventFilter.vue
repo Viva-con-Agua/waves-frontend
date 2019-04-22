@@ -1,5 +1,5 @@
 <template>
-  <el-form width="100px">
+  <el-form>
     <el-col :span="20"> 
       <el-form-item prop="type">
         <el-select

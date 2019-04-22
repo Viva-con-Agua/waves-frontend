@@ -1,6 +1,6 @@
 <template>
   <el-form v-if="!applied" :model="poolEvent" ref="poolEvent" class="rows-container">
-    <el-col span="22" :offset="1">
+    <el-col :span="22" :offset="1">
       <el-form-item label="message">
         <el-input
           type="textarea"

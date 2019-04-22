@@ -2,10 +2,10 @@
   <el-row>
     <el-card v-for="comment in getComments" :key="comment.id">
       <el-row>
-        <el-col span="1" :offset="0">
+        <el-col :span="1">
           <img src="https://img.icons8.com/dotty/80/000000/login-as-user.png">
         </el-col>
-        <el-col span="20" :offset="1">
+        <el-col :span="20" :offset="1">
           <el-row>
             <span class="userName">{{comment.userName}}</span>
             <time-ago
@@ -41,17 +41,9 @@ export default {
       tooltip: true
     };
   },
-  mounted() {
-    this.$store.dispatch("FETCH_COMMENTS", this.id);
-  },
   computed: {
     getComments() {
       return this.$store.getters.getComments;
-    }
-  },
-  methods: {
-    getTimeAgo() {
-      console.log();
     }
   }
 };
