@@ -21,12 +21,12 @@
         </el-table>
       </VcABox>
     </VcAColumn>
-    <VcAColumn size="20%">
+    <VcAColumn>
       <VcABox>
         <template>
-          <el-button size="mini" type="success" @click="acceptApplication">{{$t('applicationHandler.button.accept')}}</el-button>
-          <el-button size="mini" @click="setToWaitingList">{{$t('applicationHandler.button.waitingList')}}</el-button>
-          <el-button size="mini" type="danger" @click="rejectApplication">{{$t('applicationHandler.button.reject')}}</el-button>
+          <el-button class="vca-button-primary" type="success" @click="acceptApplication">{{$t('applicationHandler.button.accept')}}</el-button>
+          <el-button  class="vca-button-primary" @click="setToWaitingList">{{$t('applicationHandler.button.waitingList')}}</el-button>
+          <el-button  class="vca-button-primary" type="danger" @click="rejectApplication">{{$t('applicationHandler.button.reject')}}</el-button>
         </template>
       </VcABox>
     </VcAColumn>
@@ -91,5 +91,38 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less" scoped>
+.vca-button-primary {
+  background-color: #0a6b91;
+  color: #FFFFFF;
+  padding: 0.5em 0;
+  border: 0;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.vca-button-warn {
+  background-color: #d50000;
+  color: #ffffff;
+  padding: 0.5em 0;
+  border: 0;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
 </style>

@@ -30,7 +30,7 @@
             ></el-input>
           </el-form-item>
           <el-form-item :label="$t('poolEventForm.input.activeUserOnly.label')">
-            <el-switch v-model="poolEvent.activeUserOnly"></el-switch>
+            <el-switch value="true" v-model="poolEvent.activeUserOnly"></el-switch>
           </el-form-item>
           <el-form-item :label="$t('poolEventForm.input.start.label')" prop="start">
             <el-date-picker

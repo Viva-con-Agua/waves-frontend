@@ -37,38 +37,15 @@ const poolEventStateMachine = Machine({
     }
 });
 
-const applicationStateMachine = Machine({
-    key: "light",
-    initial: "WAITING_LIST",
-    states: {
-        WAITING_LIST: {
-            on: {
-                SET_TO_ACCEPTED: "ACCEPTED",
-                SET_TO_DECLINED: "DECLINED"
-            }
-        },
-        ACCEPTED: {
-            on: {
-                SET_TO_WAITING_LIST: "WAITING_LIST",
-                SET_TO_DECLINED: "DECLINED"
-            }
-        },
-        DECLINED: {
-            on: {
-                SET_TO_ACCEPTED: "ACCEPTED",
-                SET_TO_WAITING_LIST: "WAITING_LIST"
-            }
-        }
-    }
-});
 
 export const store = new Vuex.Store({
     state: {
         poolEvents: [],
         poolEvent: null,
         currentState: poolEventStateMachine.initial,
-        currentApplicationState: applicationStateMachine.initial,
-        applications : []
+        applications : [],
+        isAdmin : true,
+        comments : []
     },
     getters: {
         getAllPoolEvents(state) {
@@ -79,6 +56,9 @@ export const store = new Vuex.Store({
         },
         getApplications(state){
             return state.applications;
+        },
+        getComments(state){
+            return state.comments;
         }
     },
     mutations: {
@@ -94,9 +74,6 @@ export const store = new Vuex.Store({
         transition(state, action) {
             state.poolEvent.state = poolEventStateMachine.transition(state.poolEvent.state, action).value
         },
-        applicationStateTransition(state, action) {
-            state.currentApplicationState = applicationStateMachine.transition(state.currentApplicationState, action).value
-        },
         setApplications(state , applications){
             state.applications = applications;
         },
@@ -106,17 +83,20 @@ export const store = new Vuex.Store({
         acceptApplication : (state , application) =>{
             let index = state.applications.findIndex( appl => appl.id === application.id);
             state.applications[index] = application;
-            console.log(state.applications)
         },
         rejectApplication : (state , application) =>{
             let index = state.applications.findIndex( appl => appl.id === application.id);
             state.applications[index] = application;
-            console.log(state.applications)
         },
         setApplicationToWaitingList : (state , application) =>{
             let index = state.applications.findIndex( appl => appl.id === application.id);
             state.applications[index] = application;
-            console.log(state.applications)
+        },
+        addComment : (state , comment) => {
+            state.comments.unshift(comment);
+        },
+        setComments : (state , comments) => {
+            state.comments = comments;
         }
     },
     actions: {
@@ -257,6 +237,24 @@ export const store = new Vuex.Store({
             .catch((err)=>{
                 console.log(err.message);
             })
+        },
+        SUBMIT_COMMENT : ({commit} , comment) => {
+            axios.post(apiMockUrl + '/' + comment.id + "/comment" , comment.data)
+            .then((resp)=>{
+                commit('addComment' , resp.data);
+            })
+            .catch((err)=>{
+
+            });
+        },
+        FETCH_COMMENTS : ({commit} , id) => {
+            axios.get(apiMockUrl + '/' + id + "/comment?sortBy=createdAt&order=desc")
+            .then((resp)=>{
+                commit('setComments' , resp.data);
+            })
+            .catch((err)=>{
+
+            });
         }
     }
 }

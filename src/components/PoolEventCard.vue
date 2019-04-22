@@ -1,10 +1,13 @@
 <template>
-  <el-card id="card" :body-style="{ padding: '0px'}">
+  <el-card id="card" shadow="hover" :body-style="{ padding: '0px'}">
     <el-col :span="20">
       <div style="padding: 14px;">
-        <a :href="url">
-          <span>{{poolEvent.title}}</span>
-        </a>
+        <b>
+          <a id="title" :href="url">
+            <span>{{poolEvent.title}}</span>
+          </a>
+        </b>
+
         <div class="bottom clearfix">
           <time class="time">
             <i class="el-icon-time"></i>
@@ -16,7 +19,6 @@
             <i class="el-icon-date"></i>
             {{ getStartDate }}
           </date>
-          
         </div>
         <div class="bottom clearfix">
           <span class="location">
@@ -106,6 +108,8 @@ export default {
 .image {
   width: 100%;
   display: block;
+  margin-top: 5px;
+  margin-left: -5px;
 }
 
 .clearfix:before,
@@ -117,7 +121,7 @@ export default {
 .clearfix:after {
   clear: both;
 }
-#card{
-  margin-bottom: 20px
+#card {
+  margin: 10px;
 }
 </style>

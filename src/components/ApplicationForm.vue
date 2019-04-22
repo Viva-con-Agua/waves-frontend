@@ -1,30 +1,22 @@
 <template>
-  <el-form :model="poolEvent" ref="poolEvent" class="rows-container">
-    <el-col>
-      <el-form-item 
-      v-if="showApplicationForm">
-        <el-input 
-          v-if="showApplicationForm"
+  <el-form v-if="!applied" :model="poolEvent" ref="poolEvent" class="rows-container">
+    <el-col span="22" :offset="1">
+      <el-form-item label="message">
+        <el-input
           type="textarea"
           :rows="4"
           placeholder="Please input message..."
           v-model="application.message"
         ></el-input>
       </el-form-item>
+    </el-col>
+    <el-col>
       <el-form-item>
         <el-button
-        id="button"
-          size="mini"
+          class="vca-button-primary"
+          id="button"
           type="success"
-          v-if="showApplicationForm"
           @click.prevent="submitApplication"
-          style="width:100%"
-        >submit</el-button>
-        <el-button
-          size="mini"
-          type="success"
-          v-if="!showApplicationForm"
-          @click.prevent="showApplciationForm"
           style="width:100%"
         >apply</el-button>
       </el-form-item>
@@ -61,6 +53,7 @@ export default {
       this.showApplicationForm = true;
     },
     submitApplication() {
+      this.applied = true;
       this.$store.dispatch("APPLY", {
         poolEventId: this.poolEvent.id,
         application: this.application
@@ -73,5 +66,23 @@ export default {
 <style>
 .el-select {
   display: block;
+}
+
+.vca-button-primary {
+  background-color: #0a6b91;
+  color: #ffffff;
+  padding: 0.5em 0;
+  border: 0;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 3px 10px 0 rgba(0, 0, 0, 0.19);
 }
 </style>

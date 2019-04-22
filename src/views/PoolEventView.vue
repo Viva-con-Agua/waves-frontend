@@ -2,6 +2,25 @@
   <VcAFrame>
     <VcAColumn size="60%">
       <VcABox :title="poolEvent.title">
+        <div slot="header">
+          <el-tag v-if="poolEvent.activeUserOnly" type="warning">active users only</el-tag>
+          <el-tag
+            v-if="poolEvent.state==='unreleased'"
+            type="gray"
+          >{{$t('poolEventView.state.unreleased')}}</el-tag>
+          <el-tag
+            type="success"
+            v-if="poolEvent.state==='released'"
+          >{{$t('poolEventView.state.released')}}</el-tag>
+          <el-tag
+            v-if="poolEvent.state==='refused'"
+            type="danger"
+          >{{$t('poolEventView.state.refused')}}</el-tag>
+          <el-tag
+            v-if="poolEvent.state==='draft'"
+            type="standard"
+          >{{$t('poolEventView.state.draft')}}</el-tag>
+        </div>
         <div class="user">
           <div class="vca-profile">
             <ul class="crew">
@@ -14,54 +33,6 @@
                 <span class="vca-user-value">{{poolEvent.website}}</span>
               </li>
               <li>
-                <span class="vca-user-label">state:</span>
-                <span class="vca-user-value">
-                  <el-tag
-                    v-if="poolEvent.state==='unreleased'"
-                    type="gray"
-                  >{{$t('poolEventView.state.unreleased')}}</el-tag>
-                  <el-tag
-                    v-if="poolEvent.state==='released'"
-                    type="success"
-                  >{{$t('poolEventView.state.released')}}</el-tag>
-                  <el-tag
-                    v-if="poolEvent.state==='refused'"
-                    type="danger"
-                  >{{$t('poolEventView.state.refused')}}</el-tag>
-                  <el-tag
-                    v-if="poolEvent.state==='draft'"
-                    type="standard"
-                  >{{$t('poolEventView.state.draft')}}</el-tag>
-                </span>
-              </li>
-            </ul>
-            <ul class="crew">
-              <li>
-                <span class="vca-user-label">location:</span>
-                <span class="vca-user-value">{{address}}</span>
-              </li>
-              <li v-if="poolEvent.addressNote">
-                <span class="vca-user-label" v-if="poolEvent.addressNote">location note:</span>
-                <span class="vca-user-value" v-if="poolEvent.addressNote">{{poolEvent.addressNote}}</span>
-              </li>
-            </ul>
-            <GmapMap
-              :center="getLatLong"
-              :zoom="18"
-              map-type-id="terrain"
-              style="width: 100%; height: 350px"
-            >
-              <GmapMarker
-                :key="index"
-                v-for="(m, index) in markers"
-                :position="m.position"
-                :clickable="true"
-                :draggable="true"
-                @click="center=m.position"
-              />
-            </GmapMap>
-            <ul class="crew">
-              <li>
                 <span class="vca-user-label">{{$t('poolEventView.start')}}</span>
                 <span class="vca-user-value">{{getStart}}</span>
               </li>
@@ -70,6 +41,61 @@
                 <span class="vca-user-value">{{getEnd}}</span>
               </li>
             </ul>
+          </div>
+        </div>
+      </VcABox>
+
+      <VcABox title="location">
+        <div class="user">
+          <div class="vca-profile">
+            <el-row>
+              <el-col span="12">
+                <el-row>
+                  <ul>
+                    <li>
+                      <span class="vca-user-label">location:</span>
+                      <span class="vca-user-value">{{address}}</span>
+                    </li>
+                  </ul>
+                </el-row>
+                <el-row>
+                  <ul>
+                    <li>
+                      <span class="vca-user-label" v-if="poolEvent.addressNote">location note:</span>
+                      <span
+                        v-if="poolEvent.addressNote"
+                      >{{poolEvent.addressNote}}</span>
+                    </li>
+                  </ul>
+                </el-row>
+              </el-col>
+              <el-col span="12">
+                <span class="vca-user-label" v-if="poolEvent.addressNote">map:</span>
+                <span class="vca-user-value">
+                  <GmapMap
+                    :center="getLatLong"
+                    :zoom="18"
+                    map-type-id="terrain"
+                    style=" width : 100%; height: 350px"
+                  >
+                    <GmapMarker
+                      :key="index"
+                      v-for="(m, index) in markers"
+                      :position="m.position"
+                      :clickable="true"
+                      :draggable="true"
+                      @click="center=m.position"
+                    />
+                  </GmapMap>
+                </span>
+              </el-col>
+            </el-row>
+          </div>
+        </div>
+      </VcABox>
+      <VcABox title="application">
+        <div class="user">
+          <div class="vca-profile">
             <ul class="crew">
               <li>
                 <span class="vca-user-label">{{$t('poolEventView.applicationStart')}}</span>
@@ -84,6 +110,13 @@
                 <span class="vca-user-value">{{poolEvent.supporterLimit}}</span>
               </li>
             </ul>
+          </div>
+        </div>
+      </VcABox>
+
+      <VcABox title="description">
+        <div class="user">
+          <div class="vca-profile">
             <ul class="crew">
               <li>
                 <span
@@ -103,32 +136,37 @@
           </div>
         </div>
       </VcABox>
+      <VcABox title="comments">
+        <CommentForm/>
+        <CommentCard/>
+      </VcABox>
     </VcAColumn>
     <VcAColumn>
       <VcABox title="state">
         <el-row>
-          <el-col :span="16" :offset="4">
+          <el-col>
             <el-button
+              class="vca-button-primary"
               id="button"
-              size="mini"
               v-if="poolEvent.state==='unreleased'|| poolEvent.state === 'refused'"
               @click.prevent="releasePooleEvent"
               type="success"
+              style="width: 100%"
             >{{$t('poolEventView.button.release')}}</el-button>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="16" :offset="4">
+          <el-col>
             <el-button
+              class="vca-button-primary"
               id="button"
-              size="mini"
               v-if="poolEvent.state==='unreleased'"
               @click.prevent="refusePoolEvent"
               type="danger"
             >{{$t('poolEventView.button.refuse')}}</el-button>
             <el-button
+              class="vca-button-primary"
               id="button"
-              size="mini"
               style="width: 100%"
               v-else-if="poolEvent.state==='released'"
               @click.prevent="refusePoolEvent"
@@ -142,10 +180,10 @@
       </VcABox>
       <VcABox>
         <el-row>
-          <el-col :span="16" :offset="4">
+          <el-col>
             <el-button
+              class="vca-button-primary"
               id="button"
-              size="mini"
               style="width: 100%"
               @click.prevent="editPoolEvent"
               type="primary"
@@ -153,7 +191,12 @@
               <i class="el-icon-edit"></i>
               {{$t('poolEventView.button.edit')}}
             </el-button>
-            <el-button id="button" size="mini" @click.prevent="deletePoolEvent" type="danger">
+            <el-button
+              class="vca-button-warn"
+              id="button"
+              @click.prevent="deletePoolEvent"
+              type="danger"
+            >
               <i class="el-icon-delete"></i>
               {{$t('poolEventView.button.delete')}}
             </el-button>
@@ -166,8 +209,8 @@
           <el-col>
             <el-badge style="width: 100%" :value="getApplications().length" type="primary">
               <el-button
+                class="vca-button-primary"
                 id="button"
-                size="mini"
                 @click="applicationHandler"
               >{{$t('poolEventView.button.applications')}}</el-button>
             </el-badge>
@@ -183,6 +226,9 @@ import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
 import "vca-widget-base/dist/vca-widget-base.css";
 import ApplicationForm from "../components/ApplicationForm";
 import PoolEventDuplicator from "../components/PoolEventDuplicator";
+import CommentCard from "../components/CommentCard";
+import CommentForm from "../components/CommentForm";
+
 
 export default {
   name: "PoolEventView",
@@ -194,12 +240,15 @@ export default {
         released: "refuse",
         refused: "release"
       },
+      applied: false,
       markers: [],
       places: [],
       currentPlace: null
     };
   },
   components: {
+    CommentForm,
+    CommentCard,
     VcAFrame,
     VcAColumn,
     VcABox,
@@ -256,6 +305,7 @@ export default {
   mounted() {
     this.$store.dispatch("GET_POOLEVENT_BY_ID", this.id);
     this.$store.dispatch("GET_APPLICATIONS", this.$route.params.id);
+    this.$store.dispatch('FETCH_COMMENTS' , this.id);
   },
   methods: {
     releasePooleEvent() {
@@ -296,6 +346,40 @@ export default {
 };
 </script>
 <style lang="less">
+.vca-button-primary {
+  background-color: #0a6b91;
+  color: #ffffff;
+  padding: 0.5em 0;
+  border: 0;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+.vca-button-warn {
+  background-color: #d50000;
+  color: #ffffff;
+  padding: 0.5em 0;
+  border: 0;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
 .el-button {
   width: 100%;
   margin: 10px;
@@ -359,6 +443,7 @@ export default {
     li {
       display: flex;
       flex-direction: column;
+      margin-top: 20px;
     }
     &.crew {
       align-items: flex-start;
@@ -387,6 +472,15 @@ export default {
   font-size: 1.4em;
 }
 #button {
+  margin-left: 10px;
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+  float: left;
+}
+
+.button-new-tag {
   margin-left: 10px;
   height: 32px;
   line-height: 30px;

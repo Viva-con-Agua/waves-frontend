@@ -1,5 +1,6 @@
 <template>
-    <el-button size="mini" type="primary" @click="submit">duplicate</el-button>
+    <el-button class="vca-button-primary" type="primary" @click="submit">
+       duplicate</el-button>
 </template>
 
 <script>
@@ -8,6 +9,7 @@ name : "PoolEventDuplicator",
 props : ['poolEvent'],
 methods : {
     submit(){
+        this.poolEvent.title = this.poolEvent.title + " (copy)"
         this.$store.dispatch('POST_POOLEVENT', this.poolEvent);
         this.notifySuccess();
     },
@@ -26,5 +28,20 @@ methods : {
 </script>
 
 <style>
+.vca-button-primary {
+  background-color: #0a6b91;
+  color: #FFFFFF;
+  padding: 0.5em 0;
+  border: 0;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
 
 </style>

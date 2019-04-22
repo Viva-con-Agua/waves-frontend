@@ -1,9 +1,9 @@
 <template>
   <VcAFrame>
-    <VcAColumn size="60%">
-      <VcABox height="100%" title="Pool-Events"     :yv-loading="loading">
+    <VcAColumn height='100%' size="60%">
+      <VcABox  title="Pool-Events" :v-loading="loading">
         <el-row>
-          <el-col :span="7" v-for="poolEvent in poolEvents" :key="poolEvent.id" :offset="1">
+          <el-col :span="8" v-for="poolEvent in poolEvents" :key="poolEvent.id" >
             <PoolEventCard v-bind:poolEvent="poolEvent"/>
           </el-col>
         </el-row>
@@ -20,8 +20,8 @@
           <el-button id="button" size="mini" type="success" @click="createNewPoolEvent">
             <i class="el-icon-circle-plus"></i> add event
           </el-button>
-          <el-button id="button" size="mini">my pool-events</el-button>
-          <el-button id="button" size="mini">my applications</el-button>
+          <el-button id="button" >my pool-events</el-button>
+          <el-button id="button" >my applications</el-button>
         </el-col>
       </VcABox>
       <VcABox title="filter">
