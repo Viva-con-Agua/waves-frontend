@@ -1,7 +1,7 @@
 <template>
   <VcAFrame>
-    <VcAColumn height="100%" size="60%">
-      <VcABox title="Pool-Events" :v-loading="loading">
+    <VcAColumn size="60%">
+      <VcABox title="Pool-Events" :expand="false">
         <el-row>
           <el-col :span="8" v-for="poolEvent in poolEvents" :key="poolEvent.id">
             <PoolEventCard v-bind:poolEvent="poolEvent"/>

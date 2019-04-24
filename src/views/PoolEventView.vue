@@ -37,6 +37,11 @@
                 <span class="vca-user-value">{{poolEvent.website}}</span>
               </li>
               <li>
+                <span class="vca-user-label">{{$t('poolEventView.aspOfEvent')}}</span>
+                <span class="vca-user-value" v-if="poolEvent.aspOfEvent">{{poolEvent.aspOfEvent}}</span>
+                <span class="vca-user-value" v-else>None</span>
+              </li>
+              <li>
                 <span class="vca-user-label">{{$t('poolEventView.start')}}</span>
                 <span class="vca-user-value">{{getStart}}</span>
               </li>
@@ -53,43 +58,44 @@
         <div class="user">
           <div class="vca-profile">
             <el-row>
-              <el-col :span="12">
+              <el-col :span="11">
                 <el-row>
-                  <ul>
-                    <li>
-                      <span class="vca-user-label">location:</span>
-                      <span class="vca-user-value">{{address}}</span>
-                    </li>
-                  </ul>
+                  <el-col :span="8" :offset="12">
+                    <span class="vca-user-label">location</span>
+                  </el-col>
+                </el-row>
+                <el-row >
+                  <el-col :span="16" :offset="7">
+                    <span class="vca-user-value">{{address}}</span>
+                  </el-col>
                 </el-row>
                 <el-row>
-                  <ul>
-                    <li>
-                      <span class="vca-user-label" v-if="poolEvent.addressNote">location note:</span>
-                      <span class="address-note" v-if="poolEvent.addressNote">{{poolEvent.addressNote}}</span>
-                    </li>
-                  </ul>
+                  <el-col class='location-row' :span="8" :offset="12" >
+                    <span class="vca-user-label">description:</span>
+                  </el-col>
+                </el-row>
+                <el-row >
+                  <el-col :span="20" :offset="4">
+                    <span class="location-note">{{poolEvent.addressNote}}</span>
+                  </el-col>
                 </el-row>
               </el-col>
-              <el-col :span="12">
-                <span class="vca-user-label" v-if="poolEvent.addressNote">map:</span>
-                <span class="vca-user-value">
-                  <GmapMap
-                    :center="getLatLong"
-                    :zoom="18"
-                    map-type-id="terrain"
-                    style=" width : 100%; height: 350px"
-                  >
-                    <GmapMarker
-                      :key="index"
-                      v-for="(m, index) in markers"
-                      :position="m.position"
-                      :clickable="true"
-                      :draggable="true"
-                      @click="center=m.position"
-                    />
-                  </GmapMap>
-                </span>
+              <el-col :span="10" :offset="3">
+                <GmapMap
+                  :center="getLatLong"
+                  :zoom="18"
+                  map-type-id="terrain"
+                  style=" width : 100%; height: 350px"
+                >
+                  <GmapMarker
+                    :key="index"
+                    v-for="(m, index) in markers"
+                    :position="m.position"
+                    :clickable="true"
+                    :draggable="true"
+                    @click="center=m.position"
+                  />
+                </GmapMap>
               </el-col>
             </el-row>
           </div>
@@ -120,13 +126,6 @@
         <div class="user">
           <div class="vca-profile">
             <ul class="crew">
-              <li>
-                <span
-                  class="vca-user-label"
-                  v-if="poolEvent.aspOfEvent"
-                >{{$t('poolEventView.aspOfEvent')}}</span>
-                <span class="vca-user-value">{{poolEvent.aspOfEvent}}</span>
-              </li>
               <li>
                 <div v-html="getDescription"></div>
               </li>
@@ -205,7 +204,7 @@
       <VcABox title="application">
         <el-row>
           <el-col>
-            <el-badge style="width: 100%" :value="getApplications().length" type="primary">
+            <el-badge style="width:100%" :value="getApplications().length" type="primary">
               <el-button
                 class="vca-button-primary"
                 id="button"
@@ -240,7 +239,30 @@ export default {
       applied: false,
       markers: [],
       places: [],
-      currentPlace: null
+      currentPlace: null,
+      daysGer: [
+        "Sonntag",
+        "Montag",
+        "Dienstag",
+        "Mittwoch",
+        "Donnerstag",
+        "Freitag",
+        "Samstag"
+      ],
+      monthsGer: [
+        "Januar",
+        "Februar",
+        "März",
+        "April",
+        "Mai",
+        "Juni",
+        "Juli",
+        "August",
+        "September",
+        "Oktober",
+        "November",
+        "Dezember"
+      ]
     };
   },
   components: {
@@ -275,19 +297,59 @@ export default {
     },
     getStart() {
       let date = new Date(this.poolEvent.start);
-      return date.toLocaleTimeString() + ", " + date.toDateString();
+      return (
+        this.daysGer[date.getDay()] +
+        " " +
+        date.getDate() +
+        ". " +
+        this.monthsGer[date.getMonth()] +
+        " um " +
+        date.getHours() +
+        ":" +
+        date.getMinutes()
+      );
     },
     getEnd() {
       let date = new Date(this.poolEvent.end);
-      return date.toLocaleTimeString() + ", " + date.toDateString();
+      return (
+        this.daysGer[date.getDay()] +
+        " " +
+        date.getDate() +
+        ". " +
+        this.monthsGer[date.getMonth()] +
+        " um " +
+        date.getHours() +
+        ":" +
+        date.getMinutes()
+      );
     },
     getApplicationStart() {
       let date = new Date(this.poolEvent.applicationStart);
-      return date.toLocaleTimeString() + ", " + date.toDateString();
+      return (
+        this.daysGer[date.getDay()] +
+        " " +
+        date.getDate() +
+        ". " +
+        this.monthsGer[date.getMonth()] +
+        " um " +
+        date.getHours() +
+        ":" +
+        date.getMinutes()
+      );
     },
     getApplicationEnd() {
       let date = new Date(this.poolEvent.applicationEnd);
-      return date.toLocaleTimeString() + ", " + date.toDateString();
+      return (
+        this.daysGer[date.getDay()] +
+        " " +
+        date.getDate() +
+        ". " +
+        this.monthsGer[date.getMonth()] +
+        " um " +
+        date.getHours() +
+        ":" +
+        date.getMinutes()
+      );
     },
     getDescription() {
       return this.poolEvent.description;
@@ -465,6 +527,7 @@ export default {
 .vca-user-label {
   /*font-style: italic;*/
   font-weight: bold;
+  text-align: center;
 }
 .vca-user-value {
   font-size: 1.4em;
@@ -491,7 +554,15 @@ export default {
   margin-right: 10px;
 }
 
-.address-note {
-  text-align: center
+.location-note {
+  text-align: justify;
+}
+
+#location-label {
+  margin-left: 25%;
+}
+
+.location-row{
+  margin-top: 20px 
 }
 </style>

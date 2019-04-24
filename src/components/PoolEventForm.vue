@@ -2,7 +2,7 @@
   <VcAFrame title="Pool-Event erstellen" hasContainer="true">
     <el-form :model="poolEvent" :rules="rules" ref="poolEvent" class="columns-container">
       <VcAColumn>
-        <VcABox :first="true" title="Eventdaten">
+        <VcABox :expand="true" :first="true" title="Eventdaten">
           <VcAInfoBox>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere molestias reprehenderit, ullam recusandae, quisquam adipisci at vero iusto tempora omnis amet cupiditate laborum repellendus debitis facilis repellat porro exercitationem magni.</VcAInfoBox>
           <el-form-item :label="$t('poolEventForm.input.title.label')" prop="title">
             <el-input
@@ -90,10 +90,11 @@
               :rows="2"
               placeholder="Please input"
               v-model="poolEvent.addressNote"
+              :maxLength="240"
             ></el-input>
           </el-form-item>
         </VcABox>
-        <VcABox title="Application">
+        <VcABox title="Application" :expand="true">
           <el-form-item
             :label="$t('poolEventForm.input.applicationStart.label')"
             prop="applicationStart"

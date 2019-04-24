@@ -107,13 +107,11 @@ export const store = new Vuex.Store({
                 .then((res) => {
                     commit('updatePoolEvents', res.data);
                 }).catch((err) => {
-                    console.log(err.message);
                 });
         },
         POST_POOLEVENT: ({
             commit
         }, poolEvent) => {
-            console.log(poolEvent);
             axios.post(apiMockUrl, poolEvent)
                 .then((res) => {
                     commit('addPoolEvent', poolEvent);
@@ -122,7 +120,6 @@ export const store = new Vuex.Store({
                         created: res
                     };
                 }).catch((err) => {
-                    console.log(err.message);
                 })
         },
         ADD_POOLEVENT: ({
@@ -132,10 +129,8 @@ export const store = new Vuex.Store({
         }, DELETE_POOLEVENT: ({ commit }, id) => {
             axios.delete(apiMockUrl + '/' + id)
                 .then((resp) => {
-                    console.log(resp);
                 })
                 .catch((err) => {
-                    console.log(err);
                 });
         },
         EDIT_POOLEVENT: ({ commit }, poolEvent) => {
@@ -143,14 +138,12 @@ export const store = new Vuex.Store({
             axios.put(apiMockUrl + '/' + poolEvent.id, poolEvent)
                 .then((resp) => {
                     commit('transition', "unrelease")
-                    console.log(resp);
                 })
                 .catch((err) => { err.message });
         },
         EDIT_AND_SAVE_AS_DRAFT: ({ commit }, poolEvent) => {
             axios.put(apiMockUrl + '/' + poolEvent.id, poolEvent)
                 .then((resp) => {
-                    console.log(resp);
                 })
                 .catch((err) => { err.message });
         },
@@ -169,27 +162,22 @@ export const store = new Vuex.Store({
                     commit('transition', "release")
                 })
                 .catch((err) => {
-                    console.log(err)
                 });
         },
         SET_TO_REFUSED: ({ commit }, id) => {
             axios.put(apiMockUrl + '/' + id, { state: "refused" })
                 .then((resp, err) => {
-                    console.log(resp)
                     commit('transition', "refuse")
                 })
                 .catch((err) => {
-                    console.log(err)
                 });
         },
         SET_TO_UNRELEASED: ({ commit }, id) => {
             axios.put(apiMockUrl + '/' + id, { state: "unreleased" })
                 .then((resp, err) => {
-                    console.log(resp)
                     commit('transition', "unrelease")
                 })
                 .catch((err) => {
-                    console.log(err)
                 });
         },
         APPLY: ({ commit }, application) => {
@@ -198,7 +186,6 @@ export const store = new Vuex.Store({
                     commit('addApplication', resp);
                 })
                 .catch((err) => {
-                    console.log(err);
                 });
         },
         ACCEPT_APPLICATIONS: ({ commit }, application) => {
@@ -207,7 +194,6 @@ export const store = new Vuex.Store({
                     commit('acceptApplication', resp.data);
                 })
                 .catch((err) => {
-                    console.log(err);
                 });
         },
         REJECT_APPLICATIONS: ({ commit }, application) => {
@@ -216,7 +202,6 @@ export const store = new Vuex.Store({
                     commit('rejectApplication', resp.data);
                 })
                 .catch((err) => {
-                    console.log(err);
                 });
         },
         SET_TO_APPLICATION_WAITINGLIST: ({ commit }, application) => {
@@ -225,17 +210,14 @@ export const store = new Vuex.Store({
                     commit('setApplicationToWaitingList', resp.data);
                 })
                 .catch((err) => {
-                    console.log(err);
                 });
         },
         GET_APPLICATIONS: ({ commit }, id) => {
             axios.get(apiMockUrl + '/' + id + "/application")
                 .then((resp) => {
                     commit('setApplications', resp.data)
-                    console.log(resp.data)
                 })
                 .catch((err) => {
-                    console.log(err.message);
                 })
         },
         SUBMIT_COMMENT: ({ commit }, comment) => {

@@ -10,7 +10,7 @@
             <span class="user-name">username</span>
           </el-row>
           <el-row>
-            <el-input type="textarea" placeholder="input comment" v-model="comment.text"></el-input>
+            <el-input type="textarea" placeholder="input comment" v-model="comment.text" :maxLength="240"></el-input>
           </el-row>
         </el-col>
       </el-row>
