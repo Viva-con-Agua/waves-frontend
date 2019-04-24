@@ -11,7 +11,10 @@ import VueQuill from "vue-quill";
 import Vue from "vue";
 import {WidgetTopNavigation,WidgetBottomNavigation} from "vca-widget-navigation";
 import feather from 'vue-icon'
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
 
+Vue.use(VueMaterial)
 Vue.use(feather, 'v-icon')
 Vue.use(VueQuill);
 

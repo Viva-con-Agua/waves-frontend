@@ -133,10 +133,10 @@
         </VcABox>
         <VcABox title="Erstellen">
           <el-row>
-            <el-col :span="16" :offset="4">
-              <el-button id="button" type="primary" @click.prevent="addPoolEvent">create</el-button>
-              <el-button id="button" type="info" @click.prevent="saveAsDraft">save as draft</el-button>
-              <el-button id="button" type="danger" @click.prevent="cancel">cancel</el-button>
+            <el-col >
+              <el-button class="vca-button-primary" type="primary" @click.prevent="addPoolEvent">create</el-button>
+              <el-button class="vca-button-primary" type="info" @click.prevent="saveAsDraft">save as draft</el-button>
+              <el-button class="vca-button-warn" type="danger" @click.prevent="cancel">cancel</el-button>
             </el-col>
           </el-row>
         </VcABox>
@@ -318,5 +318,12 @@ el-form-item {
   float: left;
   clear: both;
   width: 100%;
+}
+
+.vca-button-primary{
+  width : 97%
+}
+.vca-button-warn{
+  width : 97%
 }
 </style>

@@ -1,6 +1,5 @@
 <template>
   <el-form v-if="!applied" :model="poolEvent" ref="poolEvent" class="rows-container">
-    <el-col :span="22" :offset="1">
       <el-form-item label="message">
         <el-input
           type="textarea"
@@ -9,8 +8,6 @@
           v-model="application.message"
         ></el-input>
       </el-form-item>
-    </el-col>
-    <el-col>
       <el-form-item>
         <el-button
           class="vca-button-primary"
@@ -20,7 +17,6 @@
           style="width:100%"
         >apply</el-button>
       </el-form-item>
-    </el-col>
   </el-form>
 </template>
 <script>
