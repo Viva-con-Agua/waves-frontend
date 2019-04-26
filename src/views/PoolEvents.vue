@@ -75,7 +75,7 @@ input {
   position: relative;
   font-size: 14px;
   display: inline-block;
-  width: 100%;
+  width: 95%;
   background-color: #fff;
   border-radius: 4px;
   border: 1px solid #dcdfe6;

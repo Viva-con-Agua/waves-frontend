@@ -30,11 +30,7 @@
             ></el-input>
           </el-form-item>
           <el-form-item :label="$t('poolEventForm.input.activeUserOnly.label')">
-            <el-switch
-              :active-value="1"
-              :inactive-value="0"
-              v-model="poolEvent.activeUserOnly"
-            ></el-switch>
+            <el-switch :active-value="1" :inactive-value="0" v-model="poolEvent.activeUserOnly"></el-switch>
           </el-form-item>
           <el-form-item :label="$t('poolEventForm.input.start.label')" prop="start">
             <el-date-picker
@@ -69,7 +65,9 @@
               @vca-user-selection="selectSupporter"
             />
           </el-form-item>
+
           <quill :config="config" v-model="poolEvent.description" output="html"></quill>
+
         </VcABox>
       </VcAColumn>
       <VcAColumn>
@@ -133,9 +131,17 @@
         </VcABox>
         <VcABox title="Erstellen">
           <el-row>
-            <el-col >
-              <el-button class="vca-button-primary" type="primary" @click.prevent="addPoolEvent">create</el-button>
-              <el-button class="vca-button-primary" type="info" @click.prevent="saveAsDraft">save as draft</el-button>
+            <el-col>
+              <el-button
+                class="vca-button-primary"
+                type="primary"
+                @click.prevent="addPoolEvent"
+              >create</el-button>
+              <el-button
+                class="vca-button-primary"
+                type="info"
+                @click.prevent="saveAsDraft"
+              >save as draft</el-button>
               <el-button class="vca-button-warn" type="danger" @click.prevent="cancel">cancel</el-button>
             </el-col>
           </el-row>
@@ -320,10 +326,10 @@ el-form-item {
   width: 100%;
 }
 
-.vca-button-primary{
-  width : 97%
+.vca-button-primary {
+  width: 97%;
 }
-.vca-button-warn{
-  width : 97%
+.vca-button-warn {
+  width: 97%;
 }
 </style>

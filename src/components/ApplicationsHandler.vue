@@ -17,7 +17,13 @@
             <template slot-scope="scope">{{ scope.row.age }}</template>
           </el-table-column>
           <el-table-column property="message" :label="$t('applicationHandler.message')" show-overflow-tooltip></el-table-column>
-          <el-table-column property="state" :label="$t('applicationHandler.state')" show-overflow-tooltip></el-table-column>
+          <el-table-column  :label="$t('applicationHandler.state')" show-overflow-tooltip>
+            <template slot-scope="scope"> 
+              <el-tag v-if="scope.row.state=== 'ACCEPTED'" type="success">Angenommen</el-tag>
+              <el-tag v-else-if="scope.row.state=== 'REJECTED'" type="danger">Abgelehnt</el-tag>
+              <el-tag v-else type="warning">Warteliste</el-tag>
+              </template>            
+          </el-table-column>
         </el-table>
       </VcABox>
     </VcAColumn>

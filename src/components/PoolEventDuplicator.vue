@@ -9,7 +9,7 @@ name : "PoolEventDuplicator",
 props : ['poolEvent'],
 methods : {
     submit(){
-        this.poolEvent.title = this.poolEvent.title + " (copy)"
+        this.poolEvent.title = this.poolEvent.title + " (copy)";
         this.$store.dispatch('POST_POOLEVENT', this.poolEvent);
         this.notifySuccess();
     },
@@ -20,6 +20,7 @@ methods : {
           message: "",
           offset: 100
         });
+
       }, 3000);
     }
 }

@@ -1,5 +1,5 @@
 <template>
-  <el-col :span="20">
+  <el-col>
     <div class="card-expansion">
       <md-card>
         <md-card-header>
@@ -20,7 +20,7 @@
             </span>
           </div>
           <div class="md-body">
-            <span style="margin-left:18px">Noch 42 Pläte frei</span>
+            <span style="margin-left:18px">Noch 42 Plätze frei</span>
           </div>
         </md-card-header>
         <md-card-expand>
@@ -228,16 +228,12 @@ export default {
 }
 
 .card-expansion {
-  margin-top: 20px;
-}
-
-.card-expansion {
   height: auto;
 }
 
 .md-card {
-  width: 440px;
-  margin: 4px;
+  width: 95%;
+  margin: 10px;
   display: inline-block;
   vertical-align: top;
 }

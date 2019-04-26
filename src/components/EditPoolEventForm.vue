@@ -1,6 +1,6 @@
 <template>
   <VcAFrame title="Pool-Event bearbeiten" hasContainer="true">
-    <el-form :model="poolEvent" :rules="rules" ref="poolEvent" class="columns-container">
+    <el-form :model="poolEvent" ref="poolEvent" class="columns-container">
       <VcAColumn>
         <VcABox :first="true" title="Eventdaten">
           <VcAInfoBox>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere molestias reprehenderit, ullam recusandae, quisquam adipisci at vero iusto tempora omnis amet cupiditate laborum repellendus debitis facilis repellat porro exercitationem magni.</VcAInfoBox>
@@ -150,7 +150,7 @@ import { Input, Form } from "element-ui";
 import { setTimeout } from "timers";
 import { WidgetUserAutocomplete } from "vca-widget-user";
 import "vca-widget-user/dist/vca-widget-user.css";
-import rulesJon from "../rules/form";
+
 
 export default {
   name: "EditPoolEventForm",
@@ -168,8 +168,7 @@ export default {
     return {
       involvedSupporter: [],
       poolEvent: this.$store.getters.getPoolEvent,
-      isValidForm: "",
-      rules: rulesJon.rules
+      isValidForm: ""
     };
   },
   methods: {
