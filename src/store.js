@@ -44,8 +44,13 @@ export const store = new Vuex.Store({
         poolEvent: '',
         currentState: poolEventStateMachine.initial,
         applications: [],
+        comments: [],
+        currentUser: {
+            id: "0",
+            name: "John Doe"
+        },
         isAdmin: true,
-        comments: []
+        isLogedIn: true
     },
     getters: {
         getAllPoolEvents(state) {
@@ -59,6 +64,15 @@ export const store = new Vuex.Store({
         },
         getComments(state) {
             return state.comments;
+        },
+        isLogedIn(state){
+            return state.isLogedIn;
+        },
+        isAdmin(state){
+            return state.isAdmin;
+        },
+        getCurrentUser(state){
+            return state.currentUser;
         }
     },
     mutations: {

@@ -5,7 +5,7 @@
         <div slot="header">
           <el-tag
             class="active-user-tag"
-            v-if="poolEvent.activeUserOnly"
+            v-if="poolEvent.activeUserOnly && isAdmin"
             type="warning"
           >active users only</el-tag>
           <el-tag
@@ -139,7 +139,7 @@
       </VcABox>
     </VcAColumn>
     <VcAColumn>
-      <VcABox title="state">
+      <VcABox title="state" v-if="isAdmin">
         <el-row>
           <el-col>
             <el-button
@@ -175,7 +175,7 @@
           </el-col>
         </el-row>
       </VcABox>
-      <VcABox>
+      <VcABox v-if="isAdmin">
         <el-row>
           <el-col>
             <el-button
@@ -211,7 +211,7 @@
                 @click="applicationHandler"
               >{{$t('poolEventView.button.applications')}}</el-button>
             </el-badge>
-            <ApplicationForm v-bind:poolEvent="poolEvent"/>
+            <ApplicationForm v-bind:poolEvent="poolEvent" :currentUser="getCurrentUser"/>
           </el-col>
         </el-row>
       </VcABox>
@@ -359,6 +359,12 @@ export default {
         lat: this.poolEvent.address.latitude,
         lng: this.poolEvent.address.longitude
       };
+    },
+    getCurrentUser(){
+      return this.$store.getters.getCurrentUser;
+    },
+    isAdmin(){
+      return this.$store.getters.isAdmin;
     }
   },
   mounted() {

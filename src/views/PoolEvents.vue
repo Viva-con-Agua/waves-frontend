@@ -2,10 +2,13 @@
   <VcAFrame>
     <VcAColumn size="65%">
       <VcABox title="Pool-Events" :expand="true">
-        <el-row>
-          <el-col :span="8" v-for="poolEvent in poolEvents" :key="poolEvent.id">
-            <PoolEventCard v-bind:poolEvent="poolEvent"/>
+        <el-row >
+          <el-col  :span="8" v-for="poolEvent in poolEvents" :key="poolEvent.id">
+            <PoolEventCard v-if="poolEventsFlag" v-bind:poolEvent="poolEvent"/>
           </el-col>
+        </el-row>
+        <el-row v-if="myPoolEventsFlag">
+          <MyPoolEvents  :poolEvents="poolEvents"/>
         </el-row>
       </VcABox>
     </VcAColumn>
@@ -15,8 +18,8 @@
           <el-button class="vca-button-primary" type="success" @click="createNewPoolEvent">
             <i class="el-icon-circle-plus"></i> add event
           </el-button>
-          <el-button class="vca-button-primary">my pool-events</el-button>
-          <el-button class="vca-button-primary">my applications</el-button>
+          <el-button class="vca-button-primary" @click="myPoolEventsButtonHandler">my pool-events</el-button>
+          <el-button class="vca-button-primary" @click="myApplicationsButtonHandler">my applications</el-button>
         </el-col>
       </VcABox>
       <VcABox title="filter">
@@ -34,7 +37,7 @@ import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
 import Pagination from "../components/Pagination";
 import PoolEventFilter from "../components/PoolEventFilter";
 import { Input, Form } from "element-ui";
-
+import MyPoolEvents from "../components/MyPoolEvents";
 
 export default {
   name: "PoolEvents",
@@ -44,7 +47,8 @@ export default {
     VcAColumn,
     VcABox,
     Pagination,
-    PoolEventFilter
+    PoolEventFilter,
+    MyPoolEvents
   },
   computed: {
     poolEvents() {
@@ -53,7 +57,10 @@ export default {
   },
   data() {
     return {
-      loadding: false
+      loadding: false,
+      myPoolEventsFlag: false,
+      poolEventsFlag:true,
+      myApplicationsFlag: false
     };
   },
   mounted() {
@@ -65,12 +72,21 @@ export default {
     },
     createNewPoolEvent() {
       this.$router.push("/pooleventform");
+    },
+    myPoolEventsButtonHandler() {
+      this.PoolEventsFlag = false;
+      this.myApplicationsFlag = false;
+      this.myPoolEventsFlag = true;
+    },
+    myApplicationsButtonHandler() {
+      this.myPoolEventsFlag = false;
+      this.PoolEventsFlag = false;
+      this.myApplicationsFlag = true;
     }
   }
 };
 </script>
 <style lang="less" scoped>
-
 input {
   position: relative;
   font-size: 14px;
@@ -90,5 +106,4 @@ input {
 #tag {
   float: left;
 }
-
 </style>

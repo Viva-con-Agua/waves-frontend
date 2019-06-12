@@ -11,7 +11,7 @@
         >
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column :label="$t('applicationHandler.name')" width="120">
-            <template slot-scope="scope">{{ scope.row.userName }}</template>
+            <template slot-scope="scope">{{ scope.row.creator.userName}}</template>
           </el-table-column>
           <el-table-column property="age" :label="$t('applicationHandler.age')" width="120">
             <template slot-scope="scope">{{ scope.row.age }}</template>

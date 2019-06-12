@@ -196,7 +196,10 @@ export default {
         state: "unreleased",
         description: "",
         activeUserOnly: "",
-        applications: []
+        applications: [],
+        creator:{
+          userName:''
+        }
       },
       address: "",
       isValidForm: "",
@@ -209,6 +212,8 @@ export default {
   },
   methods: {
     addPoolEvent() {
+      console.log(this.$store.getters.getCurrentUser)
+      this.poolEvent.creator.userName = this.$store.getters.getCurrentUser.name
       this.poolEvent.state = "unreleased";
       this.submitForm("poolEvent");
       if (this.isValidForm) {

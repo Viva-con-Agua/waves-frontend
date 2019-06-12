@@ -30,14 +30,14 @@ export default {
     VcAColumn,
     VcABox
   },
-  props: ["poolEvent"],
+  props: ["poolEvent","currentUser"],
   data() {
     return {
       application: {
-        userName: "user",
-        age: "18",
+        creator : {
+          userName : ""
+        },
         message: "",
-        created: new Date(),
         state: "WAITING_LIST"
       },
       applied: false,
@@ -49,6 +49,8 @@ export default {
       this.showApplicationForm = true;
     },
     submitApplication() {
+      console.log(this.currentUser)
+      this.application.creator.userName = this.currentUser.name;
       this.applied = true;
       this.$store.dispatch("APPLY", {
         poolEventId: this.poolEvent.id,
