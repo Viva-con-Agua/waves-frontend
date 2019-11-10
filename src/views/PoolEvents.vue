@@ -3,8 +3,9 @@
     <VcAColumn size="65%">
       <VcABox title="Pool-Events" :expand="true">
         <el-row >
+          <h v-if="loading">loading...</h>
           <el-col  :span="8" v-for="poolEvent in poolEvents" :key="poolEvent.id">
-            <PoolEventCard v-if="poolEventsFlag" v-bind:poolEvent="poolEvent"/>
+            <PoolEventCard v-if="poolEventsFlag && !loadding" :poolEvent="poolEvent"/>
           </el-col>
         </el-row>
         <el-row v-if="myPoolEventsFlag">
@@ -18,7 +19,7 @@
           <el-button class="vca-button-primary" type="success" @click="createNewPoolEvent">
             <i class="el-icon-circle-plus"></i> add event
           </el-button>
-          <el-button class="vca-button-primary" @click="myPoolEventsButtonHandler">my pool-events</el-button>
+          <el-button class="vca-button-primary" @click="myPoolEventsButtonHandler">my poolevents</el-button>
           <el-button class="vca-button-primary" @click="myApplicationsButtonHandler">my applications</el-button>
         </el-col>
       </VcABox>
@@ -32,12 +33,12 @@
 </template>
 
 <script>
-import PoolEventCard from "../components/PoolEventCard";
 import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
-import Pagination from "../components/Pagination";
 import PoolEventFilter from "../components/PoolEventFilter";
-import { Input, Form } from "element-ui";
+import PoolEventCard from "../components/PoolEventCard";
 import MyPoolEvents from "../components/MyPoolEvents";
+import Pagination from "../components/Pagination";
+import { Input, Form } from "element-ui";
 
 export default {
   name: "PoolEvents",
@@ -52,7 +53,8 @@ export default {
   },
   computed: {
     poolEvents() {
-      return this.$store.getters.getAllPoolEvents;
+      console.log(this.$store.getters.getAllPoolEvents.data); 
+      return this.$store.getters.getAllPoolEvents.data;
     }
   },
   data() {
@@ -71,7 +73,7 @@ export default {
       this.$router.push();
     },
     createNewPoolEvent() {
-      this.$router.push("/pooleventform");
+      this.$router.push("/waves/create");
     },
     myPoolEventsButtonHandler() {
       this.PoolEventsFlag = false;

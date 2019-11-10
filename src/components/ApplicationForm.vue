@@ -1,14 +1,14 @@
 <template>
-  <el-form v-if="!applied" :model="poolEvent" ref="poolEvent" class="rows-container">
-      <el-form-item label="message">
+  <Form v-if="!applied" :model="poolEvent" ref="poolEvent" class="rows-container">
+      <FormItem label="message">
         <el-input
           type="textarea"
           :rows="4"
           placeholder="Please input message..."
           v-model="application.message"
         ></el-input>
-      </el-form-item>
-      <el-form-item>
+      </FormItem>
+      <FormItem>
         <el-button
           class="vca-button-primary"
           id="button"
@@ -16,11 +16,11 @@
           @click.prevent="submitApplication"
           style="width:100%"
         >apply</el-button>
-      </el-form-item>
-  </el-form>
+      </FormItem>
+  </Form>
 </template>
 <script>
-import { Input, Form } from "element-ui";
+import { Input, FormItem } from "element-ui";
 import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
 import "vca-widget-base/dist/vca-widget-base.css";
 export default {

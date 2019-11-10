@@ -3,14 +3,19 @@
     <el-form :model="comment">
       <el-row>
         <el-col :span="1" :offset="0">
-          <img src="https://img.icons8.com/dotty/80/000000/login-as-user.png">
+          <img src="https://img.icons8.com/dotty/80/000000/login-as-user.png" />
         </el-col>
         <el-col :span="21" :offset="1">
           <el-row>
             <span class="user-name">username</span>
           </el-row>
           <el-row>
-            <el-input type="textarea" placeholder="input comment" v-model="comment.text" :maxLength="240"></el-input>
+            <el-input
+              type="textarea"
+              placeholder="input comment"
+              v-model="comment.text"
+              :maxLength="240"
+            ></el-input>
           </el-row>
         </el-col>
       </el-row>
@@ -30,23 +35,21 @@ export default {
   data() {
     return {
       comment: {
-        userName: 'John Doe',
         text: '',
-        likes: 0,
-        createdAt: ''
+        user_id: 1,
+        poolevent_id: this.$route.params.id
       },
       id: this.$route.params.id
     };
   },
   methods: {
-    submit() {  
-      this.comment.createdAt = new Date();
+    submit() {
+      console.log(this.comment);
       if (!this.comment.text) {
         alert("comment sction empty");
       } else {
         this.$store.dispatch("SUBMIT_COMMENT", {
-          data: this.comment,
-          id: this.$route.params.id
+          data: this.comment
         });
       }
     }

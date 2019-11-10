@@ -7,10 +7,10 @@
         </el-col>
         <el-col :span="20" :offset="1">
           <el-row>
-            <span class="userName">{{comment.userName}}</span>
+            <span class="userName">{{'scoop'}}</span>
             <time-ago
               class="title"
-              :datetime="comment.createdAt"
+              :datetime="comment.created_at"
               refresh
               :locale="locale"
               :long="longString"
@@ -42,8 +42,10 @@ export default {
     };
   },
   computed: {
+
     getComments() {
-      return this.$store.getters.getComments;
+      this.$store.getters.getComments
+      return this.$store.getters.getComments.data;
     }
   }
 };

@@ -3,20 +3,20 @@
     <div class="card-expansion">
       <md-card>
         <md-card-header>
-          <a :href="url" style="text-decoration : none">
-            <div class="md-title">{{poolEvent.title}}</div>
+          <a :href="`/waves/poolevent/${poolEvent.id}`" style="text-decoration : none">
+            <div class="md-title">{{poolEvent.name}}</div>
           </a>
           <div class="md-subhead">{{poolEvent.type}}</div>
           <div class="md-body">
             <span>
               <i class="el-icon-time"></i>
-              {{getStart}} bis {{getEnd}}
+              {{new Date(poolEvent.event_start).toLocaleString()}} bis {{event_end}}
             </span>
           </div>
           <div class="md-body">
             <span>
               <i class="el-icon-location-outline"></i>
-              {{address}}
+              {{''}}
             </span>
           </div>
           <div class="md-body">
@@ -34,7 +34,7 @@
           </md-card-actions>
           <md-card-expand-content>
             <md-card-content>
-              <span>Bewerbung möglich bis {{getApplicationEnd}}</span>
+              <span>Bewerbung möglich bis {{poolEvent.application_end}}</span>
                 <el-form :model="application">
                   <el-form-item label="message">
                 <textarea class="input-text-area" v-model="application.message"  placeholder="send message to asp... " ></textarea>

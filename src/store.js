@@ -8,6 +8,7 @@ Vue.use(Vuex);
 Vue.use(axios);
 
 const apiMockUrl = 'http://5c9758f58cb32000145d80e7.mockapi.io/poolEvent'
+const API_URI = '/waves/api/v1'
 
 const poolEventStateMachine = Machine({
     key: "light",
@@ -117,7 +118,7 @@ export const store = new Vuex.Store({
         LOAD_DATA: ({
             commit
         }) => {
-            axios.get(apiMockUrl)
+            axios.get('/waves/api/v1/poolevent')
                 .then((res) => {
                     commit('updatePoolEvents', res.data);
                 }).catch((err) => {
@@ -126,7 +127,7 @@ export const store = new Vuex.Store({
         POST_POOLEVENT: ({
             commit
         }, poolEvent) => {
-            axios.post(apiMockUrl, poolEvent)
+            axios.post('/waves/api/v1/poolevent', poolEvent)
                 .then((res) => {
                     commit('addPoolEvent', poolEvent);
                     return {
@@ -134,6 +135,7 @@ export const store = new Vuex.Store({
                         created: res
                     };
                 }).catch((err) => {
+                    console.log(err);
                 })
         },
         ADD_POOLEVENT: ({
@@ -164,9 +166,9 @@ export const store = new Vuex.Store({
         GET_POOLEVENT_BY_ID: ({
             commit
         }, id) => {
-            axios.get(apiMockUrl + '/' + id)
+            axios.get(API_URI+`/poolevent/${id}`)
                 .then((resp) => {
-                    commit('setPoolEvent', resp.data);
+                    commit('setPoolEvent', resp.data.data);
                 }
                 )
         },
@@ -235,7 +237,7 @@ export const store = new Vuex.Store({
                 })
         },
         SUBMIT_COMMENT: ({ commit }, comment) => {
-            axios.post(apiMockUrl + '/' + comment.id + "/comment", comment.data)
+            axios.post(API_URI + `/comment`, comment.data)
                 .then((resp) => {
                     commit('addComment', resp.data);
                 })
@@ -244,7 +246,7 @@ export const store = new Vuex.Store({
                 });
         },
         FETCH_COMMENTS: ({ commit }, id) => {
-            axios.get(apiMockUrl + '/' + id + "/comment?sortBy=createdAt&order=desc")
+            axios.get(API_URI + `/comment/${id}`)
                 .then((resp) => {
                     commit('setComments', resp.data);
                 })

@@ -1,27 +1,27 @@
 <template>
   <VcAFrame>
-    <VcAColumn size="60%">
-      <VcABox :title="poolEvent.title">
+    <VcAColumn size="40%">
+      <VcABox :title="poolEvent.name">
         <div slot="header">
           <el-tag
             class="active-user-tag"
-            v-if="poolEvent.activeUserOnly && isAdmin"
+            v-if="poolEvent.active_user_only && isAdmin"
             type="warning"
           >active users only</el-tag>
           <el-tag
-            v-if="poolEvent.state==='unreleased'"
+            v-if="poolEvent.state==='UNRELEASED'"
             type="gray"
           >{{$t('poolEventView.state.unreleased')}}</el-tag>
           <el-tag
             type="success"
-            v-if="poolEvent.state==='released'"
+            v-if="poolEvent.state==='RELEASED'"
           >{{$t('poolEventView.state.released')}}</el-tag>
           <el-tag
-            v-if="poolEvent.state==='refused'"
+            v-if="poolEvent.state==='REJECTED'"
             type="danger"
           >{{$t('poolEventView.state.refused')}}</el-tag>
           <el-tag
-            v-if="poolEvent.state==='draft'"
+            v-if="poolEvent.state==='DRAFT'"
             type="standard"
           >{{$t('poolEventView.state.draft')}}</el-tag>
         </div>
@@ -38,16 +38,16 @@
               </li>
               <li>
                 <span class="vca-user-label">{{$t('poolEventView.aspOfEvent')}}</span>
-                <span class="vca-user-value" v-if="poolEvent.aspOfEvent">{{poolEvent.aspOfEvent}}</span>
+                <span class="vca-user-value" v-if="poolEvent.asp_event">{{poolEvent.aspOfEvent}}</span>
                 <span class="vca-user-value" v-else>None</span>
               </li>
               <li>
                 <span class="vca-user-label">{{$t('poolEventView.start')}}</span>
-                <span class="vca-user-value">{{getStart}}</span>
+                <span class="vca-user-value">{{poolEvent.event_start}}</span>
               </li>
               <li>
                 <span class="vca-user-label">{{$t('poolEventView.end')}}</span>
-                <span class="vca-user-value">{{getEnd}}</span>
+                <span class="vca-user-value">{{poolEvent.event_end}}</span>
               </li>
             </ul>
           </div>
@@ -71,18 +71,18 @@
                 </el-row>
                 <el-row>
                   <el-col class='location-row' :span="8" :offset="12" >
-                    <span class="vca-user-label">description:</span>
+                    <span class="vca-user-label">{{poolEvent.location.desc}}</span>
                   </el-col>
                 </el-row>
                 <el-row >
                   <el-col :span="20" :offset="4">
-                    <span class="location-note">{{poolEvent.addressNote}}</span>
+                    <span class="location-note">{{'todo'}}</span>
                   </el-col>
                 </el-row>
               </el-col>
               <el-col :span="10" :offset="3">
                 <GmapMap
-                  :center="getLatLong"
+                  center="12"
                   :zoom="18"
                   map-type-id="terrain"
                   style=" width : 100%; height: 350px"
@@ -107,15 +107,15 @@
             <ul class="crew">
               <li>
                 <span class="vca-user-label">{{$t('poolEventView.applicationStart')}}</span>
-                <span class="vca-user-value">{{getApplicationStart}}</span>
+                <span class="vca-user-value">{{poolEvent.application_start}}</span>
               </li>
               <li>
                 <span class="vca-user-label">{{$t('poolEventView.applicationEnd')}}</span>
-                <span class="vca-user-value">{{getApplicationStart}}</span>
+                <span class="vca-user-value">{{poolEvent.application_end}}</span>
               </li>
               <li>
                 <span class="vca-user-label">{{$t('poolEventView.supporterLimit')}}</span>
-                <span class="vca-user-value">{{poolEvent.supporterLimit}}</span>
+                <span class="vca-user-value">{{poolEvent.supporter_lim}}</span>
               </li>
             </ul>
           </div>
@@ -145,7 +145,7 @@
             <el-button
               class="vca-button-primary"
               id="button"
-              v-if="poolEvent.state==='unreleased'|| poolEvent.state === 'refused'"
+              v-if="poolEvent.state==='UNRELEASED'|| poolEvent.state === 'REJECTED'"
               @click.prevent="releasePooleEvent"
               type="success"
               style="width: 100%"
@@ -157,7 +157,7 @@
             <el-button
               class="vca-button-primary"
               id="button"
-              v-if="poolEvent.state==='unreleased'"
+              v-if="poolEvent.state==='UNRELEASED'"
               @click.prevent="refusePoolEvent"
               type="danger"
             >{{$t('poolEventView.button.refuse')}}</el-button>
@@ -165,7 +165,7 @@
               class="vca-button-primary"
               id="button"
               style="width: 100%"
-              v-else-if="poolEvent.state==='released'"
+              v-else-if="poolEvent.state==='RELEASED'"
               @click.prevent="refusePoolEvent"
               type="danger"
             >
@@ -197,7 +197,7 @@
               <i class="el-icon-delete"></i>
               {{$t('poolEventView.button.delete')}}
             </el-button>
-            <PoolEventDuplicator v-bind:poolEvent="poolEvent"/>
+            <PoolEventDuplicator :poolEvent="poolEvent"/>
           </el-col>
         </el-row>
       </VcABox>
@@ -211,7 +211,7 @@
                 @click="applicationHandler"
               >{{$t('poolEventView.button.applications')}}</el-button>
             </el-badge>
-            <ApplicationForm v-bind:poolEvent="poolEvent" :currentUser="getCurrentUser"/>
+            <ApplicationForm :poolEvent="poolEvent" :currentUser="getCurrentUser"/>
           </el-col>
         </el-row>
       </VcABox>
@@ -286,13 +286,13 @@ export default {
     },
     address() {
       return (
-        this.poolEvent.address.route +
+        this.poolEvent.location.street_name +
         " " +
-        this.poolEvent.address.street_number +
+        this.poolEvent.location.street_number +
         "," +
-        this.poolEvent.address.postal_code +
+        this.poolEvent.location.post_code +
         " " +
-        this.poolEvent.address.locality
+        this.poolEvent.location.city
       );
     },
     getStart() {
@@ -352,7 +352,7 @@ export default {
       );
     },
     getDescription() {
-      return this.poolEvent.description;
+      return this.poolEvent.description.html;
     },
     getLatLong() {
       return {

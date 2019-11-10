@@ -13,6 +13,7 @@ import {WidgetTopNavigation,WidgetBottomNavigation} from "vca-widget-navigation"
 import feather from 'vue-icon'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
+import io from "socket.io-client";
 
 Vue.use(VueMaterial)
 Vue.use(feather, 'v-icon')
@@ -23,6 +24,14 @@ export default {
   components: {
     WidgetTopNavigation,
     WidgetBottomNavigation
+  },
+  data(){
+    return{
+      socket : io('localhost:5000/waves')
+    }
+  },
+  mounted(){
+    this.socket.emit("scoop");
   }
 };
 </script>
@@ -30,14 +39,7 @@ export default {
 <style lang="less">
     @import "assets/less/form";
     #app {
-        /*font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        color: #2c3e50;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        min-height: min-content;
+       
     }
     #content {
         flex-grow: 1;

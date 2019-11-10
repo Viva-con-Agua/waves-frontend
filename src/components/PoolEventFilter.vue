@@ -27,9 +27,9 @@
           <el-option v-for="month in getMonths()" :key="month" :label="month" :value="month"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-itm>
+      <el-form-item>
         <el-button>filter</el-button>
-      </el-form-itm>
+      </el-form-item>
     </el-col>
   </el-form>
 </template>
