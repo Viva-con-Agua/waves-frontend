@@ -1,26 +1,25 @@
 <template>
-  <Form v-if="!applied" :model="poolEvent" ref="poolEvent" class="rows-container">
-      <FormItem label="message">
-        <el-input
-          type="textarea"
-          :rows="4"
-          placeholder="Please input message..."
-          v-model="application.message"
-        ></el-input>
-      </FormItem>
-      <FormItem>
-        <el-button
-          class="vca-button-primary"
-          id="button"
-          type="success"
-          @click.prevent="submitApplication"
-          style="width:100%"
-        >apply</el-button>
-      </FormItem>
-  </Form>
+  <el-form  :model="application" ref="application" class="rows-container">
+    <el-form-item label="message">
+      <el-input
+        type="textarea"
+        :rows="4"
+        placeholder="Please input message..."
+        v-model="application.text"
+      ></el-input>
+    </el-form-item>
+    <el-form-item>
+      <el-button
+        class="vca-button-primary"
+        id="button"
+        type="success"
+        @click.prevent="submitApplication"
+        style="margin-left:0px;margin-right:0px;"
+      >apply</el-button>
+    </el-form-item>
+  </el-form>
 </template>
 <script>
-import { Input, FormItem } from "element-ui";
 import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
 import "vca-widget-base/dist/vca-widget-base.css";
 export default {
@@ -28,17 +27,15 @@ export default {
   components: {
     VcAFrame,
     VcAColumn,
-    VcABox
+    VcABox,
   },
-  props: ["poolEvent","currentUser"],
+  props: ["poolEvent", "currentUser"],
   data() {
     return {
       application: {
-        creator : {
-          userName : ""
-        },
-        message: "",
-        state: "WAITING_LIST"
+        text: "",
+        user_id:1,
+        poolevent_id: this.$route.params.id
       },
       applied: false,
       showApplicationForm: false
@@ -49,13 +46,9 @@ export default {
       this.showApplicationForm = true;
     },
     submitApplication() {
-      console.log(this.currentUser)
-      this.application.creator.userName = this.currentUser.name;
-      this.applied = true;
-      this.$store.dispatch("APPLY", {
-        poolEventId: this.poolEvent.id,
-        application: this.application
-      });
+      this.$store.dispatch("APPLY", 
+        this.application
+      );
       //this.applied = true;
     }
   }

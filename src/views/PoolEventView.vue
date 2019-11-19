@@ -1,230 +1,169 @@
 <template>
-  <VcAFrame>
-    <VcAColumn size="40%">
-      <VcABox :title="poolEvent.name">
-        <div slot="header">
-          <el-tag
-            class="active-user-tag"
-            v-if="poolEvent.active_user_only && isAdmin"
-            type="warning"
-          >active users only</el-tag>
-          <el-tag
-            v-if="poolEvent.state==='UNRELEASED'"
-            type="gray"
-          >{{$t('poolEventView.state.unreleased')}}</el-tag>
-          <el-tag
-            type="success"
-            v-if="poolEvent.state==='RELEASED'"
-          >{{$t('poolEventView.state.released')}}</el-tag>
-          <el-tag
-            v-if="poolEvent.state==='REJECTED'"
-            type="danger"
-          >{{$t('poolEventView.state.refused')}}</el-tag>
-          <el-tag
-            v-if="poolEvent.state==='DRAFT'"
-            type="standard"
-          >{{$t('poolEventView.state.draft')}}</el-tag>
-        </div>
-        <div class="user">
-          <div class="vca-profile">
-            <ul class="crew">
-              <li>
-                <span class="vca-user-label">type</span>
-                <span class="vca-user-value">{{poolEvent.type}}</span>
-              </li>
-              <li>
-                <span class="vca-user-label">website:</span>
-                <span class="vca-user-value">{{poolEvent.website}}</span>
-              </li>
-              <li>
-                <span class="vca-user-label">{{$t('poolEventView.aspOfEvent')}}</span>
-                <span class="vca-user-value" v-if="poolEvent.asp_event">{{poolEvent.aspOfEvent}}</span>
-                <span class="vca-user-value" v-else>None</span>
-              </li>
-              <li>
-                <span class="vca-user-label">{{$t('poolEventView.start')}}</span>
-                <span class="vca-user-value">{{poolEvent.event_start}}</span>
-              </li>
-              <li>
-                <span class="vca-user-label">{{$t('poolEventView.end')}}</span>
-                <span class="vca-user-value">{{poolEvent.event_end}}</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </VcABox>
-
-      <VcABox title="location">
-        <div class="user">
-          <div class="vca-profile">
-            <el-row>
-              <el-col :span="11">
-                <el-row>
-                  <el-col :span="8" :offset="12">
-                    <span class="vca-user-label">location</span>
-                  </el-col>
-                </el-row>
-                <el-row >
-                  <el-col :span="16" :offset="7">
-                    <span class="vca-user-value">{{address}}</span>
-                  </el-col>
-                </el-row>
-                <el-row>
-                  <el-col class='location-row' :span="8" :offset="12" >
-                    <span class="vca-user-label">{{poolEvent.location.desc}}</span>
-                  </el-col>
-                </el-row>
-                <el-row >
-                  <el-col :span="20" :offset="4">
-                    <span class="location-note">{{'todo'}}</span>
-                  </el-col>
-                </el-row>
-              </el-col>
-              <el-col :span="10" :offset="3">
-                <GmapMap
-                  center="12"
-                  :zoom="18"
-                  map-type-id="terrain"
-                  style=" width : 100%; height: 350px"
-                >
-                  <GmapMarker
-                    :key="index"
-                    v-for="(m, index) in markers"
-                    :position="m.position"
-                    :clickable="true"
-                    :draggable="true"
-                    @click="center=m.position"
-                  />
-                </GmapMap>
-              </el-col>
-            </el-row>
-          </div>
-        </div>
-      </VcABox>
-      <VcABox title="application">
-        <div class="user">
-          <div class="vca-profile">
-            <ul class="crew">
-              <li>
-                <span class="vca-user-label">{{$t('poolEventView.applicationStart')}}</span>
-                <span class="vca-user-value">{{poolEvent.application_start}}</span>
-              </li>
-              <li>
-                <span class="vca-user-label">{{$t('poolEventView.applicationEnd')}}</span>
-                <span class="vca-user-value">{{poolEvent.application_end}}</span>
-              </li>
-              <li>
-                <span class="vca-user-label">{{$t('poolEventView.supporterLimit')}}</span>
-                <span class="vca-user-value">{{poolEvent.supporter_lim}}</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </VcABox>
-
-      <VcABox :title="$t('poolEventView.description')">
-        <div class="user">
-          <div class="vca-profile">
-            <ul class="crew">
-              <li>
-                <div v-html="getDescription"></div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </VcABox>
-      <VcABox title="comments">
-        <CommentForm/>
-        <CommentCard/>
-      </VcABox>
-    </VcAColumn>
-    <VcAColumn>
-      <VcABox title="state" v-if="isAdmin">
-        <el-row>
-          <el-col>
-            <el-button
-              class="vca-button-primary"
-              id="button"
-              v-if="poolEvent.state==='UNRELEASED'|| poolEvent.state === 'REJECTED'"
-              @click.prevent="releasePooleEvent"
-              type="success"
-              style="width: 100%"
-            >{{$t('poolEventView.button.release')}}</el-button>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col>
-            <el-button
-              class="vca-button-primary"
-              id="button"
+  <div style="margin:0;padding:0">
+    <rotate-square2 style="margin:auto auto" v-if="!poolEvent"></rotate-square2>
+    <VcAFrame v-if="poolEvent">
+      <VcAColumn  size="40%">
+        <VcABox :title="poolEvent.name">
+          <div slot="header">
+            <el-tag
+              class="active-user-tag"
+              v-if="poolEvent.active_user_only && isAdmin"
+              type="warning"
+            >active users only</el-tag>
+            <el-tag
               v-if="poolEvent.state==='UNRELEASED'"
-              @click.prevent="refusePoolEvent"
+              type="gray"
+            >{{$t('poolEventView.state.unreleased')}}</el-tag>
+            <el-tag
+              type="success"
+              v-if="poolEvent.state==='RELEASED'"
+            >{{$t('poolEventView.state.released')}}</el-tag>
+            <el-tag
+              v-if="poolEvent.state==='REJECTED'"
               type="danger"
-            >{{$t('poolEventView.button.refuse')}}</el-button>
-            <el-button
-              class="vca-button-primary"
-              id="button"
-              style="width: 100%"
-              v-else-if="poolEvent.state==='RELEASED'"
-              @click.prevent="refusePoolEvent"
-              type="danger"
-            >
-              <i class="el-icon-circle-close"></i>
-              {{$t('poolEventView.button.refuse')}}
-            </el-button>
-          </el-col>
-        </el-row>
-      </VcABox>
-      <VcABox v-if="isAdmin">
-        <el-row>
-          <el-col>
-            <el-button
-              class="vca-button-primary"
-              id="button"
-              style="width: 100%"
-              @click.prevent="editPoolEvent"
-              type="primary"
-            >
-              <i class="el-icon-edit"></i>
-              {{$t('poolEventView.button.edit')}}
-            </el-button>
-            <el-button
-              class="vca-button-warn"
-              id="button"
-              @click.prevent="deletePoolEvent"
-              type="danger"
-            >
-              <i class="el-icon-delete"></i>
-              {{$t('poolEventView.button.delete')}}
-            </el-button>
-            <PoolEventDuplicator :poolEvent="poolEvent"/>
-          </el-col>
-        </el-row>
-      </VcABox>
-      <VcABox title="application">
-        <el-row>
-          <el-col>
-            <el-badge style="width:100%" :value="getApplications().length" type="primary">
+            >{{$t('poolEventView.state.refused')}}</el-tag>
+            <el-tag
+              v-if="poolEvent.state==='DRAFT'"
+              type="standard"
+            >{{$t('poolEventView.state.draft')}}</el-tag>
+          </div>
+          <Row>
+            <ul class="event-start-end">
+              <li>
+                <i class="el-icon-time"></i>
+              </li>
+              <li>{{`${new Date(poolEvent.event_start).toLocaleString()} - ${new Date(poolEvent.event_end).toLocaleString()}` }}</li>
+            </ul>
+          </Row>
+          <Row>
+            <ul class="event-start-end">
+              <li>
+                <i class="el-icon-location-outline"></i>
+              </li>
+              <li>{{`${poolEvent.location.street_name} ${poolEvent.location.street_number}, ${poolEvent.location.post_code} ${poolEvent.location.city}` }}</li>
+            </ul>
+          </Row>
+          <Row>
+            <ul class="event-start-end">
+              <li>
+                <i class="el-icon-loading"></i>
+              </li>
+              <li>
+                <a :href="poolEvent.website"></a>
+                {{ poolEvent.website}}
+              </li>
+            </ul>
+          </Row>
+        </VcABox>
+        
+        <Card :title="$t('poolEventView.description')">
+          <div v-html="getDescription"></div>
+        </Card>
+        <Card  :body-style="{ padding: '0px' }">
+          <GmapMap
+            :center="{
+            lat: parseFloat(poolEvent.location.lat) ,
+            lng:parseFloat(poolEvent.location.long)}"
+            :zoom="14"
+            map-type-id="terrain"
+            style=" width : 100%; height: 250px; "
+          ></GmapMap>
+        </Card>
+        <CommentForm />
+        <CommentCard />
+      </VcAColumn>
+      <VcAColumn size="25%">
+        <VcABox title="state" v-if="isAdmin">
+          <el-row>
+            <el-col>
               <el-button
                 class="vca-button-primary"
                 id="button"
-                @click="applicationHandler"
-              >{{$t('poolEventView.button.applications')}}</el-button>
-            </el-badge>
-            <ApplicationForm :poolEvent="poolEvent" :currentUser="getCurrentUser"/>
-          </el-col>
-        </el-row>
-      </VcABox>
-    </VcAColumn>
-  </VcAFrame>
+                v-if="poolEvent.state==='UNRELEASED'|| poolEvent.state === 'REJECTED'"
+                @click.prevent="releasePooleEvent"
+                type="success"
+                style="width: 100%"
+              >{{$t('poolEventView.button.release')}}</el-button>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col>
+              <el-button
+                class="vca-button-primary"
+                id="button"
+                v-if="poolEvent.state==='UNRELEASED'"
+                @click.prevent="refusePoolEvent"
+                type="danger"
+              >{{$t('poolEventView.button.refuse')}}</el-button>
+              <el-button
+                class="vca-button-primary"
+                id="button"
+                style="margin-left:0px;margin-right:0px;"
+                v-else-if="poolEvent.state==='RELEASED'"
+                @click.prevent="refusePoolEvent"
+                type="danger"
+              >
+                <i class="el-icon-circle-close"></i>
+                {{$t('poolEventView.button.refuse')}}
+              </el-button>
+            </el-col>
+          </el-row>
+        </VcABox>
+        <VcABox v-if="isAdmin">
+          <el-row>
+            <el-col>
+              <el-button
+                class="vca-button-primary"
+                id="button"
+                style="margin-left:0px;margin-right:0px;"
+                @click.prevent="editPoolEvent"
+                type="primary"
+              >
+                <i class="el-icon-edit"></i>
+                {{$t('poolEventView.button.edit')}}
+              </el-button>
+              <el-button
+                class="vca-button-warn"
+                id="button"
+                @click.prevent="deletePoolEvent"
+                type="danger"
+                style="margin-left:0px;margin-right:0px;"
+              >
+                <i class="el-icon-delete"></i>
+                {{$t('poolEventView.button.delete')}}
+              </el-button>
+              <PoolEventDuplicator :poolEvent="poolEvent" />
+            </el-col>
+          </el-row>
+        </VcABox>
+        <VcABox :title="`${poolEvent.supporter_lim} supporter needed`">
+          <el-row>
+            <el-col>
+              <el-badge style="width:100%" :value="getApplications().length" type="primary">
+                <el-button
+                  style="margin-left:0px;margin-right:0px;"
+                  class="vca-button-primary"
+                  id="button"
+                  @click="applicationHandler"
+                >{{$t('poolEventView.button.applications')}}</el-button>
+              </el-badge>
+              <ApplicationForm :poolEvent="poolEvent" :currentUser="getCurrentUser" />
+            </el-col>
+          </el-row>
+        </VcABox>
+      </VcAColumn>
+    </VcAFrame>
+  </div>
 </template>
 <script>
 import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
+import { Container, Row, Card } from "element-ui";
 import "vca-widget-base/dist/vca-widget-base.css";
 import ApplicationForm from "../components/ApplicationForm";
 import PoolEventDuplicator from "../components/PoolEventDuplicator";
 import CommentCard from "../components/CommentCard";
 import CommentForm from "../components/CommentForm";
+import { RotateSquare2 } from "vue-loading-spinner";
 
 export default {
   name: "PoolEventView",
@@ -266,13 +205,17 @@ export default {
     };
   },
   components: {
+    Card,
     CommentForm,
     CommentCard,
     VcAFrame,
     VcAColumn,
     VcABox,
     ApplicationForm,
-    PoolEventDuplicator
+    PoolEventDuplicator,
+    Container,
+    Row,
+    RotateSquare2
   },
   computed: {
     poolEvent() {
@@ -360,10 +303,10 @@ export default {
         lng: this.poolEvent.address.longitude
       };
     },
-    getCurrentUser(){
+    getCurrentUser() {
       return this.$store.getters.getCurrentUser;
     },
-    isAdmin(){
+    isAdmin() {
       return this.$store.getters.isAdmin;
     }
   },
@@ -568,7 +511,18 @@ export default {
   margin-left: 25%;
 }
 
-.location-row{
-  margin-top: 20px 
+.location-row {
+  margin-top: 20px;
 }
+
+.event-start-end {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  li {
+    float: left;
+    padding: 5px;
+  }
+}
+
 </style>

@@ -1,7 +1,7 @@
 <template>
   <el-col>
     <div class="card-expansion">
-      <md-card>
+      <md-card class="card-event">
         <md-card-header>
           <a :href="`/waves/poolevent/${poolEvent.id}`" style="text-decoration : none">
             <div class="md-title">{{poolEvent.name}}</div>
@@ -10,17 +10,18 @@
           <div class="md-body">
             <span>
               <i class="el-icon-time"></i>
-              {{new Date(poolEvent.event_start).toLocaleString()}} bis {{event_end}}
+              {{new Date(poolEvent.event_start).toLocaleString()}}
             </span>
           </div>
           <div class="md-body">
             <span>
               <i class="el-icon-location-outline"></i>
-              {{''}}
+
+              {{`${poolEvent.street_name} ${poolEvent.street_number}, ${poolEvent.post_code} ${poolEvent.city}`}}
             </span>
           </div>
           <div class="md-body">
-            <span style="margin-left:18px">Noch 42 Plätze frei</span>
+            <span style="margin-left:18px"> # Plätze frei</span>
           </div>
         </md-card-header>
         <md-card-expand>
@@ -34,12 +35,12 @@
           </md-card-actions>
           <md-card-expand-content>
             <md-card-content>
-              <span>Bewerbung möglich bis {{poolEvent.application_end}}</span>
+              <span>Bewerbung möglich bis {{new Date(poolEvent.application_end).toLocaleString()}}</span>
                 <el-form :model="application">
                   <el-form-item label="message">
                 <textarea class="input-text-area" v-model="application.message"  placeholder="send message to asp... " ></textarea>
                   </el-form-item>
-                <el-button  style="width: 94%" class="vca-button-primary" @click.prevent="submitForm">apply</el-button>
+                <el-button  style="width:100%;margin:0" class="vca-button-primary" @click.prevent="submitForm">apply</el-button>
               </el-form>
             </md-card-content>
           </md-card-expand-content>
@@ -52,6 +53,7 @@
 <script>
 import ApplicationForm from "./ApplicationForm";
 import icons_ from "../assets/poolEventIcons.json";
+import {Icon} from 'element-ui'
 export default {
   name: "PoolEventCard",
   components: {
@@ -257,6 +259,10 @@ export default {
 
 .md-body{
   margin-top:15px
+}
+
+.card-event{
+  border-radius: 2%;
 }
 
 </style>

@@ -1,40 +1,42 @@
 <template>
   <VcAFrame>
-    <VcAColumn size="60%">
-      <VcABox :title="$t('applicationHandler.applications')">
-        <el-table
-          v-loading="loading"
-          ref="multipleTable"
-          :data="getApplications()"
-          style="width: 100%"
-          @selection-change="handleSelectionChange"
+    <VcAColumn size="50%">
+      <el-row style="margin-top:20px">
+        <el-card
+          :body-style="{ padding: '0px' }"
+          style="padding:20px;margin:0;margin-bottom:5px"
+          v-for="application in getApplications()"
+          :key="application.id"
         >
-          <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column :label="$t('applicationHandler.name')" width="120">
-            <template slot-scope="scope">{{ scope.row.creator.userName}}</template>
-          </el-table-column>
-          <el-table-column property="age" :label="$t('applicationHandler.age')" width="120">
-            <template slot-scope="scope">{{ scope.row.age }}</template>
-          </el-table-column>
-          <el-table-column property="message" :label="$t('applicationHandler.message')" show-overflow-tooltip></el-table-column>
-          <el-table-column  :label="$t('applicationHandler.state')" show-overflow-tooltip>
-            <template slot-scope="scope"> 
-              <el-tag v-if="scope.row.state=== 'ACCEPTED'" type="success">Angenommen</el-tag>
-              <el-tag v-else-if="scope.row.state=== 'REJECTED'" type="danger">Abgelehnt</el-tag>
-              <el-tag v-else type="warning">Warteliste</el-tag>
-              </template>            
-          </el-table-column>
-        </el-table>
-      </VcABox>
-    </VcAColumn>
-    <VcAColumn>
-      <VcABox>
-        <template>
-          <el-button class="vca-button-primary" type="success" @click="acceptApplication">{{$t('applicationHandler.button.accept')}}</el-button>
-          <el-button  class="vca-button-primary" @click="setToWaitingList">{{$t('applicationHandler.button.waitingList')}}</el-button>
-          <el-button  class="vca-button-primary" type="danger" @click="rejectApplication">{{$t('applicationHandler.button.reject')}}</el-button>
-        </template>
-      </VcABox>
+          <el-col :span="3">
+            <img src="https://img.icons8.com/cotton/64/000000/gender-neutral-user--v1.png" />
+          </el-col>
+          <el-col :span="5">
+            <span style="margin:20px;">{{`${application.first_name} ${application.last_name}`}}</span>
+          </el-col>
+          <el-col :span="10">
+            <span>{{application.text}}</span>
+          </el-col>
+          <el-col :span="6">
+            <el-col :span="12">
+              <el-button
+                v-if="application.state=='REJECTED'"
+                @click="acceptApplication(application.application_id)"
+                style="padding:5px;float:right"
+                type="success"
+              >accept</el-button>
+            </el-col>
+            <el-col :span="12">
+              <el-button
+                v-if="application.state=='ACCEPTED'"
+                @click="rejectApplication(application.application_id)"
+                style="padding:5px;float:right"
+                type="danger"
+              >reject</el-button>
+            </el-col>
+          </el-col>
+        </el-card>
+      </el-row>
     </VcAColumn>
   </VcAFrame>
 </template>
@@ -51,7 +53,7 @@ export default {
         REJECTED: "REJECTED"
       },
       multipleSelection: [],
-      loading : false
+      loading: false
     };
   },
   mounted() {
@@ -59,7 +61,7 @@ export default {
   },
   computed: {
     applications() {
-      return this.$store.getters.getApplications
+      return this.$store.getters.getApplications;
     }
   },
   methods: {
@@ -72,19 +74,11 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    acceptApplication() {
-      if (this.multipleSelection) {
-        this.multipleSelection.forEach(application => {
-          this.$store.dispatch("ACCEPT_APPLICATIONS", application);
-        });
-      }
+    acceptApplication(id) {
+      this.$store.dispatch("ACCEPT_APPLICATION", id);
     },
-    rejectApplication() {
-      if (this.multipleSelection) {
-        this.multipleSelection.forEach(application => {
-          this.$store.dispatch("REJECT_APPLICATIONS", application);
-        });
-      }
+    rejectApplication(id) {
+      this.$store.dispatch("REJECT_APPLICATION", id);
     },
     setToWaitingList() {
       if (this.multipleSelection) {
@@ -100,7 +94,7 @@ export default {
 <style lang="less" scoped>
 .vca-button-primary {
   background-color: #0a6b91;
-  color: #FFFFFF;
+  color: #ffffff;
   padding: 0.5em 0;
   border: 0;
   text-transform: uppercase;
@@ -110,8 +104,10 @@ export default {
   -moz-border-radius: 5px;
   border-radius: 5px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-  -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 3px 10px 0 rgba(0, 0, 0, 0.19);
 }
 
 .vca-button-warn {

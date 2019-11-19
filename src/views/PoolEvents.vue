@@ -1,20 +1,18 @@
 <template>
   <VcAFrame>
-    <VcAColumn size="65%">
-      <VcABox title="Pool-Events" :expand="true">
-        <el-row >
-          <h v-if="loading">loading...</h>
-          <el-col  :span="8" v-for="poolEvent in poolEvents" :key="poolEvent.id">
-            <PoolEventCard v-if="poolEventsFlag && !loadding" :poolEvent="poolEvent"/>
-          </el-col>
-        </el-row>
-        <el-row v-if="myPoolEventsFlag">
-          <MyPoolEvents  :poolEvents="poolEvents"/>
-        </el-row>
-      </VcABox>
+    <VcAColumn style="margin-top:20px" size="30%">
+      <rotate-square2 class v-if="!poolEvents" style="margin:auto;"></rotate-square2>
+      <el-row>
+        <el-col :span="24" v-for="poolEvent in poolEvents" :key="poolEvent.id">
+          <PoolEventCard :poolEvent="poolEvent" />
+        </el-col>
+      </el-row>
+      <el-row v-if="myPoolEventsFlag">
+        <MyPoolEvents :poolEvents="poolEvents" />
+      </el-row>
     </VcAColumn>
-    <VcAColumn>
-      <VcABox>
+    <VcAColumn size="25%">
+      <Card style="margin-top:30px;padding-bottom:20px;">
         <el-col>
           <el-button class="vca-button-primary" type="success" @click="createNewPoolEvent">
             <i class="el-icon-circle-plus"></i> add event
@@ -22,10 +20,11 @@
           <el-button class="vca-button-primary" @click="myPoolEventsButtonHandler">my poolevents</el-button>
           <el-button class="vca-button-primary" @click="myApplicationsButtonHandler">my applications</el-button>
         </el-col>
-      </VcABox>
+      </Card>
+
       <VcABox title="filter">
-        <el-col :span="16" :offset="4">
-          <PoolEventFilter/>
+        <el-col :span="24">
+          <PoolEventFilter />
         </el-col>
       </VcABox>
     </VcAColumn>
@@ -38,30 +37,35 @@ import PoolEventFilter from "../components/PoolEventFilter";
 import PoolEventCard from "../components/PoolEventCard";
 import MyPoolEvents from "../components/MyPoolEvents";
 import Pagination from "../components/Pagination";
-import { Input, Form } from "element-ui";
+import { Input, Form, Container, Card, Dropdown, DropdownItem } from "element-ui";
+import { RotateSquare2 } from "vue-loading-spinner";
 
 export default {
   name: "PoolEvents",
   components: {
+    RotateSquare2,
     PoolEventCard,
     VcAFrame,
     VcAColumn,
     VcABox,
     Pagination,
     PoolEventFilter,
-    MyPoolEvents
+    MyPoolEvents,
+    Container,
+    Card,
+    Dropdown
   },
   computed: {
     poolEvents() {
-      console.log(this.$store.getters.getAllPoolEvents.data); 
       return this.$store.getters.getAllPoolEvents.data;
     }
   },
   data() {
     return {
-      loadding: false,
+      poolevents: this.$store.getters.getAllPoolEvents.data,
+      loading: true,
       myPoolEventsFlag: false,
-      poolEventsFlag:true,
+      poolEventsFlag: true,
       myApplicationsFlag: false
     };
   },
@@ -76,9 +80,7 @@ export default {
       this.$router.push("/waves/create");
     },
     myPoolEventsButtonHandler() {
-      this.PoolEventsFlag = false;
-      this.myApplicationsFlag = false;
-      this.myPoolEventsFlag = true;
+      this.$store.dispatch('FETCH_MY_POOLEVENTS')
     },
     myApplicationsButtonHandler() {
       this.myPoolEventsFlag = false;
@@ -107,5 +109,10 @@ input {
 }
 #tag {
   float: left;
+}
+
+.el-button {
+  margin-left: 0;
+  margin-right: 0;
 }
 </style>

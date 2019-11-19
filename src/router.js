@@ -1,9 +1,13 @@
 import ApplicationHandlerView from "./views/ApplicationHandlerView.vue";
 import EditPoolEventFormView from "./views/EditPoolEventFormView";
 import PoolEventFormView from "./views/PoolEventFormView";
+import NotificationsView from "./views/NotificationsView";
 import PoolEventView from "./views/PoolEventView";
 import BadgesView from "./views/BadgesView";
 import PoolEvents from "./views/PoolEvents";
+import CreateChallengeView from "./views/CreateChallengeView";
+import ErrorView from "./views/ErrorView";
+import TESTSTUFF from "./views/TESTSTUFF";
 import home from "./views/home.vue";
 import Router from "vue-router";
 import Vue from "vue";
@@ -25,7 +29,7 @@ export default new Router({
     },
     {
       path: "/waves/create",
-      name: "PoolEventFormView",
+      name: "create",
       component: PoolEventFormView
     },
     {
@@ -47,6 +51,22 @@ export default new Router({
       path: "/waves/badges",
       name: "BadgesView",
       component: BadgesView
-    }
+    },
+    {
+      path: "/waves/notifications",
+      name: "NotificationsView",
+      component: NotificationsView
+    },
+    {
+      path: "/waves/challenge/create",
+      name: "createChallenge",
+      component: CreateChallengeView
+    },
+    {
+      path: "/teststuff",
+      name: "test",
+      component: TESTSTUFF
+    },
+    { path: "*", component: ErrorView }
   ]
 });

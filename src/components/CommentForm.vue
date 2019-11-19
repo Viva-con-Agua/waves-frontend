@@ -2,15 +2,16 @@
   <el-card>
     <el-form :model="comment">
       <el-row>
-        <el-col :span="1" :offset="0">
-          <img src="https://img.icons8.com/dotty/80/000000/login-as-user.png" />
+        <el-col :span="2" :offset="0">
+          <img src="https://img.icons8.com/cotton/64/000000/gender-neutral-user--v1.png" />
         </el-col>
         <el-col :span="21" :offset="1">
           <el-row>
             <span class="user-name">username</span>
           </el-row>
-          <el-row>
+          <el-row style="margin:0px;padding:0px;">
             <el-input
+              style="margin:0px;padding:0px;"
               type="textarea"
               placeholder="input comment"
               v-model="comment.text"
@@ -20,7 +21,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="3" :offset="20">
+        <el-col :span="4" :offset="19">
           <el-button v-if="comment.text" class="vca-button-primary" @click.prevent="submit">comment</el-button>
           <el-button v-else class="vca-button-primary" @click.prevent="submit" disabled>comment</el-button>
         </el-col>
@@ -35,7 +36,7 @@ export default {
   data() {
     return {
       comment: {
-        text: '',
+        text: "",
         user_id: 1,
         poolevent_id: this.$route.params.id
       },
@@ -44,7 +45,6 @@ export default {
   },
   methods: {
     submit() {
-      console.log(this.comment);
       if (!this.comment.text) {
         alert("comment sction empty");
       } else {

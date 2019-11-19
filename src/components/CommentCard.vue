@@ -1,14 +1,21 @@
 <template>
   <el-row>
-    <el-card v-for="comment in getComments" :key="comment.id">
+    <el-card :body-style="{ padding: '20px' }" v-for="comment in getComments" :key="comment.id">
       <el-row>
-        <el-col :span="1">
-          <img src="https://img.icons8.com/dotty/80/000000/login-as-user.png">
+        <el-col :span="3">
+          <img
+            style="border-radius: 50%;"
+            class="profile-img"
+            src="https://img.icons8.com/cotton/64/000000/gender-neutral-user--v1.png"
+          />
         </el-col>
         <el-col :span="20" :offset="1">
           <el-row>
-            <span class="userName">{{'scoop'}}</span>
+            <span class="userName">{{comment.first_name}} {{comment.last_name}}</span>
             <time-ago
+              style="float:right;
+              color:grey;
+              text-decoration:none;"
               class="title"
               :datetime="comment.created_at"
               refresh
@@ -16,9 +23,10 @@
               :long="longString"
             ></time-ago>
           </el-row>
-          <el-row>
-            <span >{{comment.text}}</span>
+          <el-row style="margin-top:8px;">
+            <span>{{comment.text}}</span>
           </el-row>
+          <VoteForm :commentId="comment.id"></VoteForm>
         </el-col>
       </el-row>
     </el-card>
@@ -27,11 +35,16 @@
 
 <script>
 import TimeAgo from "vue2-timeago";
+import VoteForm from "../components/VoteForm";
+import { Row, Col } from "element-ui";
 
 export default {
   name: "CommentCard",
   components: {
-    TimeAgo
+    TimeAgo,
+    VoteForm,
+    Row,
+    Col
   },
   data() {
     return {
@@ -42,9 +55,8 @@ export default {
     };
   },
   computed: {
-
     getComments() {
-      this.$store.getters.getComments
+      this.$store.getters.getComments;
       return this.$store.getters.getComments.data;
     }
   }
@@ -60,5 +72,7 @@ export default {
   line-height: 1.8rem;
 }
 
-
+.profile-img {
+  border-radius: 50%;
+}
 </style>

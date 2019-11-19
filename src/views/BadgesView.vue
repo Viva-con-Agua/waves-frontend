@@ -1,11 +1,11 @@
 <template>
-  <Container>
+  <el-container>
     <el-row  >
       <el-col :span="24" :v-if="badges.length>0" v-for="badge in badges" :key="badge.id">
-        <Badge :badge="badge"></Badge>
+        <Badge style="margin-top:20px" :badge="badge"></Badge>
       </el-col>
     </el-row>
-  </Container>
+  </el-container>
 </template>
 
 <script>
@@ -15,21 +15,18 @@ import Badge from "../components/Badge";
 export default {
   name: "BadgesView",
   components: {
-    Container,
-    Row,
     Badge,
-    Col
   },
   data() {
     return {
       badges: "",
-      a: "asda"
     };
   },
   methods: {
     async setAllBadges() {
-      const { data } = await axios.get("/waves/api/v1/badge");
+      const { data } = await axios.get("/waves/api/v1/badge/user/1");
       this.badges = data.data;
+      console.log(this.badges);
     }
   },
   async mounted() {

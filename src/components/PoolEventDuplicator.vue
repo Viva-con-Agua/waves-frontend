@@ -1,6 +1,9 @@
 <template>
-    <el-button class="vca-button-primary" type="primary" @click="submit">
-       duplicate</el-button>
+    <el-button class="vca-button-primary" 
+    type="primary" 
+    @click="submit" 
+    style="margin-left:0px;margin-right:0px;">
+    duplicate</el-button>
 </template>
 
 <script>

@@ -85,7 +85,13 @@
             ></vue-google-autocomplete>
           </el-form-item>
           <el-form-item label="Adressbeschreibung">
-            <el-input v-model="address_desc" type="textarea" :rows="2" placeholder="Please input" :maxLength="240" ></el-input>
+            <el-input
+              v-model="address_desc"
+              type="textarea"
+              :rows="2"
+              placeholder="Please input"
+              :maxLength="240"
+            ></el-input>
           </el-form-item>
         </VcABox>
         <VcABox title="Application" :expand="true">
@@ -132,13 +138,20 @@
                 class="vca-button-primary"
                 type="primary"
                 @click.prevent="addPoolEvent"
+                style="margin-left:0;margin-right:0"
               >create</el-button>
               <el-button
                 class="vca-button-primary"
                 type="info"
                 @click.prevent="saveAsDraft"
+                style="margin-left:0;margin-right:0"
               >save as draft</el-button>
-              <el-button class="vca-button-warn" type="danger" @click.prevent="cancel">cancel</el-button>
+              <el-button
+                style="margin-left:0;margin-right:0"
+                class="vca-button-warn"
+                type="danger"
+                @click.prevent="cancel"
+              >cancel</el-button>
             </el-col>
           </el-row>
         </VcABox>
@@ -154,7 +167,7 @@ import { Input, Form } from "element-ui";
 import VueGoogleAutocomplete from "vue-google-autocomplete";
 import { WidgetUserAutocomplete } from "vca-widget-user";
 import "vca-widget-user/dist/vca-widget-user.css";
-import "../assets/pool_event_style.css"
+import "../assets/pool_event_style.css";
 import rulesJon from "../rules/form";
 
 export default {
@@ -184,7 +197,7 @@ export default {
         asp_event_Id: 0,
         website: "",
         supporter_lim: 0,
-        active_user_only: '',
+        active_user_only: "",
         state: "UNRELEASED",
         user_id: 1
       },
@@ -193,7 +206,7 @@ export default {
         html: ""
       },
       address: "",
-      address_desc:"",
+      address_desc: "",
       isValidForm: "",
       rules: rulesJon.rules,
       config: {
@@ -239,6 +252,7 @@ export default {
         desc: this.address_desc
       };
       data.description = this.description;
+      console.log(data);
       this.submitForm("poolEvent");
       if (this.isValidForm) {
         this.$store
@@ -254,7 +268,44 @@ export default {
       }
     },
     saveAsDraft() {
+      const data = {};
+      data.poolevent = this.poolEvent;
+      data.poolevent.event_start = new Date(
+        data.poolevent.event_start
+      ).toISOString();
+      data.poolevent.event_end = new Date(
+        data.poolevent.event_end
+      ).toISOString();
+      data.poolevent.application_start = new Date(
+        data.poolevent.application_start
+      ).toISOString();
+      data.poolevent.application_end = new Date(
+        data.poolevent.application_end
+      ).toISOString();
+
+      const {
+        locality,
+        country,
+        latitude,
+        longitude,
+        postal_code,
+        route,
+        street_number
+      } = this.address;
+      data.location = {
+        street_name: route,
+        street_number: street_number,
+        long: longitude.toString() || "",
+        lat: latitude.toString() || "",
+        city: locality,
+        country: country,
+        post_code: postal_code,
+        desc: this.address_desc
+      };
+      data.description = this.description;
+      data.poolevent.state = "DRAFaT";
       this.submitForm("poolEvent");
+      console.log(data);
       if (this.isValidForm) {
         this.$store
           .dispatch("POST_POOLEVENT", this.poolEvent)
@@ -291,5 +342,4 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-
 </style>
