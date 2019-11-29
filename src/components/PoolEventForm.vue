@@ -2,6 +2,7 @@
   <VcAFrame title="Pool-Event erstellen" hasContainer="true">
     <el-form :model="poolEvent" :rules="rules" ref="poolEvent" class="columns-container">
       <VcAColumn>
+        {{errors}}
         <VcABox :expand="true" :first="true" title="Eventdaten">
           <VcAInfoBox>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere molestias reprehenderit, ullam recusandae, quisquam adipisci at vero iusto tempora omnis amet cupiditate laborum repellendus debitis facilis repellat porro exercitationem magni.</VcAInfoBox>
           <el-form-item :label="$t('poolEventForm.input.title.label')" prop="name">
@@ -184,6 +185,7 @@ export default {
   },
   data() {
     return {
+      errors:[],
       content: {
         ops: []
       },
@@ -214,6 +216,9 @@ export default {
         label: "Beschreibung"
       }
     };
+  },
+  mounter() {
+    this.errors = this.$store.state.errors;
   },
   methods: {
     addPoolEvent() {
@@ -303,7 +308,7 @@ export default {
         desc: this.address_desc
       };
       data.description = this.description;
-      data.poolevent.state = "DRAFaT";
+      data.poolevent.state = "DRAFT";
       this.submitForm("poolEvent");
       console.log(data);
       if (this.isValidForm) {

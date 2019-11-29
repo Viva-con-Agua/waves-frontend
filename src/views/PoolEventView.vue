@@ -2,7 +2,7 @@
   <div style="margin:0;padding:0">
     <rotate-square2 style="margin:auto auto" v-if="!poolEvent"></rotate-square2>
     <VcAFrame v-if="poolEvent">
-      <VcAColumn  size="40%">
+      <VcAColumn size="40%">
         <VcABox :title="poolEvent.name">
           <div slot="header">
             <el-tag
@@ -55,19 +55,32 @@
             </ul>
           </Row>
         </VcABox>
-        
+
         <Card :title="$t('poolEventView.description')">
           <div v-html="getDescription"></div>
         </Card>
-        <Card  :body-style="{ padding: '0px' }">
+        <Card :body-style="{ padding: '0px' }">
+          <div style="margin:13px">
+            
+            <p><Strong>Adressbeschreibung:</Strong> {{poolEvent.location.desc}}</p>
+          </div>
+
           <GmapMap
             :center="{
             lat: parseFloat(poolEvent.location.lat) ,
             lng:parseFloat(poolEvent.location.long)}"
             :zoom="14"
             map-type-id="terrain"
-            style=" width : 100%; height: 250px; "
-          ></GmapMap>
+            style=" width : 100%; height: 200px; "
+          >
+            <GmapMarker
+              :position="{lat: parseFloat( poolEvent.location.lat) , 
+              lng :parseFloat( poolEvent.location.long)}"
+              :key="index++"
+              :clickable="true"
+              :draggable="true"
+            />
+          </GmapMap>
         </Card>
         <CommentForm />
         <CommentCard />
@@ -82,7 +95,7 @@
                 v-if="poolEvent.state==='UNRELEASED'|| poolEvent.state === 'REJECTED'"
                 @click.prevent="releasePooleEvent"
                 type="success"
-                style="width: 100%"
+                style="margin-left:0;margin-right:0;width: 100%"
               >{{$t('poolEventView.button.release')}}</el-button>
             </el-col>
           </el-row>
@@ -93,12 +106,15 @@
                 id="button"
                 v-if="poolEvent.state==='UNRELEASED'"
                 @click.prevent="refusePoolEvent"
+                style="margin-left:0px;
+                margin-right:0px;
+                width:100%"
                 type="danger"
               >{{$t('poolEventView.button.refuse')}}</el-button>
               <el-button
                 class="vca-button-primary"
                 id="button"
-                style="margin-left:0px;margin-right:0px;"
+                style="margin-left:0px;margin-right:0px;width:100%"
                 v-else-if="poolEvent.state==='RELEASED'"
                 @click.prevent="refusePoolEvent"
                 type="danger"
@@ -169,6 +185,7 @@ export default {
   name: "PoolEventView",
   data() {
     return {
+      index: 0,
       id: this.$route.params.id,
       buttonOptions: {
         unreleased: "release",
@@ -329,7 +346,7 @@ export default {
       this.$router.push("/editpooleventform/" + this.id);
     },
     applicationHandler() {
-      this.$router.push("/applications/" + this.id);
+      this.$router.push("/waves/applications/" + this.id);
     },
     getApplications() {
       return this.$store.getters.getApplications;
@@ -524,5 +541,4 @@ export default {
     padding: 5px;
   }
 }
-
 </style>

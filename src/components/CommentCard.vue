@@ -67,9 +67,7 @@ export default {
 .userName {
   margin-right: 4px;
   margin-bottom: 10px;
-  font-size: 1.3rem;
-  font-weight: bold;
-  line-height: 1.8rem;
+  font-size: 1rem;
 }
 
 .profile-img {

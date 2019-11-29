@@ -1,10 +1,18 @@
 <template>
   <Row style="padding:0;margin:0;">
     <el-col style="padding:0" :span="2">
-      <p>{{votes.length}}</p>
+      <p style="text-align:center">{{votes.length}}</p>
     </el-col>
     <el-col :span="2">
-      <vue-clap-button icon="love" :getClaps="postVote" />
+      <img
+        class="like-button"
+        style="height:20px;margin-top:14px"
+        @click="postVote"
+        alt="vote-button"
+        :src="heartImg" 
+        @mouseover="heartImg=filledImg"
+        @mouseleave="heartImg=emptyImg"
+      />
     </el-col>
   </Row>
 </template>
@@ -16,7 +24,10 @@ export default {
   name: "VoteForm",
   data() {
     return {
-      votes: []
+      votes: [],
+      emptyImg:"https://cdn2.iconfinder.com/data/icons/music-media-player-outline-basic/32/1-icon-music-09-512.png",
+      filledImg: "https://cdn0.iconfinder.com/data/icons/twitter-24/512/166_Heart_Love_Like_Twitter-512.png",
+      heartImg: "https://cdn2.iconfinder.com/data/icons/music-media-player-outline-basic/32/1-icon-music-09-512.png"
     };
   },
   props: ["commentId"],
@@ -29,7 +40,6 @@ export default {
   },
   methods: {
     postVote() {
-      console.log("scoop");
       this.$store.dispatch("POST_VOTE", {
         user_id: 1,
         comment_id: this.commentId

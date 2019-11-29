@@ -18,6 +18,10 @@ import WidgetUserList from 'vca-widget-user'
 import VueQuill from "vue-quill";
 import * as VueGoogleMaps from 'vue2-google-maps'
 
+import VShowSlide from 'v-show-slide'
+
+Vue.use(VShowSlide)
+
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 library.add(faCoffee)
 

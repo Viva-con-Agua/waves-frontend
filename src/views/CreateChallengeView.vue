@@ -13,10 +13,11 @@
               v-model="achievement.badge.type"
               :placeholder="$t('poolEventForm.input.type.placeholder')"
             >
-              <el-option label="poolevent" value="poolevent"></el-option>
-              <el-option label="comment" value="comment"></el-option>
-              <el-option label="vote" value="vote"></el-option>
-              <el-option label="profile" value="profile"></el-option>
+              <el-option label="poolevent" value="poolevents"></el-option>
+              <el-option label="comment" value="comments"></el-option>
+              <el-option label="vote" value="votes"></el-option>
+              <el-option label="profile" value="profiles"></el-option>
+              <el-option label="connection" value="connections"></el-option>
             </el-select>
           </el-form-item>
 
@@ -51,12 +52,12 @@
         <Card>
           <Button
             @click="submitAchievement"
-            style="margin-left:0;margin-right:0;"
+            style="padding:7px;margin-left:0;margin-right:0;"
             type="primary"
           >CREATE</Button>
           <Button
             @click="dialogTableVisible = true"
-            style="margin-left:0;margin-right:0;"
+            style="padding:7px;margin-left:0;margin-right:0;"
             type="warning"
           >PREVIEW</Button>
         </Card>
@@ -109,6 +110,7 @@ export default {
       try {
         const achievement = this.achievement;
         achievement.challenge.type = achievement.badge.type;
+        console.log(achievement);
         const response = await Axios.post("/waves/api/v1/achievement", {
           achievement
         });

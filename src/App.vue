@@ -22,8 +22,6 @@ import { Button, Select } from "element-ui";
 import Navbar from "./components/Navbar";
 import vueClapButton from "vue-clap-button";
 
-Vue.use(vueClapButton);
-
 Vue.component(Select.name, Select);
 Vue.component(Button.name, Button);
 

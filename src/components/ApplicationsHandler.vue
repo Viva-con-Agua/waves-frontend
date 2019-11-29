@@ -2,36 +2,39 @@
   <VcAFrame>
     <VcAColumn size="50%">
       <el-row style="margin-top:20px">
+        <h3>Respond to Your {{applications.length}} Application Requests</h3>
         <el-card
           :body-style="{ padding: '0px' }"
           style="padding:20px;margin:0;margin-bottom:5px"
           v-for="application in getApplications()"
           :key="application.id"
         >
-          <el-col :span="3">
+          <el-col :span="2">
             <img src="https://img.icons8.com/cotton/64/000000/gender-neutral-user--v1.png" />
           </el-col>
-          <el-col :span="5">
+          <el-col :span="4">
             <span style="margin:20px;">{{`${application.first_name} ${application.last_name}`}}</span>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="12">
             <span>{{application.text}}</span>
           </el-col>
-          <el-col :span="6">
-            <el-col :span="12">
+          <el-col style="padding:10px" :span="6">
+            <el-col  :span="11">
               <el-button
-                v-if="application.state=='REJECTED'"
+
                 @click="acceptApplication(application.application_id)"
-                style="padding:5px;float:right"
+                style="margin:5px;padding:5px;float:right"
                 type="success"
+                :disabled="application.state=='ACCEPTED'"
               >accept</el-button>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="11" :offset="1">
               <el-button
-                v-if="application.state=='ACCEPTED'"
+
                 @click="rejectApplication(application.application_id)"
-                style="padding:5px;float:right"
+                style="margin:5px;padding:5px;float:right"
                 type="danger"
+                :disabled="application.state==='REJECTED'"
               >reject</el-button>
             </el-col>
           </el-col>

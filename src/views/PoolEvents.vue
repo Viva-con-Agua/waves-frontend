@@ -1,9 +1,11 @@
 <template>
   <VcAFrame>
-    <VcAColumn style="margin-top:20px" size="30%">
-      <rotate-square2 class v-if="!poolEvents" style="margin:auto;"></rotate-square2>
+    <VcAColumn style="margin-top:20px" size="50%">
+      <el-row v-if="!poolEvents" style="margin-top:50%;">
+        <rotate-square2 style="margin:auto;"></rotate-square2>
+      </el-row>
       <el-row>
-        <el-col :span="24" v-for="poolEvent in poolEvents" :key="poolEvent.id">
+        <el-col :span="12" v-for="poolEvent in poolEvents" :key="poolEvent.id">
           <PoolEventCard :poolEvent="poolEvent" />
         </el-col>
       </el-row>
@@ -11,18 +13,16 @@
         <MyPoolEvents :poolEvents="poolEvents" />
       </el-row>
     </VcAColumn>
-    <VcAColumn size="25%">
-      <Card style="margin-top:30px;padding-bottom:20px;">
-        <el-col>
-          <el-button class="vca-button-primary" type="success" @click="createNewPoolEvent">
-            <i class="el-icon-circle-plus"></i> add event
-          </el-button>
-          <el-button class="vca-button-primary" @click="myPoolEventsButtonHandler">my poolevents</el-button>
-          <el-button class="vca-button-primary" @click="myApplicationsButtonHandler">my applications</el-button>
-        </el-col>
-      </Card>
-
-      <VcABox title="filter">
+    <VcAColumn size="20%">
+      <VcABox style="padding:0px">
+        <div style="padding:0px" slot="header">
+          <img
+            style="width:15%;
+                  padding:0px;"
+            alt="filter"
+            src="https://cdn2.iconfinder.com/data/icons/photo-editor-user-interface-2/100/11-512.png"
+          />
+        </div>
         <el-col :span="24">
           <PoolEventFilter />
         </el-col>
@@ -37,7 +37,14 @@ import PoolEventFilter from "../components/PoolEventFilter";
 import PoolEventCard from "../components/PoolEventCard";
 import MyPoolEvents from "../components/MyPoolEvents";
 import Pagination from "../components/Pagination";
-import { Input, Form, Container, Card, Dropdown, DropdownItem } from "element-ui";
+import {
+  Input,
+  Form,
+  Container,
+  Card,
+  Dropdown,
+  DropdownItem
+} from "element-ui";
 import { RotateSquare2 } from "vue-loading-spinner";
 
 export default {
@@ -80,7 +87,7 @@ export default {
       this.$router.push("/waves/create");
     },
     myPoolEventsButtonHandler() {
-      this.$store.dispatch('FETCH_MY_POOLEVENTS')
+      this.$store.dispatch("FETCH_MY_POOLEVENTS");
     },
     myApplicationsButtonHandler() {
       this.myPoolEventsFlag = false;

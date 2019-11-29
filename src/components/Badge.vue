@@ -1,5 +1,5 @@
 <template>
-  <Card>
+  <Card style="width:100%">
     <el-col :span="4">
       <img
         :style='badge.completed==0? "opacity:0.1;": "opacity:1;" + "filter: alpha(opacity=50);"'
@@ -28,7 +28,7 @@
 <script>
 import { Container, Card, Col, Image, Progress } from "element-ui";
 export default {
-  name: "badge",
+  name: "Badge",
   props: ["badge"],
   components: { Card, Col, Container, Image, Progress }
 };

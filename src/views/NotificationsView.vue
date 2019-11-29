@@ -1,7 +1,7 @@
 <template>
   <Container style="width:50%;margin:auto">
     <Row>
-      <h3>Notifications</h3>
+      <h3>Your Notifications</h3>
       <Card v-for="notification in notifications" :key="notification.id">{{notification.type}}</Card>
     </Row>
   </Container>

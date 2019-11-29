@@ -3,9 +3,14 @@
     <div class="card-expansion">
       <md-card class="card-event">
         <md-card-header>
-          <a :href="`/waves/poolevent/${poolEvent.id}`" style="text-decoration : none">
-            <div class="md-title">{{poolEvent.name}}</div>
-          </a>
+          <div class="md-title">
+            <a
+              :href="`/waves/poolevent/${poolEvent.id}`"
+              style="text-decoration : none"
+            >{{poolEvent.name}}</a>
+
+            <i :v-model="favorite.poolevent_id=poolEvent.id" @click="setFavorite" style="float:right;" class="el-icon-star-off" />
+          </div>
           <div class="md-subhead">{{poolEvent.type}}</div>
           <div class="md-body">
             <span>
@@ -16,12 +21,8 @@
           <div class="md-body">
             <span>
               <i class="el-icon-location-outline"></i>
-
               {{`${poolEvent.street_name} ${poolEvent.street_number}, ${poolEvent.post_code} ${poolEvent.city}`}}
             </span>
-          </div>
-          <div class="md-body">
-            <span style="margin-left:18px"> # Plätze frei</span>
           </div>
         </md-card-header>
         <md-card-expand>
@@ -36,11 +37,19 @@
           <md-card-expand-content>
             <md-card-content>
               <span>Bewerbung möglich bis {{new Date(poolEvent.application_end).toLocaleString()}}</span>
-                <el-form :model="application">
-                  <el-form-item label="message">
-                <textarea class="input-text-area" v-model="application.message"  placeholder="send message to asp... " ></textarea>
-                  </el-form-item>
-                <el-button  style="width:100%;margin:0" class="vca-button-primary" @click.prevent="submitForm">apply</el-button>
+              <el-form :model="application">
+                <el-form-item label="message">
+                  <textarea
+                    class="input-text-area"
+                    v-model="application.text"
+                    placeholder="send message to asp... "
+                  ></textarea>
+                </el-form-item>
+                <el-button
+                  style="width:100%;margin:0"
+                  class="vca-button-primary"
+                  @click.prevent="submitForm"
+                >apply</el-button>
               </el-form>
             </md-card-content>
           </md-card-expand-content>
@@ -53,7 +62,8 @@
 <script>
 import ApplicationForm from "./ApplicationForm";
 import icons_ from "../assets/poolEventIcons.json";
-import {Icon} from 'element-ui'
+import { Icon } from "element-ui";
+import Axios from 'axios';
 export default {
   name: "PoolEventCard",
   components: {
@@ -62,12 +72,13 @@ export default {
   props: ["poolEvent"],
   data() {
     return {
+      favorite : {
+        poolevent_id:'',
+        user_id: 1
+      },
       application: {
-        userName: "user",
-        age: "18",
-        message: "",
-        created: new Date(),
-        state: "WAITING_LIST"
+        user_id: 1,
+        text: ""
       },
       icons: icons_.data,
       startDate: "",
@@ -88,15 +99,22 @@ export default {
         "Oktober",
         "November",
         "Dezember"
-      ]
+      ],
+      
     };
   },
-  methods : {
-    submitForm(){
-      this.$store.dispatch('APPLY', {
-        application:this.application,
-        poolEventId : this.poolEvent.id
-      } )
+  methods: {
+    async setFavorite(){
+      console.log(this.favorite);
+      const {data} = await Axios.post('/waves/api/v1/favorite', this.favorite);
+
+
+    },
+    submitForm() {
+      this.$store.dispatch("APPLY", {
+        application: this.application,
+        poolEventId: this.poolEvent.id
+      });
     }
   },
   computed: {
@@ -128,7 +146,7 @@ export default {
         date.getMinutes()
       );
     },
-     getApplicationStart() {
+    getApplicationStart() {
       let date = new Date(this.poolEvent.start);
       return (
         this.daysGer[date.getDay()] +
@@ -257,12 +275,15 @@ export default {
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
-.md-body{
-  margin-top:15px
+.md-body {
+  margin-top: 15px;
 }
 
-.card-event{
+.card-event {
   border-radius: 2%;
 }
 
+.el-icon-star-off:hover{
+  color: #ffd700
+}
 </style>

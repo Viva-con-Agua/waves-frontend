@@ -26,7 +26,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button style="margin:0" @click="getEventsByFilter">filter</el-button>
+        <el-button style="margin:0" @click="getEventsByFilter">FILTER</el-button>
       </el-form-item>
     </el-col>
   </el-form>
