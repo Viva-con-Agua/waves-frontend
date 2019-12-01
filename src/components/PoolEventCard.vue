@@ -6,7 +6,7 @@
           <div class="md-title">
             <a
               :href="`/waves/poolevent/${poolEvent.id}`"
-              style="text-decoration : none"
+              style="text-decoration : none;color:black"
             >{{poolEvent.name}}</a>
 
             <i :v-model="favorite.poolevent_id=poolEvent.id" @click="setFavorite" style="float:right;" class="el-icon-star-off" />
@@ -73,8 +73,7 @@ export default {
   data() {
     return {
       favorite : {
-        poolevent_id:'',
-        user_id: 1
+        poolevent_id:''
       },
       application: {
         user_id: 1,
@@ -105,10 +104,12 @@ export default {
   },
   methods: {
     async setFavorite(){
-      console.log(this.favorite);
-      const {data} = await Axios.post('/waves/api/v1/favorite', this.favorite);
-
-
+      const config = {
+        headers: {
+          Authorization: `bearer ${this.$cookies.get("access_token")}`
+        }
+      };
+      const {data} = await Axios.post('/waves/api/v1/favorite', this.favorite, config);
     },
     submitForm() {
       this.$store.dispatch("APPLY", {

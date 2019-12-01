@@ -133,9 +133,10 @@ export const store = new Vuex.Store({
         })
         .catch(err => {});
     },
-    POST_POOLEVENT: ({ commit }, poolEvent) => {
+    POST_POOLEVENT: ({ commit }, { config, poolevent }) => {
+      console.log(config,poolevent);
       axios
-        .post("/waves/api/v1/poolevent", poolEvent)
+        .post("/waves/api/v1/poolevent", poolevent, config)
         .then(res => {
           commit("addPoolEvent", poolEvent);
           return {

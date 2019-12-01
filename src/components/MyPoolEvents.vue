@@ -46,7 +46,7 @@
           </ul>
         </el-row>
         <el-row>
-          <i class=""></i>
+          <i class></i>
         </el-row>
       </el-card>
     </el-col>
@@ -66,7 +66,12 @@ export default {
   },
   methods: {
     async fetchMyPoolevents() {
-      const { data } = await Axios.get("/waves/api/v1/poolevent/user/1");
+      const config = {
+        headers: {
+          Authorization: `bearer ${this.$cookies.get("access_token")}`
+        }
+      };
+      const { data } = await Axios.get("/waves/api/v1/poolevent/user/me", config);
       this.mypoolevents = data.data;
     }
   }

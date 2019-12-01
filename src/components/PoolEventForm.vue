@@ -2,7 +2,6 @@
   <VcAFrame title="Pool-Event erstellen" hasContainer="true">
     <el-form :model="poolEvent" :rules="rules" ref="poolEvent" class="columns-container">
       <VcAColumn>
-        {{errors}}
         <VcABox :expand="true" :first="true" title="Eventdaten">
           <VcAInfoBox>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere molestias reprehenderit, ullam recusandae, quisquam adipisci at vero iusto tempora omnis amet cupiditate laborum repellendus debitis facilis repellat porro exercitationem magni.</VcAInfoBox>
           <el-form-item :label="$t('poolEventForm.input.title.label')" prop="name">
@@ -185,7 +184,7 @@ export default {
   },
   data() {
     return {
-      errors:[],
+      errors: [],
       content: {
         ops: []
       },
@@ -200,8 +199,7 @@ export default {
         website: "",
         supporter_lim: 0,
         active_user_only: "",
-        state: "UNRELEASED",
-        user_id: 1
+        state: "UNRELEASED"
       },
       description: {
         text: "",
@@ -261,7 +259,14 @@ export default {
       this.submitForm("poolEvent");
       if (this.isValidForm) {
         this.$store
-          .dispatch("POST_POOLEVENT", data)
+          .dispatch("POST_POOLEVENT", {
+            config: {
+              headers: {
+                Authorization: `bearer ${this.$cookies.get("access_token")}`
+              }
+            },
+            poolevent: data
+          })
           .then(() => {
             setTimeout(() => {
               //this.$router.push("/");

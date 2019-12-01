@@ -2,14 +2,14 @@
   <el-row>
     <el-card :body-style="{ padding: '20px' }" v-for="comment in getComments" :key="comment.id">
       <el-row>
-        <el-col :span="3">
+        <el-col :span="2">
           <img
             style="border-radius: 50%;"
             class="profile-img"
             src="https://img.icons8.com/cotton/64/000000/gender-neutral-user--v1.png"
           />
         </el-col>
-        <el-col :span="20" :offset="1">
+        <el-col :span="21" :offset="1">
           <el-row>
             <span class="userName">{{comment.first_name}} {{comment.last_name}}</span>
             <time-ago

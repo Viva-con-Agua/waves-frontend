@@ -21,8 +21,10 @@
       padding:8px;
       margin-top:17px;"
         type="success"
-      ><strong>CREATE</strong></el-button>
-      <ProfileDropdown style="float:right"></ProfileDropdown>
+      >
+        <strong>CREATE</strong>
+      </el-button>
+      <ProfileDropdown :logout="logout" style="float:right"></ProfileDropdown>
       <NotificationBell style="float:right"></NotificationBell>
     </el-col>
   </el-container>
@@ -40,13 +42,14 @@ export default {
       activeIndex2: "1"
     };
   },
+  props: ["logout"],
   components: {
     NotificationBell,
     ProfileDropdown
   },
-  methods:{
-    pushCreatePoolevent(){
-      this.$router.push('/waves/create')
+  methods: {
+    pushCreatePoolevent() {
+      this.$router.push("/waves/create");
     }
   }
 };

@@ -1,13 +1,10 @@
 <template>
   <div id="app">
-    <Navbar></Navbar>
+    <Navbar :logout="logout"></Navbar>
     <router-view />
   </div>
 </template>
 <script>
-//   <WidgetTopNavigation />
-//    <WidgetBottomNavigation />
-
 import VueQuill from "vue-quill";
 import Vue from "vue";
 import {
@@ -21,6 +18,7 @@ import io from "socket.io-client";
 import { Button, Select } from "element-ui";
 import Navbar from "./components/Navbar";
 import vueClapButton from "vue-clap-button";
+import vueCookies from "vue-cookies";
 
 Vue.component(Select.name, Select);
 Vue.component(Button.name, Button);
@@ -28,6 +26,7 @@ Vue.component(Button.name, Button);
 Vue.use(VueMaterial);
 Vue.use(feather, "v-icon");
 Vue.use(VueQuill);
+Vue.use(vueCookies);
 
 export default {
   name: "app",
@@ -57,7 +56,17 @@ export default {
       });
     });
   },
-  methods: {}
+  methods: {
+    logout() {
+      try {
+        this.$cookies.remove("full_name");
+        this.$cookies.remove("role");
+        this.$cookies.remove("access_token");
+      } catch (error) {
+        throw error;
+      }
+    }
+  }
 };
 </script>
 

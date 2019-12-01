@@ -25,6 +25,7 @@
     "vca-widget-navigation": "^0.2.7",
     "vca-widget-user": "^0.5.3",
     "vue-clap-button": "^1.0.5",
+    "vue-cookies": "^1.5.13",
     "vue-google-autocomplete": "^1.1.0",
     "vue-google-places": "^0.1.5",
     "vue-i18n": "^8.10.0",

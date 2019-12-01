@@ -60,7 +60,12 @@ export default {
     };
   },
   async mounted() {
-    const { data } = await Axios.get("/waves/api/v1/favorite/1");
+    const config = {
+      headers: {
+        Authorization: `bearer ${this.$cookies.get("access_token")}`
+      }
+    };
+    const { data } = await Axios.get("/waves/api/v1/favorite/1", config);
     this.favorites = data.data;
   }
 };
