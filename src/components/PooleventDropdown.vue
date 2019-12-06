@@ -24,14 +24,13 @@
           v-if="this.$cookies.get('access_token')"
           style="text-decoration: none;"
           href="/waves"
-          @click="logout"
         >
           <li class="profile-item">duplicate</li>
         </a>
         <a
           v-if="!this.$cookies.get('access_token')"
           style="text-decoration: none;"
-          :href="`https://stage.vivaconagua.org/drops/oauth2/code/get?client_id=wavesex&response_type=code&state=${`http://localhost${this.$router.history.current.path}`}&redirect_uri=http://localhost/waves/api/v1/oauth`"
+          href=""
         >
           <li class="profile-item">release</li>
         </a>

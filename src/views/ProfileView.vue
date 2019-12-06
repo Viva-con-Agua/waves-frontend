@@ -21,9 +21,11 @@
       <el-tabs v-model="activeName" style="width:50%;margin:auto;">
         <el-tab-pane label="Poolevents" name="poolevents">
           <MyPoolevents />
-          <el-tab-pane label="Favorites" name="favorites"></el-tab-pane>
+        </el-tab-pane>
+        <el-tab-pane label="Favorites" name="favorites">
           <MyFavoritePoolevents />
         </el-tab-pane>
+          
         <el-tab-pane label="Applications" name="applications">
           <MyApplications />
         </el-tab-pane>

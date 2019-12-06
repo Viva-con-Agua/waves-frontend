@@ -11,7 +11,7 @@
     <el-dialog width="30%" title="Share" :visible.sync="dialogFormVisible">
       <container style="margin:auto"> 
         <el-row>
-          <el-col :span="6">
+          <el-col  :span="6">
             <facebook :url="location" scale="3"></facebook>
           </el-col>
           <el-col :span="6">

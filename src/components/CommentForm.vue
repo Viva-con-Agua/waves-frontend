@@ -10,14 +10,14 @@
             <span class="user-name">{{this.$cookies.get('full_name')}}</span>
           </el-row>
           <el-row style="margin:0px;padding:0px;">
-            <input
+            <textarea
               class="comment-text-area"
-              style="margin:0px;padding:0px;"
+              draggable="false"
+              style="margin:0px;padding:10px;width:100%;font-size:14px;color:black"
               type="textarea"
               placeholder="comment..."
               v-model="comment.text"
-              :maxLength="240"
-            />
+            ></textarea>
           </el-row>
         </el-col>
       </el-row>

@@ -71,7 +71,7 @@ export default {
           Authorization: `bearer ${this.$cookies.get("access_token")}`
         }
       };
-      const { data } = await Axios.get("/waves/api/v1/poolevent/user/me", config);
+      const { data } = await Axios.get("/waves/api/v1/poolevent/user/me ", config);
       this.mypoolevents = data.data;
     }
   }
