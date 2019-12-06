@@ -2,7 +2,7 @@
   <div style="margin:0;padding:0">
     <rotate-square2 style="margin:auto auto" v-if="!poolEvent"></rotate-square2>
     <VcAFrame v-if="poolEvent">
-      <VcAColumn size="40%">
+      <VcAColumn size="50%">
         <VcABox :title="poolEvent.name">
           <div slot="header">
             <el-tag
@@ -98,89 +98,6 @@
         </Card>
         <CommentForm />
         <CommentCard />
-      </VcAColumn>
-      <VcAColumn size="25%">
-        <VcABox title="state" v-if="isAdmin">
-          <el-row>
-            <el-col>
-              <el-button
-                class="vca-button-primary"
-                id="button"
-                v-if="poolEvent.state==='UNRELEASED'|| poolEvent.state === 'REJECTED'"
-                @click.prevent="releasePooleEvent"
-                type="success"
-                style="margin-left:0;margin-right:0;width: 100%"
-              >{{$t('poolEventView.button.release')}}</el-button>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col>
-              <el-button
-                class="vca-button-primary"
-                id="button"
-                v-if="poolEvent.state==='UNRELEASED'"
-                @click.prevent="refusePoolEvent"
-                style="margin-left:0px;
-                margin-right:0px;
-                width:100%"
-                type="danger"
-              >{{$t('poolEventView.button.refuse')}}</el-button>
-              <el-button
-                class="vca-button-primary"
-                id="button"
-                style="margin-left:0px;margin-right:0px;width:100%"
-                v-else-if="poolEvent.state==='RELEASED'"
-                @click.prevent="refusePoolEvent"
-                type="danger"
-              >
-                <i class="el-icon-circle-close"></i>
-                {{$t('poolEventView.button.refuse')}}
-              </el-button>
-            </el-col>
-          </el-row>
-        </VcABox>
-        <VcABox v-if="isAdmin">
-          <el-row>
-            <el-col>
-              <el-button
-                class="vca-button-primary"
-                id="button"
-                style="margin-left:0px;margin-right:0px;"
-                @click.prevent="editPoolEvent"
-                type="primary"
-              >
-                <i class="el-icon-edit"></i>
-                {{$t('poolEventView.button.edit')}}
-              </el-button>
-              <el-button
-                class="vca-button-warn"
-                id="button"
-                @click.prevent="deletePoolEvent"
-                type="danger"
-                style="margin-left:0px;margin-right:0px;"
-              >
-                <i class="el-icon-delete"></i>
-                {{$t('poolEventView.button.delete')}}
-              </el-button>
-              <PoolEventDuplicator :poolEvent="poolEvent" />
-            </el-col>
-          </el-row>
-        </VcABox>
-        <VcABox :title="`${poolEvent.supporter_lim} supporter needed`">
-          <el-row>
-            <el-col>
-              <el-badge style="width:100%" :value="getApplications().length" type="primary">
-                <el-button
-                  style="margin-left:0px;margin-right:0px;"
-                  class="vca-button-primary"
-                  id="button"
-                  @click="applicationHandler"
-                >{{$t('poolEventView.button.applications')}}</el-button>
-              </el-badge>
-              <ApplicationForm :poolEvent="poolEvent" :currentUser="getCurrentUser" />
-            </el-col>
-          </el-row>
-        </VcABox>
       </VcAColumn>
     </VcAFrame>
   </div>

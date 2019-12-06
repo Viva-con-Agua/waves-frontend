@@ -7,6 +7,7 @@ import PoolEventView from "./views/PoolEventView";
 import BadgesView from "./views/BadgesView";
 import PoolEvents from "./views/PoolEvents";
 import ProfileView from "./views/ProfileView";
+import AchievementWikiView from "./views/AchievementWikiView";
 import ErrorView from "./views/ErrorView";
 import TESTSTUFF from "./views/TESTSTUFF";
 import Router from "vue-router";
@@ -61,6 +62,11 @@ export default new Router({
       path: "/waves/profile",
       name: "Profile",
       component: ProfileView
+    },
+    {
+      path: "/waves/wiki/badges",
+      name: "wiki",
+      component: AchievementWikiView
     },
     {
       path: "/teststuff",
