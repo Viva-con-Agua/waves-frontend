@@ -29,10 +29,15 @@
           </div>
           <Row>
             <ul class="event-start-end">
-              <li>
+              <li style="margin-top:10px">
                 <i class="el-icon-time"></i>
               </li>
-              <li>{{`${new Date(poolEvent.event_start).toLocaleString()} - ${new Date(poolEvent.event_end).toLocaleString()}` }}</li>
+              <li
+                style="margin-top:10px"
+              >{{`${new Date(poolEvent.event_start).toLocaleString()} - ${new Date(poolEvent.event_end).toLocaleString()}` }}</li>
+              <li style="width:auto;float:right">
+                <PooleventDropdown style="float:right;margin-top:0;padding-top:0" />
+              </li>
             </ul>
           </Row>
           <Row>
@@ -54,6 +59,13 @@
               </li>
             </ul>
           </Row>
+          <el-row>
+            <SharingButton
+              :location="`https://localhost${this.$router.history.current.path}`"
+              style="width:40px;float:right;margin:0;border:0"
+            />
+            <ApplicationButton style="width:40px;float:right;margin:0;border:0" />
+          </el-row>
         </VcABox>
 
         <Card :title="$t('poolEventView.description')">
@@ -61,8 +73,10 @@
         </Card>
         <Card :body-style="{ padding: '0px' }">
           <div style="margin:13px">
-            
-            <p><Strong>Adressbeschreibung:</Strong> {{poolEvent.location.desc}}</p>
+            <p>
+              <Strong>Adressbeschreibung:</Strong>
+              {{poolEvent.location.desc}}
+            </p>
           </div>
 
           <GmapMap
@@ -177,6 +191,9 @@ import { Container, Row, Card } from "element-ui";
 import "vca-widget-base/dist/vca-widget-base.css";
 import ApplicationForm from "../components/ApplicationForm";
 import PoolEventDuplicator from "../components/PoolEventDuplicator";
+import PooleventDropdown from "../components/PooleventDropdown";
+import ApplicationButton from "../components/ApplicationButton";
+import SharingButton from "../components/SharingButton";
 import CommentCard from "../components/CommentCard";
 import CommentForm from "../components/CommentForm";
 import { RotateSquare2 } from "vue-loading-spinner";
@@ -222,6 +239,7 @@ export default {
     };
   },
   components: {
+    ApplicationButton,
     Card,
     CommentForm,
     CommentCard,
@@ -232,7 +250,9 @@ export default {
     PoolEventDuplicator,
     Container,
     Row,
-    RotateSquare2
+    RotateSquare2,
+    PooleventDropdown,
+    SharingButton
   },
   computed: {
     poolEvent() {

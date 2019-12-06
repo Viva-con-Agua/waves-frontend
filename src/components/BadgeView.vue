@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-row  >
+    <el-row>
       <el-col :span="24" :v-if="badges.length>0" v-for="badge in badges" :key="badge.id">
         <Badge style="margin-top:20px" :badge="badge"></Badge>
       </el-col>
@@ -15,22 +15,26 @@ import Badge from "./Badge";
 export default {
   name: "BadgeView",
   components: {
-    Badge,
+    Badge
   },
   data() {
     return {
-      badges: "",
+      badges: ""
     };
   },
   methods: {
-    async setAllBadges() {
-      const { data } = await axios.get("/waves/api/v1/badge/user/1");
+    async getAllBadges() {
+      const config = {
+        headers: {
+          Authorization: `bearer ${this.$cookies.get("access_token")}`
+        }
+      };
+      const { data } = await axios.get("/waves/api/v1/badge/user/1", config);
       this.badges = data.data;
-      console.log(this.badges);
     }
   },
   async mounted() {
-    this.setAllBadges();
+    this.getAllBadges();
   }
 };
 </script>

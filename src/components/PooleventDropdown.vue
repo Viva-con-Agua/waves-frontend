@@ -1,26 +1,24 @@
 <template>
-  <el-dropdown trigger="click">
+  <el-dropdown style="margin-top:0;padding:0" trigger="click">
     <span class="el-dropdown-link">
-      <el-button style="width:40px;height:40px;padding:0;border:0" circle>
-        <el-badge  type="danger">
-          <img
-            style="float:right;width:40px;"
-            src="https://img.icons8.com/cotton/64/000000/gender-neutral-user--v1.png"
-          />
-        </el-badge>
+      <el-button
+        style="transform: rotate(90deg);width:40px;float:right;margin:0;border:0"
+        circle
+      >
+        <i class="el-icon-more"></i>
       </el-button>
     </span>
-    <el-dropdown-menu style="padding:0;width:100px" slot="dropdown">
+    <el-dropdown-menu style="margin:0;padding:0;width:100px" slot="dropdown">
       <ul style="list-style:none;padding:0px;margin:0px;">
         <a
           v-if="this.$cookies.get('access_token')"
           style="text-decoration: none;"
           href="/waves/profile"
         >
-          <li class="profile-item">my profile</li>
+          <li class="profile-item">edit</li>
         </a>
         <a style="text-decoration: none;" href="waves/setting">
-          <li class="profile-item">setting</li>
+          <li class="profile-item">remove</li>
         </a>
         <a
           v-if="this.$cookies.get('access_token')"
@@ -28,14 +26,14 @@
           href="/waves"
           @click="logout"
         >
-          <li class="profile-item">logout</li>
+          <li class="profile-item">duplicate</li>
         </a>
         <a
           v-if="!this.$cookies.get('access_token')"
           style="text-decoration: none;"
           :href="`https://stage.vivaconagua.org/drops/oauth2/code/get?client_id=wavesex&response_type=code&state=${`http://localhost${this.$router.history.current.path}`}&redirect_uri=http://localhost/waves/api/v1/oauth`"
         >
-          <li class="profile-item">login</li>
+          <li class="profile-item">release</li>
         </a>
       </ul>
     </el-dropdown-menu>
@@ -44,26 +42,9 @@
 
 <script>
 export default {
-  name: "ProfileDropDown",
-  methods: {
-    logout(){
-      this.$cookies.remove('access_token')
-      this.$cookies.remove('full_name')
-      this.$cookies.remove('role')
-    }
-  }
+  name: "PooleventDropdown"
 };
 </script>
 
 <style>
-.profile-item:hover {
-  background-color: #eee;
-  padding: 5px 5px 10px 10px;
-  color: black;
-}
-
-.profile-item {
-  padding: 5px 5px 10px 10px;
-  color: black;
-}
 </style>

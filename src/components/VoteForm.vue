@@ -1,9 +1,7 @@
 <template>
   <Row style="padding:0;margin:0;">
-    <el-col style="padding:0" :span="2">
-      <p style="text-align:center">{{votes.length}}</p>
-    </el-col>
-    <el-col :span="2">
+    
+    <el-col :span="1">
       <img
         class="like-button"
         style="height:20px;margin-top:14px"
@@ -13,6 +11,9 @@
         @mouseover="heartImg=filledImg"
         @mouseleave="heartImg=emptyImg"
       />
+    </el-col>
+    <el-col style="padding:0" :span="1">
+      <p style="text-align:center">{{votes.length}}</p>
     </el-col>
   </Row>
 </template>

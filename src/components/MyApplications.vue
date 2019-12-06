@@ -49,21 +49,32 @@ export default {
         ACCEPTED: "ACCEPTED",
         REJECTED: "REJECTED"
       },
-      applications: []
+      applications: [],
+      config: ""
     };
   },
   async mounted() {
+    this.config = await {
+      headers: { Authorization: `Bearer ${this.$cookies.get("access_token")}` }
+    };
     await this.fetchApplications();
   },
   methods: {
     async cancelApplication(id) {
-      const { data } = await Axios.put(`/waves/api/v1/application/${id}`, {
-        state: "CANCELED"
-      });
+      const { data } = await Axios.put(
+        `/waves/api/v1/application/${id}`,
+        {
+          state: "CANCELED"
+        },
+        this.config
+      );
       await this.fetchApplications();
     },
     async fetchApplications() {
-      const { data } = await Axios.get("/waves/api/v1/application/user/1");
+      const { data } = await Axios.get(
+        "/waves/api/v1/application/user/1",
+        this.config
+      );
       this.applications = data.data;
     }
   }

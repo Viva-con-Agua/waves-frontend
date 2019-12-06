@@ -39,6 +39,7 @@ const poolEventStateMachine = Machine({
 
 export const store = new Vuex.Store({
   state: {
+    errors: [],
     poolEvents: [],
     poolEvent: "",
     currentState: poolEventStateMachine.initial,
@@ -49,7 +50,8 @@ export const store = new Vuex.Store({
       name: "John Doe"
     },
     isAdmin: true,
-    isLogedIn: true
+    isLogedIn: true,
+    access_token: ""
   },
   getters: {
     getAllPoolEvents(state) {
@@ -72,6 +74,12 @@ export const store = new Vuex.Store({
     },
     getCurrentUser(state) {
       return state.currentUser;
+    },
+    getErrors(state) {
+      return state.errors;
+    },
+    getAccessToken(state) {
+      return state.access_token;
     }
   },
   mutations: {
@@ -120,8 +128,11 @@ export const store = new Vuex.Store({
     setComments: (state, comments) => {
       state.comments = comments;
     },
-    setError: (state, error) => {
-      state.errors.push(error.message);
+    pushError: (state, error) => {
+      state.errors.push(error);
+    },
+    setAccessToken: (state, access_token) => {
+      state.access_token = access_token;
     }
   },
   actions: {
@@ -131,21 +142,18 @@ export const store = new Vuex.Store({
         .then(res => {
           commit("updatePoolEvents", res.data);
         })
-        .catch(err => {});
+        .catch(err => {
+          commit("pushError", error);
+        });
     },
     POST_POOLEVENT: ({ commit }, { config, poolevent }) => {
-      console.log(config,poolevent);
       axios
         .post("/waves/api/v1/poolevent", poolevent, config)
-        .then(res => {
+        .then(poolEvent => {
           commit("addPoolEvent", poolEvent);
-          return {
-            message: "success",
-            created: res
-          };
         })
         .catch(err => {
-          console.log(err);
+          commit("pushError", err.response);
         });
     },
     ADD_POOLEVENT: ({ commit }, poolEvent) => {
@@ -164,9 +172,7 @@ export const store = new Vuex.Store({
         .then(resp => {
           commit("transition", "unrelease");
         })
-        .catch(err => {
-          err.message;
-        });
+        .catch(err => {});
     },
     EDIT_AND_SAVE_AS_DRAFT: ({ commit }, poolEvent) => {
       axios
@@ -205,9 +211,9 @@ export const store = new Vuex.Store({
         })
         .catch(err => {});
     },
-    APPLY: ({ commit }, application) => {
+    APPLY: ({ commit }, { config, application }) => {
       axios
-        .post(API_URI + `/application`, application)
+        .post(API_URI + `/application`, application, config)
         .then(resp => {
           commit("addApplication", resp);
         })
@@ -256,10 +262,11 @@ export const store = new Vuex.Store({
           commit("setError", err);
         });
     },
-    SUBMIT_COMMENT: ({ commit }, comment) => {
+    SUBMIT_COMMENT: ({ commit, getters }, comment) => {
       axios
-        .post(API_URI + `/comment`, comment.data)
+        .post(API_URI + `/comment`, comment.data,getters.getAccessToken)
         .then(resp => {
+          console.log(getters.getAccessToken);
           commit("addComment", resp.data);
         })
         .catch(err => {});
@@ -292,12 +299,14 @@ export const store = new Vuex.Store({
       axios
         .get(API_URI + "/favorite/1")
         .then(poolevents => {
-          console.log(API_URI + `/favorite/1`);
           commit("updatePoolEvents", poolevents);
         })
-        .catch(err => {
-          throw err.message;
+        .catch(error => {
+          commit("pushError", error);
         });
+    },
+    SET_ACCESS_TOKEN: ({ commit }, access_token) => {
+      commit("setAccessToken", access_token);
     }
   }
 });

@@ -1,13 +1,23 @@
 <template>
-  <el-dropdown style="margin:20px;" trigger="click">
+  <el-dropdown trigger="click">
     <span class="el-dropdown-link">
-      <el-badge :value="notifications.length" type="danger" :hidden="notifications.length==0 || setSeen">
-        <img
-          @click="fetchNotification"
-          src="https://img.icons8.com/officel/30/000000/appointment-reminders.png"
-          alt="scoop"
-        />
-      </el-badge>
+      <el-button
+        class="bell-button"
+        style="width:40px;padding:0;height:40px;border:0;background:#0a6b91;"
+        circle
+      >
+        <el-badge
+          :value="notifications.length"
+          type="danger"
+          :hidden="notifications.length==0 || setSeen"
+        >
+          <img
+            @click="fetchNotification"
+            src="https://img.icons8.com/officel/30/000000/appointment-reminders.png"
+            alt="scoop"
+          />
+        </el-badge>
+      </el-button>
     </span>
     <el-dropdown-menu style="padding:0;width:400px" slot="dropdown">
       <el-row>
@@ -21,7 +31,9 @@
             :href="`/waves/poolevent/${noti.notification.source_id}`"
           >
             <el-card style="padding-top:0px;padding-bottom:15px" shadow="never">
-              <el-col :span="2"><i class="el-icon-date"></i></el-col>
+              <el-col :span="2">
+                <i :class="noti.notification.type=='poolevents'?'el-icon-date':'el-icon-medal-1'"></i>
+              </el-col>
               <el-col :span="18">{{formatNotification(noti)}}</el-col>
               <el-col :span="4">
                 <time-ago
@@ -59,24 +71,34 @@ export default {
     return {
       notifications: [],
       allNotification: [],
-      setSeen : false
+      setSeen: false,
+      config: ""
     };
   },
   async mounted() {
-    const { data } = await Axios.get("/waves/api/v1/notification/user/1/new");
+    this.config = await {
+      headers: { Authorization: `Bearer ${this.$cookies.get("access_token")}` }
+    };
+    const { data } = await Axios.get(
+      "/waves/api/v1/notification/user/1/new",
+      this.config
+    );
     this.notifications = data.data;
   },
   methods: {
-    formatNotification({notification, source}) {
+    formatNotification({ notification, source }) {
       switch (notification.type) {
         case "poolevents":
-          return `john doe added a ${(source.type).toLowerCase()} ${source.name}`;
+          return `john doe added a ${source.type.toLowerCase()} ${source.name}`;
         case "badges":
           return `you unlocked a new badge: ${source.name}`;
       }
     },
     async fetchNotification() {
-      const { data } = await Axios.get("/waves/api/v1/notification/1");
+      const { data } = await Axios.get(
+        "/waves/api/v1/notification/1",
+        this.config
+      );
       this.allNotification = data.data;
       this.setSeen = true;
     }
@@ -85,4 +107,7 @@ export default {
 </script>
 
 <style>
+.bell-button:hover {
+  background: #eee;
+}
 </style>

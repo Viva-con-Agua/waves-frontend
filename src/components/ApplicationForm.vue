@@ -1,5 +1,5 @@
 <template>
-  <el-form  :model="application" ref="application" class="rows-container">
+  <el-form :model="application" ref="application" class="rows-container">
     <el-form-item label="message">
       <el-input
         type="textarea"
@@ -27,14 +27,13 @@ export default {
   components: {
     VcAFrame,
     VcAColumn,
-    VcABox,
+    VcABox
   },
-  props: ["poolEvent", "currentUser"],
+  props: ["poolEvent"],
   data() {
     return {
       application: {
         text: "",
-        user_id:1,
         poolevent_id: this.$route.params.id
       },
       applied: false,
@@ -46,9 +45,14 @@ export default {
       this.showApplicationForm = true;
     },
     submitApplication() {
-      this.$store.dispatch("APPLY", 
-        this.application
-      );
+      this.$store.dispatch("APPLY", {
+        config: {
+          headers: {
+            Authorization: `bearer ${this.$cookies.get("access_token")}`
+          }
+        },
+        application: this.application
+      });
       //this.applied = true;
     }
   }

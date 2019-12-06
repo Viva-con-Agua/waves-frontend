@@ -38,7 +38,6 @@ export default {
     return {
       comment: {
         text: "",
-        user_id: 1,
         poolevent_id: this.$route.params.id
       },
       id: this.$route.params.id

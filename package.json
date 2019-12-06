@@ -36,6 +36,7 @@
     "vue-quill": "^1.5.1",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.0.1",
+    "vue-socialmedia-share": "^1.0.1",
     "vue-state-machine": "^0.1.3",
     "vue2-google-maps": "^0.10.6",
     "vue2-timeago": "^1.1.3",

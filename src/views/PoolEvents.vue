@@ -31,6 +31,7 @@
   </VcAFrame>
 </template>
 
+
 <script>
 import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
 import PoolEventFilter from "../components/PoolEventFilter";
@@ -97,6 +98,7 @@ export default {
   }
 };
 </script>
+
 <style lang="less" scoped>
 input {
   position: relative;

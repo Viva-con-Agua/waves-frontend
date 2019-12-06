@@ -13,7 +13,7 @@
           <el-row>
             <span class="userName">{{comment.first_name}} {{comment.last_name}}</span>
             <time-ago
-              style="float:right;
+              style="
               color:grey;
               text-decoration:none;"
               class="title"

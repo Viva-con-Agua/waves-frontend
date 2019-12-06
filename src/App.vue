@@ -37,7 +37,8 @@ export default {
   },
   data() {
     return {
-      socket: io("localhost:5000")
+      socket: io("localhost:5000"),
+      errors: []
     };
   },
   created() {
@@ -65,6 +66,17 @@ export default {
       } catch (error) {
         throw error;
       }
+    }
+  },
+  mounted() {
+    //   this.errors.push(this.$store.getters.getErrors);
+    //this.$message.error("Congrats, this is a success message.");
+    if (this.$cookies.get("access_token")) {
+      this.$store.dispatch("SET_ACCESS_TOKEN", {
+        headers: {
+          Authorization: `Bearer ${this.$cookies.get("access_token")}`
+        }
+      });
     }
   }
 };
