@@ -12,8 +12,6 @@ import {
   WidgetBottomNavigation
 } from "vca-widget-navigation";
 import feather from "vue-icon";
-import VueMaterial from "vue-material";
-import "vue-material/dist/vue-material.min.css";
 import io from "socket.io-client";
 import { Button, Select } from "element-ui";
 import Navbar from "./components/Navbar";
@@ -23,7 +21,6 @@ import vueCookies from "vue-cookies";
 Vue.component(Select.name, Select);
 Vue.component(Button.name, Button);
 
-Vue.use(VueMaterial);
 Vue.use(feather, "v-icon");
 Vue.use(VueQuill);
 Vue.use(vueCookies);
@@ -88,10 +85,16 @@ export default {
   flex: 1;
   display: flex;
   flex-direction: column;
+  margin: 0%;
 }
 #content {
   flex-grow: 1;
   display: flex;
   overflow: auto;
+}
+body {
+  margin: 0;
+  font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
+  font-size: 14px;
 }
 </style>

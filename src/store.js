@@ -264,9 +264,8 @@ export const store = new Vuex.Store({
     },
     SUBMIT_COMMENT: ({ commit, getters }, comment) => {
       axios
-        .post(API_URI + `/comment`, comment.data,getters.getAccessToken)
+        .post(API_URI + `/comment`, comment.data, getters.getAccessToken)
         .then(resp => {
-          console.log(getters.getAccessToken);
           commit("addComment", resp.data);
         })
         .catch(err => {});

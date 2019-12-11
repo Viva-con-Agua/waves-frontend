@@ -18,6 +18,7 @@
               <el-option label="vote" value="votes"></el-option>
               <el-option label="profile" value="profiles"></el-option>
               <el-option label="connection" value="connections"></el-option>
+              <el-option label="info" value="info"></el-option>
             </el-select>
           </el-form-item>
 

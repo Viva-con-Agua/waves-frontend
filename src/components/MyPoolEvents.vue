@@ -1,11 +1,12 @@
 <template>
   <div>
-    <el-col v-for="poolevent in mypoolevents" :key="poolevent.id" :span="11" :offset="1">
+    <el-col v-for="poolevent in mypoolevents" :key="poolevent.id" :span="11" >
       <el-card
         :body-style="{ padding: '0px' }"
         style="padding:20px;
-      margin:0;
-      margin-bottom:5px"
+      margin:auto;
+      margin-bottom:5px;width:80%"
+      
       >
         <el-row>
           <strong>

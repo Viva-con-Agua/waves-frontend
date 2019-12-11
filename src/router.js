@@ -5,11 +5,11 @@ import PoolEventFormView from "./views/PoolEventFormView";
 import NotificationsView from "./views/NotificationsView";
 import PoolEventView from "./views/PoolEventView";
 import BadgesView from "./views/BadgesView";
-import PoolEvents from "./views/PoolEvents";
+import PoolEventsView from "./views/PoolEventsView";
 import ProfileView from "./views/ProfileView";
 import AchievementWikiView from "./views/AchievementWikiView";
+import InformationView from "./views/InformationView";
 import ErrorView from "./views/ErrorView";
-import TESTSTUFF from "./views/TESTSTUFF";
 import Router from "vue-router";
 import Vue from "vue";
 
@@ -20,8 +20,8 @@ export default new Router({
   routes: [
     {
       path: "/waves",
-      name: "PoolEvents",
-      component: PoolEvents
+      name: "PoolEventsView",
+      component: PoolEventsView
     },
     {
       path: "/waves/poolevent/:id",
@@ -69,9 +69,9 @@ export default new Router({
       component: AchievementWikiView
     },
     {
-      path: "/teststuff",
-      name: "test",
-      component: TESTSTUFF
+      path: "/waves/info",
+      name: "information",
+      component: InformationView
     },
     { path: "*", component: ErrorView }
   ]

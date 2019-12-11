@@ -20,7 +20,7 @@
       width:80px;
       padding:8px;
       margin-top:17px;"
-        type="success"
+        type="primary"
       >
         <strong>CREATE</strong>
       </el-button>

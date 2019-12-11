@@ -27,7 +27,7 @@
               type="standard"
             >{{$t('poolEventView.state.draft')}}</el-tag>
           </div>
-          <Row>
+          <el-row>
             <ul class="event-start-end">
               <li style="margin-top:10px">
                 <i class="el-icon-time"></i>
@@ -35,36 +35,36 @@
               <li
                 style="margin-top:10px"
               >{{`${new Date(poolEvent.event_start).toLocaleString()} - ${new Date(poolEvent.event_end).toLocaleString()}` }}</li>
-              <li style="width:auto;float:right">
-                <PooleventDropdown style="float:right;margin-top:0;padding-top:0" />
-              </li>
             </ul>
-          </Row>
-          <Row>
+          </el-row>
+          <el-row>
             <ul class="event-start-end">
               <li>
                 <i class="el-icon-location-outline"></i>
               </li>
               <li>{{`${poolEvent.location.street_name} ${poolEvent.location.street_number}, ${poolEvent.location.post_code} ${poolEvent.location.city}` }}</li>
             </ul>
-          </Row>
-          <Row>
+          </el-row>
+          <el-row>
             <ul class="event-start-end">
               <li>
-                <i class="el-icon-loading"></i>
+                <i class="el-icon-info"></i>
               </li>
               <li>
-                <a :href="poolEvent.website"></a>
                 {{ poolEvent.website}}
               </li>
             </ul>
-          </Row>
+          </el-row>
           <el-row>
+            <PooleventDropdown style="float:right;margin-top:0;padding-top:0" />
             <SharingButton
               :location="`https://localhost${this.$router.history.current.path}`"
               style="width:40px;float:right;margin:0;border:0"
             />
-            <ApplicationButton style="width:40px;float:right;margin:0;border:0" />
+            <ApplicationButton
+              :poolevent="poolEvent"
+              style="width:40px;float:right;margin:0;border:0"
+            />
           </el-row>
         </VcABox>
 
@@ -104,7 +104,7 @@
 </template>
 <script>
 import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
-import { Container, Row, Card } from "element-ui";
+import { Container, Card } from "element-ui";
 import "vca-widget-base/dist/vca-widget-base.css";
 import ApplicationForm from "../components/ApplicationForm";
 import PoolEventDuplicator from "../components/PoolEventDuplicator";
@@ -166,7 +166,6 @@ export default {
     ApplicationForm,
     PoolEventDuplicator,
     Container,
-    Row,
     RotateSquare2,
     PooleventDropdown,
     SharingButton

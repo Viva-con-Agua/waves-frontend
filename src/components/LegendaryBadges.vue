@@ -1,5 +1,5 @@
  <template>
-   
+   <h3>Legendary Badges</h3>
  </template>
  
  <script>

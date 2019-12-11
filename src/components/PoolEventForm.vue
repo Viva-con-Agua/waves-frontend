@@ -63,10 +63,14 @@
             ></el-time-picker>
           </el-form-item>
           <el-form-item label="asp of Event">
-            <WidgetUserAutocomplete
-              :preselection="involvedSupporter"
-              @vca-user-selection="selectSupporter"
-            />
+            <el-select multiple filterable allow-create v-model="poolEvent.asp_event_id">
+              <el-option
+                v-for="user in users"
+                :key="user.id"
+                :label="user.last_name"
+                :value="user.id"
+              ></el-option>
+            </el-select>
           </el-form-item>
 
           <quill :config="config" v-model="description.html" output="html"></quill>
@@ -166,9 +170,9 @@ import "vca-widget-base/dist/vca-widget-base.css";
 import { Input, Form } from "element-ui";
 import VueGoogleAutocomplete from "vue-google-autocomplete";
 import { WidgetUserAutocomplete } from "vca-widget-user";
-import "vca-widget-user/dist/vca-widget-user.css";
 import "../assets/pool_event_style.css";
 import rulesJon from "../rules/form";
+import Axios from "axios";
 
 export default {
   name: "PoolEventForm",
@@ -184,6 +188,7 @@ export default {
   },
   data() {
     return {
+      users: [],
       errors: [],
       content: {
         ops: []
@@ -195,7 +200,7 @@ export default {
         event_end: "",
         application_start: "",
         application_end: "",
-        asp_event_Id: 0,
+        asp_event_id: "",
         website: "",
         supporter_lim: 0,
         active_user_only: "",
@@ -215,8 +220,9 @@ export default {
       }
     };
   },
-  mounter() {
+  async mounted() {
     this.errors = this.$store.state.errors;
+    await this.fetchAllUsers();
   },
   methods: {
     addPoolEvent() {
@@ -338,6 +344,11 @@ export default {
           this.isValidForm = valid;
         }
       });
+    },
+    async fetchAllUsers() {
+      const { data } = await Axios.get("/waves/api/v1/user");
+      console.log("--!", data);
+      this.users = data.data;
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();

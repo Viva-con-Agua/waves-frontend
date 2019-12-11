@@ -1,22 +1,23 @@
+import { WidgetTopNavigation, WidgetBottomNavigation } from 'vca-widget-navigation'
+import { WidgetUserAutocomplete } from 'vca-widget-user'
+import enElement from 'element-ui/lib/locale/lang/en';
+import deElement from 'element-ui/lib/locale/lang/de';
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {faCoffee} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import WidgetUserList from 'vca-widget-user'
+import * as VueGoogleMaps from 'vue2-google-maps'
 import Vue from 'vue'
 import App from './App.vue'
 import ElementUI from 'element-ui';
-import { WidgetUserAutocomplete } from 'vca-widget-user'
-import { WidgetTopNavigation, WidgetBottomNavigation } from 'vca-widget-navigation'
 import router from './router'
 import VueI18n from 'vue-i18n'
 import en from '@/lang/en_US.json';
 import de from '@/lang/de_DE.json';
-import enElement from 'element-ui/lib/locale/lang/en';
-import deElement from 'element-ui/lib/locale/lang/de';
 import {store} from './store'
-import {library} from '@fortawesome/fontawesome-svg-core'
-import {faCoffee} from '@fortawesome/free-solid-svg-icons'
-import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import vsm from 'vue-state-machine';
-import WidgetUserList from 'vca-widget-user'
 import VueQuill from "vue-quill";
-import * as VueGoogleMaps from 'vue2-google-maps'
+
 
 import VShowSlide from 'v-show-slide'
 
@@ -35,6 +36,7 @@ Vue.use(VueGoogleMaps, {
     key: 'AIzaSyDnoNOeMPDa7WkC8NVxO6IZV3K6MRNLA0M',
   },
 })
+
 const dateTimeFormats = {
   'en-US': {
     short: {

@@ -1,8 +1,11 @@
 <template>
   <div>
     <el-row style="margin-top:20px">
-      <el-col v-for="application in applications" :key="application.id" :span="11" :offset="1">
-        <el-card :body-style="{ padding: '0px' }" style="padding:20px;margin:0;margin-bottom:5px">
+      <el-col v-for="application in applications" :key="application.id" :span="24">
+        <el-card
+          :body-style="{ padding: '0px' }"
+          style="padding:20px;margin:10px;margin-bottom:5px;width:90%"
+        >
           <el-row>
             <el-row>
               <strong>
@@ -21,7 +24,11 @@
             <el-row>
               <el-button
                 type="danger"
-                style="border-radius: 50%;width:10%;margin:0;padding:5px;float:right"
+                style="border-radius: 50%;
+                width:30px;
+                margin:0;
+                padding:5px;
+                float:right"
                 @click="cancelApplication(application.id)"
               >
                 <i class="el-icon-delete"></i>

@@ -1,32 +1,23 @@
 <template>
   <VcAFrame>
-    <VcAColumn style="margin-top:20px" size="50%">
+    <VcAColumn style="margin-top:20px;" size="10%">
+      <h4 style="color:grey">Support Needed</h4>
+    </VcAColumn>
+    <VcAColumn style="margin-top:20px;" size="40%">
+      <el-row >
+        <PoolEventFilter/>
+      </el-row>
       <el-row v-if="!poolEvents" style="margin-top:50%;">
         <rotate-square2 style="margin:auto;"></rotate-square2>
       </el-row>
-      <el-row>
-        <el-col :span="12" v-for="poolEvent in poolEvents" :key="poolEvent.id">
+      <el-row style="margin-top:1%;">
+        <el-col :span="24" v-for="poolEvent in poolEvents" :key="poolEvent.id">
           <PoolEventCard :poolEvent="poolEvent" />
         </el-col>
       </el-row>
-      <el-row v-if="myPoolEventsFlag">
-        <MyPoolEvents :poolEvents="poolEvents" />
-      </el-row>
     </VcAColumn>
-    <VcAColumn size="20%">
-      <VcABox style="padding:0px">
-        <div style="padding:0px" slot="header">
-          <img
-            style="width:15%;
-                  padding:0px;"
-            alt="filter"
-            src="https://cdn2.iconfinder.com/data/icons/photo-editor-user-interface-2/100/11-512.png"
-          />
-        </div>
-        <el-col :span="24">
-          <PoolEventFilter />
-        </el-col>
-      </VcABox>
+    <VcAColumn style="margin-top:20px;" size="20%">
+      <h4 style="color:grey">Recomanded Poolevents</h4>
     </VcAColumn>
   </VcAFrame>
 </template>
@@ -49,7 +40,7 @@ import {
 import { RotateSquare2 } from "vue-loading-spinner";
 
 export default {
-  name: "PoolEvents",
+  name: "PoolEventsView",
   components: {
     RotateSquare2,
     PoolEventCard,

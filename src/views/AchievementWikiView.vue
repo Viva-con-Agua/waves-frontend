@@ -20,13 +20,46 @@
 
       <h3></h3>
     </el-row>
+    <el-row>
+      <NormalBadges :badges="badges" />
+    </el-row>
+    <el-row>
+      <ELearningBadges />
+    </el-row>
+    <el-row>
+      <LegendaryBadges />
+    </el-row>
   </div>
 </template>
 
 <script>
-import NormalBadges from '../components/NormalBadges'
+import NormalBadges from "../components/NormalBadges";
+import LegendaryBadges from "../components/LegendaryBadges";
+import ELearningBadges from "../components/ElearningBadges";
+
+import Axios from "axios";
+
 export default {
-  name: "AchievementWikiView"
+  name: "AchievementWikiView",
+  components: {
+    NormalBadges,
+    LegendaryBadges,
+    ELearningBadges
+  },
+  data() {
+    return {
+      config: "",
+      badges: ""
+    };
+  },
+  async mounted() {
+    const { data } = await Axios.get("/waves/api/v1/badge", {
+      headers: {
+        Authorization: `Bearer ${this.$cookies.get("access_token")}`
+      }
+    });
+    this.badges = data.data;
+  }
 };
 </script>
 

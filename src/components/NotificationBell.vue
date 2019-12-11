@@ -76,7 +76,7 @@ export default {
     };
   },
   async mounted() {
-    this.config = await {
+    this.config = {
       headers: { Authorization: `Bearer ${this.$cookies.get("access_token")}` }
     };
     const { data } = await Axios.get(
@@ -84,22 +84,26 @@ export default {
       this.config
     );
     this.notifications = data.data;
+    await this.fetchNotification();
   },
   methods: {
     formatNotification({ notification, source }) {
       switch (notification.type) {
         case "poolevents":
-          return `john doe added a ${source.type.toLowerCase()} ${source.name}`;
+          return `john doe added a poolevent ${source.name}`;
         case "badges":
           return `you unlocked a new badge: ${source.name}`;
       }
     },
     async fetchNotification() {
       const { data } = await Axios.get(
-        "/waves/api/v1/notification/1",
+        "/waves/api/v1/notification/user",
         this.config
       );
       this.allNotification = data.data;
+
+      console.log(this.allNotification);
+
       this.setSeen = true;
     }
   }
