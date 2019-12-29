@@ -12,6 +12,7 @@
           :hidden="notifications.length==0 || setSeen"
         >
           <img
+            style="height:25px"
             @click="fetchNotification"
             src="https://img.icons8.com/officel/30/000000/appointment-reminders.png"
             alt="scoop"
@@ -19,12 +20,12 @@
         </el-badge>
       </el-button>
     </span>
-    <el-dropdown-menu style="padding:0;width:400px" slot="dropdown">
+    <el-dropdown-menu style="padding:0;width:450px" slot="dropdown">
       <el-row>
         <el-col style="padding:5px;" :span="24">Notifications</el-col>
       </el-row>
       <el-row>
-        <el-col :span="24">
+        <el-col v-if="allNotification" :span="24">
           <a
             v-for="noti in allNotification"
             :key="noti.notification.id"
@@ -90,9 +91,9 @@ export default {
     formatNotification({ notification, source }) {
       switch (notification.type) {
         case "poolevents":
-          return `john doe added a poolevent ${source.name}`;
+          return `john doe added a poolevent ${source.name || "blank"}`;
         case "badges":
-          return `you unlocked a new badge: ${source.name}`;
+          return "new badge unlocked"
       }
     },
     async fetchNotification() {
@@ -101,9 +102,6 @@ export default {
         this.config
       );
       this.allNotification = data.data;
-
-      console.log(this.allNotification);
-
       this.setSeen = true;
     }
   }

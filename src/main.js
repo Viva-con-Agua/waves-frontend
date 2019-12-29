@@ -1,11 +1,9 @@
 import { WidgetTopNavigation, WidgetBottomNavigation } from 'vca-widget-navigation'
-import { WidgetUserAutocomplete } from 'vca-widget-user'
 import enElement from 'element-ui/lib/locale/lang/en';
 import deElement from 'element-ui/lib/locale/lang/de';
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faCoffee} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
-import WidgetUserList from 'vca-widget-user'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import Vue from 'vue'
 import App from './App.vue'
@@ -17,6 +15,8 @@ import de from '@/lang/de_DE.json';
 import {store} from './store'
 import vsm from 'vue-state-machine';
 import VueQuill from "vue-quill";
+import 'element-ui/lib/theme-chalk/index.css';
+
 
 
 import VShowSlide from 'v-show-slide'
@@ -75,8 +75,7 @@ const i18n = new VueI18n({
 Vue.use(ElementUI, {
   i18n: (key, value) => i18n.t(key, value)
 });
-Vue.use(WidgetUserList, { 'i18n': i18n })
-Vue.use(WidgetUserAutocomplete, { 'i18n': i18n })
+
 Vue.use(WidgetBottomNavigation, { 'i18n': i18n })
 Vue.use(WidgetTopNavigation, { 'i18n': i18n })
 

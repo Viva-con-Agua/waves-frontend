@@ -8,7 +8,7 @@
         disable
       />
     </el-col>
-    <el-col :span="20">
+    <el-col :span="21">
       <ul class="badge-info-list">
         <li>{{badge.name}}</li>
         <li>
@@ -20,15 +20,30 @@
           />
         </li>
         <li>{{badge.completed===1?badge.message: badge.desc}}</li>
+        <li>
+          <span style="color:gray;">{{avg * 100}}% of supporters have this achievement</span>
+        </li>
       </ul>
     </el-col>
   </el-card>
 </template>
 
 <script>
+import Axios from "axios";
 export default {
   name: "Badge",
   props: ["badge"],
+  data() {
+    return { avg: "" };
+  },
+  async mounted() {
+    console.log(this.badge);
+    const { data } = await Axios.get(
+      `/waves/api/v1/achievement/avg/${this.badge.id}`
+    );
+    console.log(data);
+    this.avg = data.average;
+  }
 };
 </script>
 

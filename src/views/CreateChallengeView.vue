@@ -19,6 +19,7 @@
               <el-option label="profile" value="profiles"></el-option>
               <el-option label="connection" value="connections"></el-option>
               <el-option label="info" value="info"></el-option>
+              <el-option label="application" value="applications"></el-option>
             </el-select>
           </el-form-item>
 
@@ -64,6 +65,15 @@
         </Card>
       </VcAColumn>
     </el-form>
+    <div style="width:40%;margin:auto">
+      <el-input
+        style="margin:30px;margin-left:10px;"
+        type="textarea"
+        v-model="data"
+        id="myTextArea"
+      ></el-input>
+      <el-button @click="createBadges">los</el-button>
+    </div>
   </VcAFrame>
 </template>
 
@@ -103,15 +113,36 @@ export default {
           desc: ""
         }
       },
+      data: "",
       dialogTableVisible: false
     };
   },
   methods: {
+    createBadges() {
+      let { badges } = JSON.parse(this.data);
+      badges.map(async badge => {
+        const response = await Axios.post("/waves/api/v1/achievement", {
+          achievement: {
+            badge: {
+              name: badge.name,
+              type: badge.type,
+              desc: badge.challenge,
+              img_url: badge.img
+            },
+            challenge: {
+              name: badge.name,
+              points: badge.point,
+              desc: badge.challenge || "",
+              type: badge.type
+            }
+          }
+        });
+      });
+    },
     async submitAchievement() {
       try {
         const achievement = this.achievement;
         achievement.challenge.type = achievement.badge.type;
-        console.log(achievement);
         const response = await Axios.post("/waves/api/v1/achievement", {
           achievement
         });

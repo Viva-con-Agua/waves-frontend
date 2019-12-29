@@ -42,7 +42,6 @@ export default {
   methods: {
     postVote() {
       this.$store.dispatch("POST_VOTE", {
-        user_id: 1,
         comment_id: this.commentId
       });
     }

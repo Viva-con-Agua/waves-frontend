@@ -3,19 +3,13 @@
     <el-row>
       <h2>Badges</h2>
       <p>
-        As a way of saying thanks to the people who contribute to reddit, a set of daily reddit trophies was established in late 2009. Each night at midnight (PT), the trophies are calculated for the previous day and the winners listed on our honor roll. Also, each winner receives a trophy on their user page as a token of having won.
-        What's the difference between an award and a trophy?
-        Awards and trophies are now distinctly different concepts. Awards include Silver, Gold and Platinum, which users can give one another to recognize high quality content. You can learn more about Awards here.
-        Trophies are honors bestowed by Reddit for worthy contributions; for example, to commemorate a user with the “Translator” trophy for excellence in language translations, or the “White Hat” trophy for catching a bug and responsibly reporting to our admins.
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum neque aut facilis perspiciatis debitis sapiente sunt accusamus commodi in. Optio aliquid alias placeat! Corrupti esse in harum dolores cumque eaque voluptatem repellat corporis modi animi ut voluptatibus, fuga sequi dolorum consequatur quas totam officia odio maxime repudiandae ipsa. Sed laudantium impedit eos vel illo provident magni ex. Aliquam non est aliquid debitis delectus laboriosam nobis error dolorem! Debitis pariatur, explicabo assumenda nam fuga odit molestias ea sit vero repellat iusto iste inventore provident corporis ut repellendus error, expedita vel? Odit, temporibus optio sunt facere dolorum fuga modi quas ab quia, officiis labore cumque neque voluptatem? Incidunt repellendus aut consectetur exercitationem, quos aperiam ea necessitatibus veniam itaque saepe ut fugit iure ratione repellat dolorem. Autem saepe voluptatum minus quia quae sed obcaecati, amet atque natus nam deleniti placeat qui! Et animi inventore, necessitatibus eaque eos porro ducimus error quasi commodi ipsa delectus, ratione libero nesciunt qui! Necessitatibus ipsum consequuntur ad aperiam quod earum ratione provident ducimus quibusdam cum doloribus, minima enim veritatis corrupti similique sequi natus perferendis quis ipsa odio dignissimos. Itaque eveniet aperiam debitis magni, eos earum modi, amet id quidem unde autem hic nulla qui laborum sequi animi laudantium.
       </p>
-      <h3>Can you create a new trophy for me / my community?</h3>
-      <p>We'd like to keep trophies prestigious, and if we just give them out willy-nilly it defeats the whole purpose, it would be madness. That said, if you have a suggestion for one, we're open to new ideas, especially if the award will have broad appeal across all of reddit.</p>
+      <h3>Can you create a new trophy for me / my Cew?</h3>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, fuga. Necessitatibus sint fugit molestias, non tempore voluptas quibusdam, nostrum et placeat consequuntur quos impedit minima laudantium, distinctio quia similique iusto unde porro. Totam ipsam harum optio dicta, mollitia earum veritatis. Libero modi molestiae similique a fugiat aut reprehenderit sint. Fuga molestias labore est ullam porro soluta vero fugit, corporis pariatur perspiciatis perferendis suscipit, nostrum inventore officiis harum quisquam provident a dolorem natus cumque dignissimos. Eum modi iure autem tempora ad corporis quae dolorum ratione impedit alias. Quae deleniti autem, ad, maiores, delectus fugit velit corporis aut temporibus voluptate ea vitae?</p>
       <h3>How can I get a trophy?</h3>
       <p>
-        The first rule of trophies is you don't talk about trophies.
-        (Rules 2 to ∞ are simply repetitions of this first one, with increasing levels of emphasis.)
-        Please note:
-        Trophies do not get deleted if you delete the comment attached to the trophy in question.
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi voluptate impedit laudantium maxime expedita magni explicabo itaque vitae quisquam! Cumque tempore praesentium, laboriosam repellendus eaque beatae veniam qui eveniet, quae aspernatur harum fugiat perferendis dicta ex dolorem omnis recusandae fugit quaerat id doloremque ipsam deserunt temporibus! Ratione consequuntur in illo.
       </p>
 
       <h3></h3>
@@ -59,6 +53,7 @@ export default {
       }
     });
     this.badges = data.data;
+    console.log(data.data);
   }
 };
 </script>

@@ -2,8 +2,7 @@
   <VcAFrame title="Pool-Event erstellen" hasContainer="true">
     <el-form :model="poolEvent" :rules="rules" ref="poolEvent" class="columns-container">
       <VcAColumn>
-        <VcABox :expand="true" :first="true" title="Eventdaten">
-          <VcAInfoBox>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere molestias reprehenderit, ullam recusandae, quisquam adipisci at vero iusto tempora omnis amet cupiditate laborum repellendus debitis facilis repellat porro exercitationem magni.</VcAInfoBox>
+        <VcABox :expand="true" :first="true" title="Aktion">
           <el-form-item :label="$t('poolEventForm.input.title.label')" prop="name">
             <el-input
               v-model="poolEvent.name"
@@ -15,6 +14,7 @@
             <el-select
               v-model="poolEvent.type"
               :placeholder="$t('poolEventForm.input.type.placeholder')"
+              style="width:100%"
             >
               <el-option :label="$t('poolEventForm.input.type.options.concert')" value="CONCERT"></el-option>
               <el-option :label="$t('poolEventForm.input.type.options.festival')" value="FESTIVAL"></el-option>
@@ -63,7 +63,7 @@
             ></el-time-picker>
           </el-form-item>
           <el-form-item label="asp of Event">
-            <el-select multiple filterable allow-create v-model="poolEvent.asp_event_id">
+            <el-select style="width:100%" multiple filterable allow-create v-model="poolEvent.asp_event_id">
               <el-option
                 v-for="user in users"
                 :key="user.id"
@@ -72,12 +72,11 @@
               ></el-option>
             </el-select>
           </el-form-item>
-
-          <quill :config="config" v-model="description.html" output="html"></quill>
+          <quill :config="config"  v-model="description.html" output="html"></quill>
         </VcABox>
       </VcAColumn>
       <VcAColumn>
-        <VcABox :first="true" title="Location">
+        <el-card :first="true" title="Location">
           <el-form-item :label="$t('poolEventForm.input.address.label')" prop="address">
             <vue-google-autocomplete
               ref="address"
@@ -90,15 +89,16 @@
           </el-form-item>
           <el-form-item label="Adressbeschreibung">
             <el-input
-              v-model="address_desc"
-              type="textarea"
-              :rows="2"
+              show-word-limit
               placeholder="Please input"
-              :maxLength="240"
+              v-model="address_desc"
+              maxlength="1000"
+              :autosize="{minRows: 2, maxRows:10}"
+              type="textarea"
             ></el-input>
           </el-form-item>
-        </VcABox>
-        <VcABox title="Application" :expand="true">
+        </el-card>
+        <el-card title="Application" :expand="true">
           <el-form-item
             :label="$t('poolEventForm.input.applicationStart.label')"
             prop="application_start"
@@ -134,31 +134,34 @@
           <el-form-item :label="$t('poolEventForm.input.supporterLimit.label')">
             <el-input-number v-model="poolEvent.supporter_lim" :min="0" :step="1"></el-input-number>
           </el-form-item>
-        </VcABox>
-        <VcABox title="Erstellen">
+        </el-card>
+        <el-card title="Erstellen">
           <el-row>
             <el-col>
               <el-button
                 class="vca-button-primary"
                 type="primary"
                 @click.prevent="addPoolEvent"
-                style="margin-left:0;margin-right:0"
-              >create</el-button>
+                style="margin-left:0;margin-right:0;"
+                size="mini"
+              >CREATE</el-button>
               <el-button
                 class="vca-button-primary"
                 type="info"
                 @click.prevent="saveAsDraft"
-                style="margin-left:0;margin-right:0"
-              >save as draft</el-button>
+                style="margin-left:0;margin-right:0;margin-top:10px"
+                size="mini"
+              >SAVE AS DRAFT</el-button>
               <el-button
-                style="margin-left:0;margin-right:0"
+                style="margin-left:0;margin-right:0;margin-top:10px"
                 class="vca-button-warn"
                 type="danger"
                 @click.prevent="cancel"
-              >cancel</el-button>
+                size="mini"
+              >CANCEL</el-button>
             </el-col>
           </el-row>
-        </VcABox>
+        </el-card>
       </VcAColumn>
     </el-form>
   </VcAFrame>
@@ -169,7 +172,6 @@ import { VcAFrame, VcAColumn, VcABox, VcAInfoBox } from "vca-widget-base";
 import "vca-widget-base/dist/vca-widget-base.css";
 import { Input, Form } from "element-ui";
 import VueGoogleAutocomplete from "vue-google-autocomplete";
-import { WidgetUserAutocomplete } from "vca-widget-user";
 import "../assets/pool_event_style.css";
 import rulesJon from "../rules/form";
 import Axios from "axios";
@@ -177,7 +179,6 @@ import Axios from "axios";
 export default {
   name: "PoolEventForm",
   components: {
-    WidgetUserAutocomplete: WidgetUserAutocomplete,
     VueGoogleAutocomplete,
     VcAFrame: VcAFrame,
     VcAColumn: VcAColumn,
@@ -217,12 +218,16 @@ export default {
       config: {
         placeholder: "Compose a description",
         label: "Beschreibung"
-      }
+      },
+      poolevent: ""
     };
   },
   async mounted() {
     this.errors = this.$store.state.errors;
     await this.fetchAllUsers();
+    if (this.$route.params.id) {
+      await this.fetchPooleventById(this.$route.params.id);
+    }
   },
   methods: {
     addPoolEvent() {
@@ -261,7 +266,6 @@ export default {
         desc: this.address_desc
       };
       data.description = this.description;
-      console.log(data);
       this.submitForm("poolEvent");
       if (this.isValidForm) {
         this.$store
@@ -321,16 +325,8 @@ export default {
       data.description = this.description;
       data.poolevent.state = "DRAFT";
       this.submitForm("poolEvent");
-      console.log(data);
       if (this.isValidForm) {
-        this.$store
-          .dispatch("POST_POOLEVENT", this.poolEvent)
-          .then(() => {
-            //this.$router.push("/");
-          })
-          .catch(err => {
-            throw err;
-          });
+        this.$store.dispatch("POST_POOLEVENT", this.poolEvent);
       }
     },
     cancel() {
@@ -347,7 +343,6 @@ export default {
     },
     async fetchAllUsers() {
       const { data } = await Axios.get("/waves/api/v1/user");
-      console.log("--!", data);
       this.users = data.data;
     },
     resetForm(formName) {
@@ -358,9 +353,16 @@ export default {
     },
     selectSupporter(supporter) {
       this.involvedSupporter = supporter;
+    },
+    async fetchPooleventById(id) {
+      const { data } = await Axios.get(`/waves/api/v1/poolevent/${id}`);
+      this.poolevent = data.data;
+      const { location, description, ...poolevent } = data.data;
+      console.log( '-->',description.html);
+      this.poolEvent = poolevent;
+
+      this.description = description;
     }
   }
 };
 </script>
-<style lang="less" scoped>
-</style>

@@ -4,14 +4,14 @@
       <el-row>
         <el-col :span="2">
           <img
-            style="border-radius: 50%;"
+            style="border-radius: 50%;width:40px"
             class="profile-img"
             src="https://img.icons8.com/cotton/64/000000/gender-neutral-user--v1.png"
           />
         </el-col>
         <el-col :span="21" :offset="1">
           <el-row>
-            <span class="userName">{{comment.first_name}} {{comment.last_name}}</span>
+            <span class="userName">{{comment.full_name}}</span>
             <time-ago
               style="
               color:grey;
@@ -22,6 +22,7 @@
               :locale="locale"
               :long="longString"
             ></time-ago>
+            <CommentButton style="float:right;height:1px"/>
           </el-row>
           <el-row style="margin-top:8px;">
             <span>{{comment.text}}</span>
@@ -36,15 +37,14 @@
 <script>
 import TimeAgo from "vue2-timeago";
 import VoteForm from "../components/VoteForm";
-import { Row, Col } from "element-ui";
+import CommentButton from "../components/CommentButton";
 
 export default {
   name: "CommentCard",
   components: {
     TimeAgo,
     VoteForm,
-    Row,
-    Col
+    CommentButton
   },
   data() {
     return {

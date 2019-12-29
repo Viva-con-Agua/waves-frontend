@@ -5,7 +5,7 @@
 <script>
 import ApplicationsHandler from "../components/ApplicationsHandler.vue";
 export default {
-name : "ApplicationHandlerView.vue",
+name : "ApplicationHandlerView",
 components : {
     ApplicationsHandler
 }

@@ -178,26 +178,33 @@ export const store = new Vuex.Store({
       axios
         .put(apiMockUrl + "/" + poolEvent.id, poolEvent)
         .then(resp => {})
-        .catch(err => {
-          err.message;
-        });
+        .catch(err => {});
     },
     GET_POOLEVENT_BY_ID: ({ commit }, id) => {
-      axios.get(API_URI + `/poolevent/${id}`).then(resp => {
-        commit("setPoolEvent", resp.data.data);
+      axios.get(`${API_URI}/poolevent/${id}`).then(({ data }) => {
+        console.log(data);
+        commit("setPoolEvent", data.data);
       });
     },
-    SET_TO_RELEASED: ({ commit }, id) => {
+    SET_TO_RELEASED: ({ commit, getters }, id) => {
       axios
-        .put(API_URI + `/poolevent/${id}`, { state: "RELEASED" })
+        .put(
+          API_URI + `/poolevent/${id}`,
+          { state: "RELEASED" },
+          getters.getAccessToken
+        )
         .then((resp, err) => {
           commit("transition", "release");
         })
         .catch(err => {});
     },
-    SET_TO_REFUSED: ({ commit }, id) => {
+    SET_TO_REFUSED: ({ commit, getters }, id) => {
       axios
-        .put(API_URI + `/poolevent/${id}`, { state: "REJECTED" })
+        .put(
+          API_URI + `/poolevent/${id}`,
+          { state: "REJECTED" },
+          getters.getAccessToken
+        )
         .then((resp, err) => {
           commit("transition", "refuse");
         })
@@ -286,9 +293,10 @@ export const store = new Vuex.Store({
         })
         .catch(err => {});
     },
-    POST_VOTE: ({ commit }, vote) => {
+    POST_VOTE: ({ commit, getters }, vote) => {
+
       axios
-        .post(API_URI + `/vote`, vote)
+        .post(API_URI + `/vote`, vote, getters.getAccessToken)
         .then(resp => {
           console.log(resp);
         })

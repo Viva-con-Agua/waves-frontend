@@ -1,25 +1,24 @@
 <template>
-  <VcAFrame>
-    <VcAColumn style="margin-top:20px;" size="10%">
-      <h4 style="color:grey">Support Needed</h4>
-    </VcAColumn>
-    <VcAColumn style="margin-top:20px;" size="40%">
-      <el-row >
-        <PoolEventFilter/>
-      </el-row>
-      <el-row v-if="!poolEvents" style="margin-top:50%;">
-        <rotate-square2 style="margin:auto;"></rotate-square2>
-      </el-row>
-      <el-row style="margin-top:1%;">
-        <el-col :span="24" v-for="poolEvent in poolEvents" :key="poolEvent.id">
-          <PoolEventCard :poolEvent="poolEvent" />
-        </el-col>
-      </el-row>
-    </VcAColumn>
-    <VcAColumn style="margin-top:20px;" size="20%">
-      <h4 style="color:grey">Recomanded Poolevents</h4>
-    </VcAColumn>
-  </VcAFrame>
+  <div style="margin:auto;width:60%">
+    <el-row>
+      <el-col :span="14" style="margin-top:20px;padding:5px;" size="600px">
+        <el-row>
+          <PoolEventFilter />
+        </el-row>
+        <el-row v-if="!poolEvents" style="margin-top:50%;padding:10px;">
+          <rotate-square2 style="margin:auto;"></rotate-square2>
+        </el-row>
+        <el-row style="margin-top:1%;">
+          <el-col :span="24" v-for="poolEvent in poolEvents" :key="poolEvent.id">
+            <PoolEventCard :poolEvent="poolEvent" />
+          </el-col>
+        </el-row>
+      </el-col>
+      <el-col fixed :span="10" style="margin-top:20px;padding:5px" size="250px">
+        <MostFavedPoolevents />
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 
@@ -29,6 +28,8 @@ import PoolEventFilter from "../components/PoolEventFilter";
 import PoolEventCard from "../components/PoolEventCard";
 import MyPoolEvents from "../components/MyPoolEvents";
 import Pagination from "../components/Pagination";
+import MostFavedPoolevents from "../components/MostFavedPoolevents";
+
 import {
   Input,
   Form,
@@ -42,6 +43,7 @@ import { RotateSquare2 } from "vue-loading-spinner";
 export default {
   name: "PoolEventsView",
   components: {
+    MostFavedPoolevents,
     RotateSquare2,
     PoolEventCard,
     VcAFrame,
@@ -115,4 +117,5 @@ input {
   margin-left: 0;
   margin-right: 0;
 }
+
 </style>

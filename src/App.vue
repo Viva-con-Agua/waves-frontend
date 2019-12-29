@@ -7,15 +7,10 @@
 <script>
 import VueQuill from "vue-quill";
 import Vue from "vue";
-import {
-  WidgetTopNavigation,
-  WidgetBottomNavigation
-} from "vca-widget-navigation";
 import feather from "vue-icon";
 import io from "socket.io-client";
 import { Button, Select } from "element-ui";
 import Navbar from "./components/Navbar";
-import vueClapButton from "vue-clap-button";
 import vueCookies from "vue-cookies";
 
 Vue.component(Select.name, Select);
@@ -28,8 +23,6 @@ Vue.use(vueCookies);
 export default {
   name: "app",
   components: {
-    WidgetTopNavigation,
-    WidgetBottomNavigation,
     Navbar
   },
   data() {
@@ -66,8 +59,6 @@ export default {
     }
   },
   mounted() {
-    //   this.errors.push(this.$store.getters.getErrors);
-    //this.$message.error("Congrats, this is a success message.");
     if (this.$cookies.get("access_token")) {
       this.$store.dispatch("SET_ACCESS_TOKEN", {
         headers: {

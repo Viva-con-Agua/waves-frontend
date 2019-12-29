@@ -8,9 +8,13 @@
         >
           <el-row>
             <el-row>
-              <strong>
-                <a :href="`/waves/poolevent/${application.poolevent_id}`">{{application.name}}</a>
-              </strong>
+              <a
+                style="text-decoration:none;color:black"
+                :href="`/waves/poolevent/${application.poolevent_id}`"
+              >
+                <span>{{application.name}}</span>
+              </a>
+
               <el-tag
                 style="float:right;padding:0;"
                 :type="application.state=='WAITING'?'warning'
@@ -18,20 +22,19 @@
                 size="mini"
               >{{application.state}}</el-tag>
             </el-row>
-            <el-row>
+            <el-row v-if="application.text">
               <p class="row-text-application" style>{{application.text}}</p>
             </el-row>
             <el-row>
               <el-button
                 type="danger"
-                style="border-radius: 50%;
-                width:30px;
+                style="width:100px;
                 margin:0;
                 padding:5px;
                 float:right"
                 @click="cancelApplication(application.id)"
               >
-                <i class="el-icon-delete"></i>
+                <i class="el-icon-close"></i> CANCEL
               </el-button>
             </el-row>
           </el-row>
@@ -90,7 +93,7 @@ export default {
 
 <style lang="less" scoped>
 .row-text-application {
-  border-radius: 2%;
+  border-radius: 5px;
   background: #eee;
   padding: 10px;
 }

@@ -2,10 +2,12 @@
   <el-form :model="application" ref="application" class="rows-container">
     <el-form-item label="message">
       <el-input
-        type="textarea"
-        :rows="4"
-        placeholder="Please input message..."
+        show-word-limit
+        placeholder="Please input"
         v-model="application.text"
+        maxlength="1000"
+        :autosize="{minRows: 2, maxRows:10}"
+        type="textarea"
       ></el-input>
     </el-form-item>
     <el-form-item>

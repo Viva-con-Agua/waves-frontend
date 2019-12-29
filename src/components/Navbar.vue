@@ -17,15 +17,15 @@
       <el-button
         @click="pushCreatePoolevent"
         style="float:right;
-      width:80px;
+      width:90px;
       padding:8px;
       margin-top:17px;"
         type="primary"
       >
-        <strong>CREATE</strong>
+        <strong><i class="el-icon-circle-plus-outline"></i> CREATE</strong>
       </el-button>
-      <ProfileDropdown :logout="logout" style="float:right"></ProfileDropdown>
-      <NotificationBell style="float:right"></NotificationBell>
+      <ProfileDropdown :logout="logout" style="margin-left:5px;margin-right:10px;margin-top:15px;float:right"></ProfileDropdown>
+      <NotificationBell style="margin-top:13px;float:right"></NotificationBell>
     </el-col>
   </el-container>
 </template>
