@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  waves-frontend:
+    image: vivaconagua/stream-frontend:latest
+    build: .
+    container_name: waves-frontend
+    restart: unless-stopped
+    networks:
+      default:
+        ipv4_address: 172.2.50.4
+
+networks:
+  default:
+    external:
+      name: pool-network
