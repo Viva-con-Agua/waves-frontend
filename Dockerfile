@@ -1,9 +1,7 @@
-FROM node:lts-alpine
-
-RUN npm install -g http-server
+FROM node:10 as build-stage
 
 # make the 'app' folder the current working directory
-WORKDIR  $(pwd)/src
+WORKDIR /app
 
 # copy both 'package.json' and 'package-lock.json' (if available)
 COPY package*.json ./
@@ -17,5 +15,7 @@ COPY . .
 # build app for production with minification
 RUN npm run build
 
-EXPOSE 8080
-CMD [ "http-server", "dist" ]
+FROM nginx:1.13.12-alpine as production-stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html/waves
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
