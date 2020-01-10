@@ -1,85 +1,77 @@
 <template>
-  <el-col>
-    <div class="card-expansion">
-      <md-card class="card-event">
-        <md-card-header>
-          <div class="md-title">
-            <a
-              :href="`/waves/poolevent/${poolEvent.id}`"
-              style="text-decoration : none;color:black"
-            >{{poolEvent.name}}</a>
-
-            <i :v-model="favorite.poolevent_id=poolEvent.id" @click="setFavorite" style="float:right;" class="el-icon-star-off" />
-          </div>
-          <div class="md-subhead">{{poolEvent.type}}</div>
-          <div class="md-body">
-            <span>
-              <i class="el-icon-time"></i>
-              {{new Date(poolEvent.event_start).toLocaleString()}}
-            </span>
-          </div>
-          <div class="md-body">
-            <span>
-              <i class="el-icon-location-outline"></i>
-              {{`${poolEvent.street_name} ${poolEvent.street_number}, ${poolEvent.post_code} ${poolEvent.city}`}}
-            </span>
-          </div>
-        </md-card-header>
-        <md-card-expand>
-          <md-card-actions md-alignment="space-between">
-            <div></div>
-            <md-card-expand-trigger>
-              <md-button class="md-icon-button">
-                <i class="el-icon-arrow-up"></i>
-              </md-button>
-            </md-card-expand-trigger>
-          </md-card-actions>
-          <md-card-expand-content>
-            <md-card-content>
-              <span>Bewerbung möglich bis {{new Date(poolEvent.application_end).toLocaleString()}}</span>
-              <el-form :model="application">
-                <el-form-item label="message">
-                  <textarea
-                    class="input-text-area"
-                    v-model="application.text"
-                    placeholder="send message to asp... "
-                  ></textarea>
-                </el-form-item>
-                <el-button
-                  style="width:100%;margin:0"
-                  class="vca-button-primary"
-                  @click.prevent="submitForm"
-                >apply</el-button>
-              </el-form>
-            </md-card-content>
-          </md-card-expand-content>
-        </md-card-expand>
-      </md-card>
+  <el-card style="width:100%" :body-style="{ paddingTop: '10px' }">
+    <div slot="header">
+      <el-row>
+        <el-col :span="16">
+          <a :href="`/waves/poolevent/${poolEvent.id}`" style="text-decoration:none;color:black">
+            <span>{{poolEvent.name}}</span>
+          </a>
+        </el-col>
+        <el-col :span="8">
+          <span style="color:grey;float:right">{{poolEvent.type}}</span>
+        </el-col>
+      </el-row>
     </div>
-  </el-col>
+    <el-row style="margin-top: 10px;">
+      <el-col :span="1">
+        <i class="el-icon-location-outline"></i>
+      </el-col>
+      <el-col
+        :span="22"
+      >{{`${poolEvent.route} ${poolEvent.street_number}, ${poolEvent.postal_code} ${poolEvent.locality}`}}</el-col>
+    </el-row>
+    <el-row style="margin-top: 10px;">
+      <el-col :span="1">
+        <i class="el-icon-time"></i>
+      </el-col>
+      <el-col
+        :span="22"
+      >{{`${new Date(poolEvent.event_start).getUTCHours()}:${new Date(poolEvent.event_start).getUTCMinutes()}h`}} - {{`${new Date(poolEvent.event_end).getUTCHours()}:${new Date(poolEvent.event_end).getUTCMinutes()}h`}}</el-col>
+    </el-row>
+    <el-row style="margin-top: 10px;">
+      <el-col :span="1">
+        <i class="el-icon-date"></i>
+      </el-col>
+      <el-col
+        :span="22"
+      >
+      {{new Date(poolEvent.event_start).getDate()}}. {{new Date(poolEvent.event_start).toLocaleString("default", { month: "short" })}}
+      {{new Date(poolEvent.event_start).getFullYear()}}
+      </el-col>
+    </el-row>
+    <el-row style="margin-top: 15px;">
+      <el-button style="border:0;width:40px;height:40px;margin:0;float:right" circle>
+        <i
+          :v-model="favorite.poolevent_id=poolEvent.id"
+          @click="setFavorite"
+          style="float:right;margin:0"
+          class="el-icon-star-off"
+        />
+      </el-button>
+      <ApplicationButton style="float:right" :poolevent="poolEvent" />
+    </el-row>
+  </el-card>
 </template>
 
 <script>
-import ApplicationForm from "./ApplicationForm";
-import icons_ from "../assets/poolEventIcons.json";
-import { Icon } from "element-ui";
-import Axios from 'axios';
+import ApplicationButton from "./ApplicationButton";
+import Axios from "axios";
+
 export default {
   name: "PoolEventCard",
   components: {
-    ApplicationForm
+    ApplicationButton
   },
   props: ["poolEvent"],
   data() {
     return {
-      favorite : {
-        poolevent_id:''
+      favorite: {
+        poolevent_id: ""
       },
       application: {
         user_id: 1,
         text: ""
       },
-      icons: icons_.data,
       startDate: "",
       endDate: "",
       startTime: "",
@@ -98,18 +90,21 @@ export default {
         "Oktober",
         "November",
         "Dezember"
-      ],
-      
+      ]
     };
   },
   methods: {
-    async setFavorite(){
+    async setFavorite() {
       const config = {
         headers: {
           Authorization: `bearer ${this.$cookies.get("access_token")}`
         }
       };
-      const {data} = await Axios.post('/waves/api/v1/favorite', this.favorite, config);
+      await Axios.post(
+        "/waves/api/v1/favorite",
+        this.favorite,
+        config
+      );
     },
     submitForm() {
       this.$store.dispatch("APPLY", {
@@ -202,89 +197,11 @@ export default {
 </script>
 
 <style>
-.card {
-  margin: 10px;
-}
-.time {
-  font-size: 13px;
-  color: #999;
-}
-.date {
-  font-size: 13px;
-  color: #999;
-}
-.location {
-  font-size: 13px;
-  color: #999;
-}
 
-.bottom {
-  margin-top: 13px;
-  line-height: 12px;
-}
-
-.button {
-  padding: 0;
-  float: right;
-}
-
-.image {
-  width: 100%;
-  display: block;
-  margin-top: 5px;
-  margin-left: -5px;
-}
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-
-.clearfix:after {
-  clear: both;
-}
-#card {
-  margin: 10px;
-}
-
-.card-expansion {
-  height: auto;
-}
-
-.md-card {
-  width: 95%;
-  margin: 10px;
-  display: inline-block;
-  vertical-align: top;
-}
-
-.input-text-area {
-  position: relative;
-  font-size: 14px;
-  display: inline-block;
-  width: 100%;
-  background-color: #fff;
-  border-radius: 4px;
-  border: 1px solid #dcdfe6;
-  box-sizing: border-box;
-  color: #606266;
-  height: 100px;
-  line-height: 40px;
-  outline: 0;
-  padding: 0 15px;
-  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-}
-
-.md-body {
-  margin-top: 15px;
-}
 
 .card-event {
   border-radius: 2%;
 }
 
-.el-icon-star-off:hover{
-  color: #ffd700
-}
+
 </style>

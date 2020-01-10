@@ -1,22 +1,23 @@
+import { WidgetTopNavigation, WidgetBottomNavigation } from 'vca-widget-navigation'
+import enElement from 'element-ui/lib/locale/lang/en';
+import deElement from 'element-ui/lib/locale/lang/de';
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {faCoffee} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import * as VueGoogleMaps from 'vue2-google-maps'
 import Vue from 'vue'
 import App from './App.vue'
 import ElementUI from 'element-ui';
-import { WidgetUserAutocomplete } from 'vca-widget-user'
-import { WidgetTopNavigation, WidgetBottomNavigation } from 'vca-widget-navigation'
 import router from './router'
 import VueI18n from 'vue-i18n'
 import en from '@/lang/en_US.json';
 import de from '@/lang/de_DE.json';
-import enElement from 'element-ui/lib/locale/lang/en';
-import deElement from 'element-ui/lib/locale/lang/de';
 import {store} from './store'
-import {library} from '@fortawesome/fontawesome-svg-core'
-import {faCoffee} from '@fortawesome/free-solid-svg-icons'
-import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import vsm from 'vue-state-machine';
-import WidgetUserList from 'vca-widget-user'
 import VueQuill from "vue-quill";
-import * as VueGoogleMaps from 'vue2-google-maps'
+import 'element-ui/lib/theme-chalk/index.css';
+
+
 
 import VShowSlide from 'v-show-slide'
 
@@ -35,6 +36,7 @@ Vue.use(VueGoogleMaps, {
     key: 'AIzaSyDnoNOeMPDa7WkC8NVxO6IZV3K6MRNLA0M',
   },
 })
+
 const dateTimeFormats = {
   'en-US': {
     short: {
@@ -73,8 +75,7 @@ const i18n = new VueI18n({
 Vue.use(ElementUI, {
   i18n: (key, value) => i18n.t(key, value)
 });
-Vue.use(WidgetUserList, { 'i18n': i18n })
-Vue.use(WidgetUserAutocomplete, { 'i18n': i18n })
+
 Vue.use(WidgetBottomNavigation, { 'i18n': i18n })
 Vue.use(WidgetTopNavigation, { 'i18n': i18n })
 

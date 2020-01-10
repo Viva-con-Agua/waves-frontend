@@ -5,15 +5,15 @@
         <img
           style="border-radius: 50%;margin:auto;"
           class="profile-img"
-          src="https://img.icons8.com/cotton/64/000000/gender-neutral-user--v1.png"
+          :src="`https://eu.ui-avatars.com/api/?rounded=true&name=${this.$cookies.get('first_name')}+${this.$cookies.get('last_name')}`"
         />
       </el-col>
-      <el-col style="margin-top:8px" :span="7" >
+      <el-col style="margin-top:8px" :span="7">
         <el-row>
           <strong style="margin-top:3%;font-size:20px">{{this.$cookies.get('full_name')}}</strong>
         </el-row>
         <el-row>
-          <span style="color:gray"> Supporter since 200 days</span>
+          <span style="color:gray">Supporter since 200 days</span>
         </el-row>
       </el-col>
     </el-row>
@@ -25,7 +25,7 @@
         <el-tab-pane label="Favorites" name="favorites">
           <MyFavoritePoolevents />
         </el-tab-pane>
-          
+
         <el-tab-pane label="Applications" name="applications">
           <MyApplications />
         </el-tab-pane>

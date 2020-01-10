@@ -15,6 +15,7 @@
             <el-select
               v-model="poolEvent.type"
               :placeholder="$t('poolEventForm.input.type.placeholder')"
+              style="width:100%"
             >
               <el-option :label="$t('poolEventForm.input.type.options.concert')" value="concert"></el-option>
               <el-option :label="$t('poolEventForm.input.type.options.festival')" value="festival"></el-option>

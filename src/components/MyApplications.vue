@@ -1,13 +1,20 @@
 <template>
   <div>
     <el-row style="margin-top:20px">
-      <el-col v-for="application in applications" :key="application.id" :span="11" :offset="1">
-        <el-card :body-style="{ padding: '0px' }" style="padding:20px;margin:0;margin-bottom:5px">
+      <el-col v-for="application in applications" :key="application.id" :span="24">
+        <el-card
+          :body-style="{ padding: '0px' }"
+          style="padding:20px;margin:10px;margin-bottom:5px;width:90%"
+        >
           <el-row>
             <el-row>
-              <strong>
-                <a :href="`/waves/poolevent/${application.poolevent_id}`">{{application.name}}</a>
-              </strong>
+              <a
+                style="text-decoration:none;color:black"
+                :href="`/waves/poolevent/${application.poolevent_id}`"
+              >
+                <span>{{application.name}}</span>
+              </a>
+
               <el-tag
                 style="float:right;padding:0;"
                 :type="application.state=='WAITING'?'warning'
@@ -15,16 +22,19 @@
                 size="mini"
               >{{application.state}}</el-tag>
             </el-row>
-            <el-row>
+            <el-row v-if="application.text">
               <p class="row-text-application" style>{{application.text}}</p>
             </el-row>
             <el-row>
               <el-button
                 type="danger"
-                style="border-radius: 50%;width:10%;margin:0;padding:5px;float:right"
+                style="width:100px;
+                margin:0;
+                padding:5px;
+                float:right"
                 @click="cancelApplication(application.id)"
               >
-                <i class="el-icon-delete"></i>
+                <i class="el-icon-close"></i> CANCEL
               </el-button>
             </el-row>
           </el-row>
@@ -34,14 +44,9 @@
   </div>
 </template>
 <script>
-import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
 import Axios from "axios";
 export default {
   name: "MyApplications",
-  components: {
-    VcAFrame,
-    VcAColumn
-  },
   data() {
     return {
       states: {
@@ -83,7 +88,7 @@ export default {
 
 <style lang="less" scoped>
 .row-text-application {
-  border-radius: 2%;
+  border-radius: 5px;
   background: #eee;
   padding: 10px;
 }

@@ -1,14 +1,16 @@
 import ApplicationHandlerView from "./views/ApplicationHandlerView.vue";
-import EditPoolEventFormView from "./views/EditPoolEventFormView";
 import CreateChallengeView from "./views/CreateChallengeView";
 import PoolEventFormView from "./views/PoolEventFormView";
 import NotificationsView from "./views/NotificationsView";
+import DashboardView from "./views/DashboardView";
 import PoolEventView from "./views/PoolEventView";
 import BadgesView from "./views/BadgesView";
-import PoolEvents from "./views/PoolEvents";
+import PoolEventsView from "./views/PoolEventsView";
 import ProfileView from "./views/ProfileView";
+import AchievementWikiView from "./views/AchievementWikiView";
+import SEEDING from "./views/SEEDING";
+import InformationView from "./views/InformationView";
 import ErrorView from "./views/ErrorView";
-import TESTSTUFF from "./views/TESTSTUFF";
 import Router from "vue-router";
 import Vue from "vue";
 
@@ -19,8 +21,8 @@ export default new Router({
   routes: [
     {
       path: "/waves",
-      name: "PoolEvents",
-      component: PoolEvents
+      name: "PoolEventsView",
+      component: PoolEventsView
     },
     {
       path: "/waves/poolevent/:id",
@@ -33,9 +35,9 @@ export default new Router({
       component: PoolEventFormView
     },
     {
-      path: "/waves/editpooleventform/:id",
-      name: "EditPoolEventFormView",
-      component: EditPoolEventFormView
+      path: "/waves/poolevent/:id/edit",
+      name: "EditPoolevent",
+      component: PoolEventFormView
     },
     {
       path: "/waves/applications/:id",
@@ -63,9 +65,24 @@ export default new Router({
       component: ProfileView
     },
     {
-      path: "/teststuff",
-      name: "test",
-      component: TESTSTUFF
+      path: "/waves/wiki/badges",
+      name: "wiki",
+      component: AchievementWikiView
+    },
+    {
+      path: "/waves/info",
+      name: "information",
+      component: InformationView
+    },
+    {
+      path: "/waves/seed",
+      name: "seed",
+      component: SEEDING
+    },
+    {
+      path: "/waves/dashboard",
+      name: "dashboardView",
+      component: DashboardView
     },
     { path: "*", component: ErrorView }
   ]

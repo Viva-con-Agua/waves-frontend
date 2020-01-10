@@ -1,14 +1,17 @@
 <template>
   <el-dropdown trigger="click">
     <span class="el-dropdown-link">
-      <el-button style="width:40px;height:40px;padding:0;border:0" circle>
-        <el-badge  type="danger">
-          <img
-            style="float:right;width:40px;"
-            src="https://img.icons8.com/cotton/64/000000/gender-neutral-user--v1.png"
-          />
-        </el-badge>
-      </el-button>
+      
+        <el-button style="width:35px;height:35px;padding:0;border:0" circle>
+          <el-badge type="danger">
+            <img
+              style="float:right;width:35px;height:35px"
+              :src="`https://eu.ui-avatars.com/api/?rounded=true&name=${this.$cookies.get('first_name')}+${this.$cookies.get('last_name')}`"
+              alt="profile-img"
+            />
+          </el-badge>
+        </el-button>
+
     </span>
     <el-dropdown-menu style="padding:0;width:100px" slot="dropdown">
       <ul style="list-style:none;padding:0px;margin:0px;">
@@ -46,10 +49,10 @@
 export default {
   name: "ProfileDropDown",
   methods: {
-    logout(){
-      this.$cookies.remove('access_token')
-      this.$cookies.remove('full_name')
-      this.$cookies.remove('role')
+    logout() {
+      this.$cookies.remove("access_token");
+      this.$cookies.remove("full_name");
+      this.$cookies.remove("role");
     }
   }
 };

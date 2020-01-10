@@ -33,7 +33,7 @@
             <pinterest :url="location" scale="3"></pinterest>
           </el-col>
           <el-col :span="6">
-            <reddit :url="location" scale="3" title="My Github"></reddit>
+            <reddit :url="location" scale="3" title="Supporter needed at vca"></reddit>
           </el-col>
           <el-col :span="6">
             <google :url="location" scale="3"></google>

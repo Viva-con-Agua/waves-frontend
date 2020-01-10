@@ -1,21 +1,27 @@
 <template>
   <el-form :model="application" ref="application" class="rows-container">
-    <el-form-item label="message">
+    <el-form-item>
       <el-input
-        type="textarea"
-        :rows="4"
-        placeholder="Please input message..."
+        show-word-limit
+        placeholder="Please input"
         v-model="application.text"
+        maxlength="1000"
+        :autosize="{minRows: 4, maxRows:10}"
+        type="textarea"
+        style="margin-top:px"
       ></el-input>
     </el-form-item>
     <el-form-item>
       <el-button
-        class="vca-button-primary"
-        id="button"
-        type="success"
+        type="primary"
         @click.prevent="submitApplication"
-        style="margin-left:0px;margin-right:0px;"
-      >apply</el-button>
+        style="width:25%;float:right"
+      >APPLY</el-button>
+      <el-button
+        type="danger"
+        @click.prevent="submitApplication"
+        style="margin-left:5px;margin-right:5px;width:25%;float:right"
+      >CANCEL</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -29,12 +35,12 @@ export default {
     VcAColumn,
     VcABox
   },
-  props: ["poolEvent"],
+  props: ["poolevent"],
   data() {
     return {
       application: {
         text: "",
-        poolevent_id: this.$route.params.id
+        poolevent_id: this.poolevent.poolevent_id
       },
       applied: false,
       showApplicationForm: false

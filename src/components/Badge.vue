@@ -1,14 +1,14 @@
 <template>
-  <Card style="width:100%">
-    <el-col :span="4">
+  <el-card style="margin:auto;width:90%">
+    <el-col :span="3">
       <img
-        :style='badge.completed==0? "opacity:0.1;": "opacity:1;" + "filter: alpha(opacity=50);"'
+        :style="badge.completed==0? 'width:80px;opacity:0.1;' : 'opacity:1;filter;alpha(opacity=50);width:80px'"
         :src="badge.img_url ||'http://via.placeholder.com/100'"
         class="badge-img"
         disable
       />
     </el-col>
-    <el-col :span="20">
+    <el-col :span="21">
       <ul class="badge-info-list">
         <li>{{badge.name}}</li>
         <li>
@@ -16,21 +16,34 @@
             :status="badge.completed?'success':'primary'"
             :text-inside="true"
             :stroke-width="26"
-            :percentage="badge.progress/badge.points * 100"
+            :percentage="Math.round(badge.completed?100:badge.progress/badge.points * 100)"
           />
         </li>
         <li>{{badge.completed===1?badge.message: badge.desc}}</li>
+        <li>
+          <span v-if="badge.completed" style="color:gray;">{{avg * 100}}% of supporters have this achievement</span>
+        </li>
       </ul>
     </el-col>
-  </Card>
+  </el-card>
 </template>
 
 <script>
-import { Container, Card, Col, Image, Progress } from "element-ui";
+import Axios from "axios";
 export default {
   name: "Badge",
   props: ["badge"],
-  components: { Card, Col, Container, Image, Progress }
+  data() {
+    return { avg: "" };
+  },
+  async mounted() {
+    if (this.badge.completed) {
+      const { data } = await Axios.get(
+        `/waves/api/v1/achievement/avg/${this.badge.id}`
+      );
+      this.avg = data.average;
+    }
+  }
 };
 </script>
 

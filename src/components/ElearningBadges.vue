@@ -1,13 +1,12 @@
 <template>
-    
+  <h3>ELearning Badges</h3>
 </template>
 
 <script>
 export default {
-    name: 'DashboardGamificationView'
-}
+  name: "ELearningBadges"
+};
 </script>
 
 <style>
-
 </style>

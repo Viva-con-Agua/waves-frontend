@@ -4,27 +4,28 @@
       <el-button
         class="bell-button"
         style="width:40px;padding:0;height:40px;border:0;background:#0a6b91;"
+        @click="fetchNotification"
         circle
       >
         <el-badge
           :value="notifications.length"
           type="danger"
-          :hidden="notifications.length==0 || setSeen"
+          :hidden="notifications.length==0|| setSeen"
         >
           <img
-            @click="fetchNotification"
+            style="height:25px"
             src="https://img.icons8.com/officel/30/000000/appointment-reminders.png"
             alt="scoop"
           />
         </el-badge>
       </el-button>
     </span>
-    <el-dropdown-menu style="padding:0;width:400px" slot="dropdown">
+    <el-dropdown-menu style="padding:0;width:450px" slot="dropdown">
       <el-row>
         <el-col style="padding:5px;" :span="24">Notifications</el-col>
       </el-row>
       <el-row>
-        <el-col :span="24">
+        <el-col v-if="allNotification" :span="24">
           <a
             v-for="noti in allNotification"
             :key="noti.notification.id"
@@ -34,7 +35,9 @@
               <el-col :span="2">
                 <i :class="noti.notification.type=='poolevents'?'el-icon-date':'el-icon-medal-1'"></i>
               </el-col>
-              <el-col :span="18">{{formatNotification(noti)}}</el-col>
+              <el-col :span="18">
+                <span>{{formatNotification(noti)}}</span>
+              </el-col>
               <el-col :span="4">
                 <time-ago
                   style="float:right;color:grey;text-decoration:none;"
@@ -76,7 +79,7 @@ export default {
     };
   },
   async mounted() {
-    this.config = await {
+    this.config = {
       headers: { Authorization: `Bearer ${this.$cookies.get("access_token")}` }
     };
     const { data } = await Axios.get(
@@ -89,14 +92,14 @@ export default {
     formatNotification({ notification, source }) {
       switch (notification.type) {
         case "poolevents":
-          return `john doe added a ${source.type.toLowerCase()} ${source.name}`;
+          return `john doe added a poolevent ${source.name || "blank"}`;
         case "badges":
-          return `you unlocked a new badge: ${source.name}`;
+          return "new badge unlocked";
       }
     },
     async fetchNotification() {
       const { data } = await Axios.get(
-        "/waves/api/v1/notification/1",
+        "/waves/api/v1/notification/user",
         this.config
       );
       this.allNotification = data.data;
