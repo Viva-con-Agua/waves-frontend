@@ -16,12 +16,12 @@
             :status="badge.completed?'success':'primary'"
             :text-inside="true"
             :stroke-width="26"
-            :percentage="badge.completed?100:badge.progress/badge.points * 100"
+            :percentage="Math.round(badge.completed?100:badge.progress/badge.points * 100)"
           />
         </li>
         <li>{{badge.completed===1?badge.message: badge.desc}}</li>
         <li>
-          <span style="color:gray;">{{avg * 100}}% of supporters have this achievement</span>
+          <span v-if="badge.completed" style="color:gray;">{{avg * 100}}% of supporters have this achievement</span>
         </li>
       </ul>
     </el-col>
@@ -37,12 +37,12 @@ export default {
     return { avg: "" };
   },
   async mounted() {
-    console.log(this.badge);
-    const { data } = await Axios.get(
-      `/waves/api/v1/achievement/avg/${this.badge.id}`
-    );
-    console.log(data);
-    this.avg = data.average;
+    if (this.badge.completed) {
+      const { data } = await Axios.get(
+        `/waves/api/v1/achievement/avg/${this.badge.id}`
+      );
+      this.avg = data.average;
+    }
   }
 };
 </script>

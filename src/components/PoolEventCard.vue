@@ -3,7 +3,7 @@
     <div slot="header">
       <el-row>
         <el-col :span="16">
-          <a :href="`/waves/poolevent/${poolEvent.id}`" style="text-decoration : none;color:black">
+          <a :href="`/waves/poolevent/${poolEvent.id}`" style="text-decoration:none;color:black">
             <span>{{poolEvent.name}}</span>
           </a>
         </el-col>
@@ -14,19 +14,30 @@
     </div>
     <el-row style="margin-top: 10px;">
       <el-col :span="1">
-        <i class="el-icon-time"></i>
-      </el-col>
-      <el-col
-        :span="22"
-      >{{`${new Date(poolEvent.event_start).getMonth()}/${new Date(poolEvent.event_start).getDate()}, ${new Date(poolEvent.event_start).getUTCHours()}:${new Date(poolEvent.event_start).getUTCMinutes()}`}}</el-col>
-    </el-row>
-    <el-row style="margin-top: 10px;">
-      <el-col :span="1">
         <i class="el-icon-location-outline"></i>
       </el-col>
       <el-col
         :span="22"
-      >{{`${poolEvent.street_name} ${poolEvent.street_number}, ${poolEvent.post_code} ${poolEvent.city}`}}</el-col>
+      >{{`${poolEvent.route} ${poolEvent.street_number}, ${poolEvent.postal_code} ${poolEvent.locality}`}}</el-col>
+    </el-row>
+    <el-row style="margin-top: 10px;">
+      <el-col :span="1">
+        <i class="el-icon-time"></i>
+      </el-col>
+      <el-col
+        :span="22"
+      >{{`${new Date(poolEvent.event_start).getUTCHours()}:${new Date(poolEvent.event_start).getUTCMinutes()}h`}} - {{`${new Date(poolEvent.event_end).getUTCHours()}:${new Date(poolEvent.event_end).getUTCMinutes()}h`}}</el-col>
+    </el-row>
+    <el-row style="margin-top: 10px;">
+      <el-col :span="1">
+        <i class="el-icon-date"></i>
+      </el-col>
+      <el-col
+        :span="22"
+      >
+      {{new Date(poolEvent.event_start).getDate()}}. {{new Date(poolEvent.event_start).toLocaleString("default", { month: "short" })}}
+      {{new Date(poolEvent.event_start).getFullYear()}}
+      </el-col>
     </el-row>
     <el-row style="margin-top: 15px;">
       <el-button style="border:0;width:40px;height:40px;margin:0;float:right" circle>
@@ -192,7 +203,5 @@ export default {
   border-radius: 2%;
 }
 
-.el-icon-star-off:hover {
-  color: #ffd700;
-}
+
 </style>

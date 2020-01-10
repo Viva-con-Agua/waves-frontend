@@ -29,22 +29,33 @@
           </div>
           <el-row>
             <ul class="event-start-end">
-              <li style="margin-top:10px">
-                <i class="el-icon-time"></i>
+              <li>
+                <i class="el-icon-location-outline"></i>
               </li>
-              <li
-                style="margin-top:10px"
-              >{{`${new Date(poolEvent.event_start).toLocaleString()} - ${new Date(poolEvent.event_end).toLocaleString()}` }}</li>
+              <li>{{`${poolEvent.location.route} ${poolEvent.location.street_number}, ${poolEvent.location.postal_code} ${poolEvent.location.locality}` }}</li>
             </ul>
           </el-row>
           <el-row>
             <ul class="event-start-end">
               <li>
-                <i class="el-icon-location-outline"></i>
+                <i class="el-icon-time"></i>
               </li>
-              <li>{{`${poolEvent.location.street_name} ${poolEvent.location.street_number}, ${poolEvent.location.post_code} ${poolEvent.location.city}` }}</li>
+              <li>{{`${new Date(poolEvent.event_start).getUTCHours()}:${new Date(poolEvent.event_start).getUTCMinutes()}h`}} - {{`${new Date(poolEvent.event_end).getUTCHours()}:${new Date(poolEvent.event_end).getUTCMinutes()}h`}}</li>
             </ul>
           </el-row>
+          <el-row>
+            <ul class="event-start-end">
+              <li>
+                <i class="el-icon-date"></i>
+              </li>
+              <li>
+                {{new Date(poolEvent.event_start).getDate()}}. {{new Date(poolEvent.event_start).toLocaleString("default", { month: "short" })}}
+                {{new Date(poolEvent.event_start).getFullYear()}} - {{new Date(poolEvent.event_end).getDate()}}. {{new Date(poolEvent.event_end).toLocaleString("default", { month: "short" })}}
+                {{new Date(poolEvent.event_end).getFullYear()}}
+              </li>
+            </ul>
+          </el-row>
+
           <el-row>
             <ul class="event-start-end">
               <li>
@@ -66,7 +77,13 @@
               :poolevent="poolEvent"
               style="width:40px;float:right;margin:0;border:0"
             />
-            <ApplicationReceiverButton style="width:40px;float:right;margin:0;border:0" />
+            <el-button
+              style="margin-top:5px;width:40px;height:40px;float:right;margin:0;border:0"
+              @click="()=> this.$router.push(`/waves/applications/${this.$route.params.id}`)"
+              circle
+            >
+              <i class="el-icon-message"></i>
+            </el-button>
           </el-row>
         </VcABox>
 
@@ -83,15 +100,15 @@
 
           <GmapMap
             :center="{
-            lat: parseFloat(poolEvent.location.lat) ,
-            lng:parseFloat(poolEvent.location.long)}"
+            lat: parseFloat(poolEvent.location.latitude) ,
+            lng:parseFloat(poolEvent.location.longitude)}"
             :zoom="14"
             map-type-id="terrain"
             style=" width : 100%; height: 200px; "
           >
             <GmapMarker
-              :position="{lat: parseFloat( poolEvent.location.lat) , 
-              lng :parseFloat( poolEvent.location.long)}"
+              :position="{lat: parseFloat( poolEvent.location.latitude) , 
+              lng :parseFloat( poolEvent.location.longitude)}"
               :key="index++"
               :clickable="true"
               :draggable="true"

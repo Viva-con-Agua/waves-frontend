@@ -8,6 +8,7 @@
       <i class="el-icon-tickets"></i>
     </el-button>
     <el-dialog width="30%" title="Application" :visible.sync="dialogFormVisible">
+        <span>Application possible till xx-xx-xx</span>
         <ApplicationForm :poolevent="poolevent"/>
     </el-dialog >
   </div>

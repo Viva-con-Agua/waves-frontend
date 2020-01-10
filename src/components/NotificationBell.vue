@@ -4,16 +4,16 @@
       <el-button
         class="bell-button"
         style="width:40px;padding:0;height:40px;border:0;background:#0a6b91;"
+        @click="fetchNotification"
         circle
       >
         <el-badge
           :value="notifications.length"
           type="danger"
-          :hidden="notifications.length==0 || setSeen"
+          :hidden="notifications.length==0|| setSeen"
         >
           <img
             style="height:25px"
-            @click="fetchNotification"
             src="https://img.icons8.com/officel/30/000000/appointment-reminders.png"
             alt="scoop"
           />
@@ -35,7 +35,9 @@
               <el-col :span="2">
                 <i :class="noti.notification.type=='poolevents'?'el-icon-date':'el-icon-medal-1'"></i>
               </el-col>
-              <el-col :span="18">{{formatNotification(noti)}}</el-col>
+              <el-col :span="18">
+                <span>{{formatNotification(noti)}}</span>
+              </el-col>
               <el-col :span="4">
                 <time-ago
                   style="float:right;color:grey;text-decoration:none;"
@@ -85,7 +87,6 @@ export default {
       this.config
     );
     this.notifications = data.data;
-    await this.fetchNotification();
   },
   methods: {
     formatNotification({ notification, source }) {
@@ -93,7 +94,7 @@ export default {
         case "poolevents":
           return `john doe added a poolevent ${source.name || "blank"}`;
         case "badges":
-          return "new badge unlocked"
+          return "new badge unlocked";
       }
     },
     async fetchNotification() {

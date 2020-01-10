@@ -2,6 +2,7 @@ import ApplicationHandlerView from "./views/ApplicationHandlerView.vue";
 import CreateChallengeView from "./views/CreateChallengeView";
 import PoolEventFormView from "./views/PoolEventFormView";
 import NotificationsView from "./views/NotificationsView";
+import DashboardView from "./views/DashboardView";
 import PoolEventView from "./views/PoolEventView";
 import BadgesView from "./views/BadgesView";
 import PoolEventsView from "./views/PoolEventsView";
@@ -77,6 +78,11 @@ export default new Router({
       path: "/waves/seed",
       name: "seed",
       component: SEEDING
+    },
+    {
+      path: "/waves/dashboard",
+      name: "dashboardView",
+      component: DashboardView
     },
     { path: "*", component: ErrorView }
   ]

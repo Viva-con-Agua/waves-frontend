@@ -41,9 +41,19 @@ export default {
     });
     this.socket.on("NEW_BADGE", data => {
       this.$notify({
-        title: "New Badge",
-        message: "click ",
-        type: "success"
+        title: `New badge unlocked: ${data.name}`,
+        dangerouslyUseHTMLString: true,
+        message: `
+        <div>
+          <el-row>
+            <el-col :span="6">
+              <img style="border-radius:50%" src="${data.img_url}" alt=""/>
+            </el-col>
+          </el-row>
+        </div>
+        `,
+        type: "success",
+        duration: 100000
       });
     });
   },

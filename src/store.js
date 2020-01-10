@@ -146,9 +146,9 @@ export const store = new Vuex.Store({
           commit("pushError", error);
         });
     },
-    POST_POOLEVENT: ({ commit }, { config, poolevent }) => {
+    POST_POOLEVENT: ({ commit, getters }, poolevent) => {
       axios
-        .post("/waves/api/v1/poolevent", poolevent, config)
+        .post("/waves/api/v1/poolevent", poolevent, getters.getAccessToken)
         .then(poolEvent => {
           commit("addPoolEvent", poolEvent);
         })
@@ -165,10 +165,13 @@ export const store = new Vuex.Store({
         .then(resp => {})
         .catch(err => {});
     },
-    EDIT_POOLEVENT: ({ commit }, poolEvent) => {
-      poolEvent.state = "unreleased";
+    PUT_POOLEVENT: ({ commit, getters }, data) => {
       axios
-        .put(apiMockUrl + "/" + poolEvent.id, poolEvent)
+        .put(
+          "/waves/api/v1/poolevent/" + data.id,
+          data.poolevent,
+          getters.getAccessToken
+        )
         .then(resp => {
           commit("transition", "unrelease");
         })
@@ -228,9 +231,13 @@ export const store = new Vuex.Store({
           commit("setError", err);
         });
     },
-    ACCEPT_APPLICATION: ({ commit }, id) => {
+    ACCEPT_APPLICATION: ({ commit, getters }, id) => {
       axios
-        .put(API_URI + "/application/" + id, { state: "ACCEPTED" })
+        .put(
+          API_URI + "/application/" + id,
+          { state: "ACCEPTED" },
+          getters.getAccessToken
+        )
         .then(resp => {
           commit("acceptApplication", resp.data);
         })
@@ -294,9 +301,16 @@ export const store = new Vuex.Store({
         .catch(err => {});
     },
     POST_VOTE: ({ commit, getters }, vote) => {
-
       axios
         .post(API_URI + `/vote`, vote, getters.getAccessToken)
+        .then(resp => {
+          console.log(resp);
+        })
+        .catch(err => {});
+    },
+    DELETE_VOTE: ({ commit, getters }, id) => {
+      axios
+        .delete(API_URI + `/vote/${id}`, getters.getAccessToken)
         .then(resp => {
           console.log(resp);
         })

@@ -6,7 +6,7 @@
           <img
             style="border-radius: 50%;width:40px"
             class="profile-img"
-            src="https://img.icons8.com/cotton/64/000000/gender-neutral-user--v1.png"
+            :src="`https://eu.ui-avatars.com/api/?rounded=true&name=${comment.full_name}`"
           />
         </el-col>
         <el-col :span="21" :offset="1">
@@ -38,6 +38,7 @@
 import TimeAgo from "vue2-timeago";
 import VoteForm from "../components/VoteForm";
 import CommentButton from "../components/CommentButton";
+
 
 export default {
   name: "CommentCard",

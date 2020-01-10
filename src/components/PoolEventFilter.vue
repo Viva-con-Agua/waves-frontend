@@ -38,9 +38,9 @@
             >
               <el-option
                 v-for="region in regions"
-                :key="region.city"
-                :label="region.city"
-                :value="region.city"
+                :key="region.locality"
+                :label="region.locality"
+                :value="region.locality"
               ></el-option>
             </el-select>
           </el-form-item>

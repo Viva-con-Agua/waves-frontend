@@ -44,14 +44,9 @@
   </div>
 </template>
 <script>
-import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
 import Axios from "axios";
 export default {
   name: "MyApplications",
-  components: {
-    VcAFrame,
-    VcAColumn
-  },
   data() {
     return {
       states: {
