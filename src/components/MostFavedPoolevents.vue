@@ -24,10 +24,10 @@
           </el-col>
           <el-col :span="18">
             <el-row>
-              <span style="margin:0px">{{pe.name}}</span>
+              <span style="margin:0px">{{pe.pe_name}}</span>
             </el-row>
             <el-row>
-              <span style="color:grey">{{pe.type.toLowerCase()}}</span>
+              <span style="color:grey">{{pe.type_name.toLowerCase()}}</span>
             </el-row>
           </el-col>
         </a>

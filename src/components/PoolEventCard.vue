@@ -8,7 +8,7 @@
           </a>
         </el-col>
         <el-col :span="8">
-          <span style="color:grey;float:right">{{poolEvent.type}}</span>
+          <span style="color:grey;float:right">{{poolEvent.type_name}}</span>
         </el-col>
       </el-row>
     </div>

@@ -12,18 +12,16 @@
 
           <el-form-item :label="$t('poolEventForm.input.type.label')" prop="front.type">
             <el-select
-              v-model="poolevent.front.type"
+              v-model="poolevent.front.idevent_type"
               :placeholder="$t('poolEventForm.input.type.placeholder')"
               style="width:100%"
             >
-              <el-option :label="$t('poolEventForm.input.type.options.concert')" value="CONCERT"></el-option>
-              <el-option :label="$t('poolEventForm.input.type.options.festival')" value="FESTIVAL"></el-option>
               <el-option
-                :label="$t('poolEventForm.input.type.options.goldEimer')"
-                value="GOLDEIMER_FESTIVAL"
+                v-for="type in types"
+                :key="type.id"
+                :label="type.name"
+                :value="type.idevent_type"
               ></el-option>
-              <el-option :label="$t('poolEventForm.input.type.options.RUN4WASH')" value="RUN4WASH"></el-option>
-              <el-option :label="$t('poolEventForm.input.type.options.others')" value="OTHER"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('poolEventForm.input.website.label')" prop="front.website">
@@ -69,7 +67,6 @@
           <el-form-item label="Ansprechpartner">
             <el-select
               style="width:100%"
-              multiple
               filterable
               allow-create
               v-model="poolevent.front.asp_event_id"
@@ -243,7 +240,7 @@ export default {
           website: "",
           supporter_lim: 0,
           active_user_only: "",
-          type: ""
+          idevent_type: ""
         },
         location: {
           locality: "",
@@ -265,10 +262,12 @@ export default {
       config: {
         placeholder: "Compose a description",
         label: "Beschreibung"
-      }
+      },
+      types: []
     };
   },
   async mounted() {
+    this.fetchAllTypes();
     this.errors = this.$store.state.errors;
     await this.fetchAllUsers();
     if (this.$route.params.id) {
@@ -283,7 +282,6 @@ export default {
     this.poolevent.location.full_address = route
       ? `${route} ${street_number}, ${postal_code} ${locality}`
       : "";
-    console.log("-->", this.poolevent);
   },
   methods: {
     addPoolEvent(option) {
@@ -314,6 +312,7 @@ export default {
     async fetchAllUsers() {
       const { data } = await Axios.get("/waves/api/v1/user");
       this.users = data.data;
+      console.log(this.users);
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
@@ -339,6 +338,7 @@ export default {
     async fetchPooleventById(id) {
       const { data } = await Axios.get(`/waves/api/v1/poolevent/${id}`);
       const { location, description, ...front } = data.data;
+      console.log(description.html);
       this.poolevent.description.html = description.html;
       this.poolevent.description.text = description.text;
       this.poolevent.location.route = location.route;
@@ -349,16 +349,24 @@ export default {
       this.poolevent.location.latitude = location.latitude;
       this.poolevent.location.longitude = location.longitude;
       this.poolevent.location.full_address = location.full_address;
-      this.poolevent.front.name = front.name;
+      this.poolevent.front.name = front.event_name;
       this.poolevent.front.event_start = front.event_start;
       this.poolevent.front.event_end = front.event_end;
       this.poolevent.front.application_start = front.application_start;
       this.poolevent.front.application_end = front.application_end;
       this.poolevent.front.website = front.website;
-      this.poolevent.front.type = front.type;
+      this.poolevent.front.idevent_type = front.type_name;
       this.poolevent.front.asp_event_id = front.asp_event_id;
       this.poolevent.front.supporter_lim = front.supporter_lim;
-      this.poolevent.front.supporter_lim = front.supporter_lim;
+      console.log(this.poolevent);
+    },
+    async fetchAllTypes() {
+      try {
+        const { data } = await Axios.get(`/waves/api/v1/eventtype`);
+        this.types = data.types;
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 };

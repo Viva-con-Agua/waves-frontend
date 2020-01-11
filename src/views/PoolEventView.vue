@@ -3,7 +3,7 @@
     <rotate-square2 style="margin:auto auto" v-if="!poolEvent"></rotate-square2>
     <VcAFrame v-if="poolEvent">
       <VcAColumn size="50%">
-        <VcABox :title="poolEvent.name">
+        <VcABox :title="poolEvent.event_name">
           <div slot="header">
             <el-tag
               class="active-user-tag"
@@ -65,25 +65,27 @@
             </ul>
           </el-row>
           <el-row>
-            <PooleventDropdown
-              :poolevent="poolEvent"
-              style="float:right;margin-top:0;padding-top:0"
-            />
-            <SharingButton
-              :location="`https://localhost${this.$router.history.current.path}`"
-              style="width:40px;float:right;margin:0;border:0"
-            />
-            <ApplicationButton
-              :poolevent="poolEvent"
-              style="width:40px;float:right;margin:0;border:0"
-            />
-            <el-button
-              style="margin-top:5px;width:40px;height:40px;float:right;margin:0;border:0"
-              @click="()=> this.$router.push(`/waves/applications/${this.$route.params.id}`)"
-              circle
-            >
-              <i class="el-icon-message"></i>
-            </el-button>
+            <el-col :span="6">
+              <el-button
+                style="margin-top:5px;width:40px;height:40px;margin:auto;border:0"
+                @click="()=> this.$router.push(`/waves/applications/${this.$route.params.id}`)"
+                circle
+              >
+                <i class="el-icon-message"></i>
+              </el-button>
+            </el-col>
+            <el-col :span="6">
+              <ApplicationButton :poolevent="poolEvent" style="width:40px;margin:0;border:0" />
+            </el-col>
+            <el-col :span="6">
+              <SharingButton
+                :location="`https://localhost${this.$router.history.current.path}`"
+                style="width:40px;margin:0;border:0"
+              />
+            </el-col>
+            <el-col :span="6">
+              <PooleventDropdown :poolevent="poolEvent" style="margin-top:0;padding-top:0" />
+            </el-col>
           </el-row>
         </VcABox>
 

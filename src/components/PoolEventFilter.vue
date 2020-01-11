@@ -9,7 +9,21 @@
     </el-row>
     <el-collapse-transition>
       <el-row v-if="show" style="margin:auto;margin-top:10px">
-        <el-col style="padding:5px" :span="8">
+        <el-col style="padding:5px" :span="6">
+          <el-form-item prop="type">
+            <el-select
+              @change="filterButtonHandler"
+              style="width:100%"
+              v-model="filter.state"
+              placeholder="State"
+            >
+              <el-option label="unreleased" value="UNRELEASED"></el-option>
+              <el-option label="released" value="RELEASED"></el-option>
+              <el-option label="rejected" value="REJECTED"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col style="padding:5px" :span="6">
           <el-form-item prop="type">
             <el-select
               @change="filterButtonHandler"
@@ -17,18 +31,16 @@
               v-model="filter.type"
               placeholder="Type"
             >
-              <el-option :label="$t('poolEventForm.input.type.options.concert')" value="concert"></el-option>
-              <el-option :label="$t('poolEventForm.input.type.options.festival')" value="festival"></el-option>
               <el-option
-                :label="$t('poolEventForm.input.type.options.goldEimer')"
-                value="goldeimer_festival"
+                v-for="type in types"
+                :key="type.idevent_type"
+                :label="type.name"
+                :value="type.idevent_type"
               ></el-option>
-              <el-option :label="$t('poolEventForm.input.type.options.RUN4WASH')" value="RUN4WASH"></el-option>
-              <el-option :label="$t('poolEventForm.input.type.options.others')" value="others"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col style="padding:5px" :span="8">
+        <el-col style="padding:5px" :span="6">
           <el-form-item prop="region">
             <el-select
               @change="filterButtonHandler"
@@ -46,7 +58,7 @@
           </el-form-item>
         </el-col>
 
-        <el-col style="padding:5px" :span="8">
+        <el-col style="padding:5px" :span="6">
           <el-form-item prop="type">
             <el-select
               @change="filterButtonHandler"
@@ -66,6 +78,7 @@
 <script>
 import moment from "moment";
 import axios from "axios";
+import Axios from "axios";
 
 export default {
   name: "PoolEventFilter",
@@ -75,7 +88,8 @@ export default {
       regions: [],
       store: this.$store,
       poolevents: this.$store.getters.getAllPoolEvents.data,
-      show: false
+      show: false,
+      types: []
     };
   },
   methods: {
@@ -94,11 +108,15 @@ export default {
         this.show = true;
       }
     },
-    async fetchRegions() {}
+    async fetchAllTypes() {
+      const { data } = await Axios.get("/waves/api/v1/eventtype");
+      this.types = data.types;
+    }
   },
   async mounted() {
     const { data } = await axios.get("/waves/api/v1/regions");
     this.regions = data.data;
+    await this.fetchAllTypes();
   }
 };
 </script>

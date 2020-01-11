@@ -4,11 +4,9 @@ import PoolEventFormView from "./views/PoolEventFormView";
 import NotificationsView from "./views/NotificationsView";
 import DashboardView from "./views/DashboardView";
 import PoolEventView from "./views/PoolEventView";
-import BadgesView from "./views/BadgesView";
 import PoolEventsView from "./views/PoolEventsView";
 import ProfileView from "./views/ProfileView";
 import AchievementWikiView from "./views/AchievementWikiView";
-import SEEDING from "./views/SEEDING";
 import InformationView from "./views/InformationView";
 import ErrorView from "./views/ErrorView";
 import Router from "vue-router";
@@ -45,11 +43,6 @@ export default new Router({
       component: ApplicationHandlerView
     },
     {
-      path: "/waves/badges",
-      name: "BadgesView",
-      component: BadgesView
-    },
-    {
       path: "/waves/notifications",
       name: "NotificationsView",
       component: NotificationsView
@@ -73,11 +66,6 @@ export default new Router({
       path: "/waves/info",
       name: "information",
       component: InformationView
-    },
-    {
-      path: "/waves/seed",
-      name: "seed",
-      component: SEEDING
     },
     {
       path: "/waves/dashboard",
