@@ -66,22 +66,23 @@
               style="width: 100%;"
             ></el-time-picker>
           </el-form-item>
-          <el-form-item label="Ansprechpartner">
-            <el-select
-              style="width:100%"
-              multiple
-              filterable
-              allow-create
-              v-model="poolevent.front.asp_event_id"
-            >
-              <el-option
-                v-for="user in users"
-                :key="user.id"
-                :label="user.last_name"
-                :value="user.id"
-              ></el-option>
-            </el-select>
-          </el-form-item>
+          <WidgetUserAutocomplete placeholde="Ansprechpartner" :preselection="[poolevent.front.asp_event_id]" @vca-user-selection="selectASP">
+<!--          <el-form-item label="Ansprechpartner">-->
+<!--            <el-select-->
+<!--              style="width:100%"-->
+<!--              multiple-->
+<!--              filterable-->
+<!--              allow-create-->
+<!--              v-model="poolevent.front.asp_event_id"-->
+<!--            >-->
+<!--              <el-option-->
+<!--                v-for="user in users"-->
+<!--                :key="user.id"-->
+<!--                :label="user.last_name"-->
+<!--                :value="user.id"-->
+<!--              ></el-option>-->
+<!--            </el-select>-->
+<!--          </el-form-item>-->
           <quill :config="config" v-model="poolevent.description.html" output="html"></quill>
         </VcABox>
       </VcAColumn>
@@ -207,6 +208,7 @@
 <script>
 import { VcAFrame, VcAColumn, VcABox, VcAInfoBox } from "vca-widget-base";
 import "vca-widget-base/dist/vca-widget-base.css";
+import { WidgetUserAutocomplete } from "vca-widget-user";
 import { Input, Form } from "element-ui";
 import VueGoogleAutocomplete from "vue-google-autocomplete";
 import "../assets/pool_event_style.css";
@@ -222,7 +224,8 @@ export default {
     VcABox: VcABox,
     "el-input": Input,
     "el-form": Form,
-    VcAInfoBox: VcAInfoBox
+    VcAInfoBox: VcAInfoBox,
+    WidgetUserAutocomplete: WidgetUserAutocomplete
   },
   data() {
     return {
@@ -286,6 +289,13 @@ export default {
     console.log("-->", this.poolevent);
   },
   methods: {
+    selectASP(event) {
+      var asp = ""
+      if(Array.isArray(event) && event.length) {
+        asp = event[0]
+      }
+      this.poolevent.front.asp_event_id = asp
+    },
     addPoolEvent(option) {
       if (this.$route.params.id == undefined) {
         this.submitForm("poolevent");
