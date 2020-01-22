@@ -66,7 +66,9 @@
               style="width: 100%;"
             ></el-time-picker>
           </el-form-item>
-          <WidgetUserAutocomplete placeholde="Ansprechpartner" :preselection="[poolevent.front.asp_event_id]" @vca-user-selection="selectASP">
+          <el-form-item label="Ansprechpartner">
+            <WidgetUserAutocomplete placeholder="" :preselection="[poolevent.front.asp_event_id]" @vca-user-selection="selectASP">
+          </el-form-item>
 <!--          <el-form-item label="Ansprechpartner">-->
 <!--            <el-select-->
 <!--              style="width:100%"-->
