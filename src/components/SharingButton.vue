@@ -1,17 +1,13 @@
 <template>
-  <div>
-    <el-button
-      style="width:40px;float:right;margin:0;border:0"
-      @click="dialogFormVisible = true"
-      circle
-    >
+  <div style="text-align:center;">
+    <el-button style="width:40px;margin:0;border:0" @click="dialogFormVisible = true" circle>
       <i class="el-icon-share"></i>
     </el-button>
 
-    <el-dialog width="30%" title="Share" :visible.sync="dialogFormVisible">
-      <container style="margin:auto"> 
+    <el-dialog class="sh-container" title="Share" :visible.sync="dialogFormVisible">
+      <container style="margin:auto">
         <el-row>
-          <el-col  :span="6">
+          <el-col :span="6">
             <facebook :url="location" scale="3"></facebook>
           </el-col>
           <el-col :span="6">
@@ -23,10 +19,9 @@
           <el-col :span="6">
             <telegram :url="location" scale="3"></telegram>
           </el-col>
-          
         </el-row>
         <el-row>
-            <el-col :span="6">
+          <el-col :span="6">
             <whats-app :url="location" title="Hello" scale="3"></whats-app>
           </el-col>
           <el-col :span="6">
@@ -82,4 +77,14 @@ export default {
 </script>
 
 <style>
+.sh-container {
+  margin: auto;
+  width: 110%;
+}
+@media screen and (min-width: 765px) {
+  .sh-container {
+    margin: auto;
+    width: 30%;
+  }
+}
 </style>

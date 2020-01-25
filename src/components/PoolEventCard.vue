@@ -2,13 +2,20 @@
   <el-card style="width:100%" :body-style="{ paddingTop: '10px' }">
     <div slot="header">
       <el-row>
-        <el-col :span="16">
+        <el-col :span="getRoles=='admin'?14:17">
           <a :href="`/waves/poolevent/${poolEvent.id}`" style="text-decoration:none;color:black">
             <span>{{poolEvent.name}}</span>
           </a>
         </el-col>
-        <el-col :span="8">
+
+        <el-col :span="7">
           <span style="color:grey;float:right">{{poolEvent.type_name}}</span>
+        </el-col>
+        <el-col v-if="getRoles=='admin'" :span="3">
+          <el-tag
+            :type="poolEvent.state=='RELEASED'?'success':poolEvent.state=='UNRELEASED'?'primary':'danger'"
+            size="mini"
+          >{{poolEvent.state}}</el-tag>
         </el-col>
       </el-row>
     </div>
@@ -32,35 +39,70 @@
       <el-col :span="1">
         <i class="el-icon-date"></i>
       </el-col>
-      <el-col
-        :span="22"
-      >
-      {{new Date(poolEvent.event_start).getDate()}}. {{new Date(poolEvent.event_start).toLocaleString("default", { month: "short" })}}
-      {{new Date(poolEvent.event_start).getFullYear()}}
+      <el-col :span="22">
+        {{new Date(poolEvent.event_start).getDate()}}. {{new Date(poolEvent.event_start).toLocaleString("default", { month: "short" })}}
+        {{new Date(poolEvent.event_start).getFullYear()}}
       </el-col>
     </el-row>
     <el-row style="margin-top: 15px;">
-      <el-button style="border:0;width:40px;height:40px;margin:0;float:right" circle>
-        <i
-          :v-model="favorite.poolevent_id=poolEvent.id"
-          @click="setFavorite"
-          style="float:right;margin:0"
-          class="el-icon-star-off"
+      <el-col style="text-align:center" :span="5">
+        <el-button
+          v-if="getRoles=='admin'"
+          style="margin-top:5px;
+                width:40px;
+                height:40px;
+                margin:auto;
+                border:0
+                text-align:center"
+          @click="()=> this.$router.push(`/waves/applications/${this.$route.params.id}`)"
+          circle
+        >
+          <i class="el-icon-circle-plus"></i>
+        </el-button>
+      </el-col>
+      <el-col style="text-align:center" :span="5">
+        <ApplicationButton
+          :poolevent="poolEvent"
+          style="width:40px;margin:0;border:0;text-align:center;margin:auto"
         />
-      </el-button>
-      <ApplicationButton style="float:right" :poolevent="poolEvent" />
+      </el-col>
+      <el-col style="text-align:center" :span="5">
+        <SharingButton
+          :location="`https://localhost${this.$router.history.current.path}`"
+          style="width:40px;margin:0;border:0;text-align:center;margin:auto"
+        />
+      </el-col>
+      <el-col style="text-align:center" :span="5">
+        <el-button style="border:0;width:40px;height:40px;margin:0;margin:auto;padding:0px" circle>
+          <i
+            :v-model="favorite.poolevent_id=poolEvent.id"
+            @click="setFavorite"
+            style="width:100%;float:right;margin:0;padding:0"
+            class="el-icon-star-on"
+          />
+        </el-button>
+      </el-col>
+      <el-col style="text-align:center" v-if="getRoles=='admin'" :span="4">
+        <PooleventDropdown :poolevent="poolEvent" style="margin-top:0;padding-top:0;" />
+      </el-col>
     </el-row>
   </el-card>
 </template>
 
 <script>
+import PooleventDropdown from "./PooleventDropdown";
+import SharingButton from "./SharingButton";
+
 import ApplicationButton from "./ApplicationButton";
 import Axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
   name: "PoolEventCard",
   components: {
-    ApplicationButton
+    ApplicationButton,
+    SharingButton,
+    PooleventDropdown
   },
   props: ["poolEvent"],
   data() {
@@ -100,11 +142,7 @@ export default {
           Authorization: `bearer ${this.$cookies.get("access_token")}`
         }
       };
-      await Axios.post(
-        "/waves/api/v1/favorite",
-        this.favorite,
-        config
-      );
+      await Axios.post("/waves/api/v1/favorite", this.favorite, config);
     },
     submitForm() {
       this.$store.dispatch("APPLY", {
@@ -114,6 +152,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(["getRoles"]),
     getStart() {
       let date = new Date(this.poolEvent.start);
       return (
@@ -197,11 +236,7 @@ export default {
 </script>
 
 <style>
-
-
 .card-event {
   border-radius: 2%;
 }
-
-
 </style>

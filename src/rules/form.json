@@ -61,7 +61,7 @@
             "trigger": "blur"
           }
         ],
-        "type": [
+        "front.idevent_type": [
           {
             "required": true,
             "message": "Please select event type",

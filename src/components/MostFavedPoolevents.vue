@@ -38,6 +38,7 @@
             type="primary"
             style="margin-left:25%;width:50%;margin-top:10px"
             size="mini"
+            @click="()=> this.$router.push('/waves/recomandations')"
           >SEE ALL</el-button>
         </div>
       </el-row>
@@ -60,7 +61,7 @@ export default {
   methods: {
     async fetchMostFavedPoolevents() {
       const { data } = await Axios.get("/waves/api/v1/favorite/most/me");
-      this.mostFavedPoolevents = data.data;
+      this.mostFavedPoolevents = data.recomandations;
     },
     calculateMonth(date) {
       let d = new Date(date);

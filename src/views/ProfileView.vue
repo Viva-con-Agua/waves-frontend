@@ -1,14 +1,14 @@
 <template>
-  <div style="margin-top:3%">
-    <el-row style="width:50%;margin:auto;padding:3%">
-      <el-col :span="3">
+<div  class="p-container" style="margin-top:3%">
+    <el-row  style="margin:auto;padding:3%">
+      <el-col :span="6">
         <img
           style="border-radius: 50%;margin:auto;"
           class="profile-img"
           :src="`https://eu.ui-avatars.com/api/?rounded=true&name=${this.$cookies.get('first_name')}+${this.$cookies.get('last_name')}`"
         />
       </el-col>
-      <el-col style="margin-top:8px" :span="7">
+      <el-col style="margin-top:8px" :span="14">
         <el-row>
           <strong style="margin-top:3%;font-size:20px">{{this.$cookies.get('full_name')}}</strong>
         </el-row>
@@ -18,7 +18,7 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-tabs v-model="activeName" style="width:50%;margin:auto;">
+      <el-tabs v-model="activeName" style="margin:auto;">
         <el-tab-pane label="Poolevents" name="poolevents">
           <MyPoolevents />
         </el-tab-pane>
@@ -60,4 +60,14 @@ export default {
 </script>
 
 <style>
+.p-container {
+  margin: auto;
+  width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  .p-container {
+    margin: auto;
+    width: 50%;
+  }
+}
 </style>

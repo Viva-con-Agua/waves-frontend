@@ -9,7 +9,7 @@
     </el-row>
     <el-collapse-transition>
       <el-row v-if="show" style="margin:auto;margin-top:10px">
-        <el-col style="padding:5px" :span="6">
+        <el-col v-if="roles=='admin'" style="padding:5px" :span="roles=='admin'?6:8">
           <el-form-item prop="type">
             <el-select
               @change="filterButtonHandler"
@@ -20,10 +20,11 @@
               <el-option label="unreleased" value="UNRELEASED"></el-option>
               <el-option label="released" value="RELEASED"></el-option>
               <el-option label="rejected" value="REJECTED"></el-option>
+              <el-option label="canceled" value="CANCELED"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col style="padding:5px" :span="6">
+        <el-col style="padding:5px" :span="roles=='admin'?6:8">
           <el-form-item prop="type">
             <el-select
               @change="filterButtonHandler"
@@ -40,7 +41,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col style="padding:5px" :span="6">
+        <el-col style="padding:5px" :span="roles=='admin'?6:8">
           <el-form-item prop="region">
             <el-select
               @change="filterButtonHandler"
@@ -58,15 +59,15 @@
           </el-form-item>
         </el-col>
 
-        <el-col style="padding:5px" :span="6">
+        <el-col style="padding:5px" :span="roles=='admin'?6:8">
           <el-form-item prop="type">
             <el-select
               @change="filterButtonHandler"
               style="width:100%"
-              v-model="filter.month"
+              v-model="filter.start"
               placeholder="Month"
             >
-              <el-option v-for="month in getMonths()" :key="month" :label="month" :value="month"></el-option>
+              <el-option v-for="month in getAllMonths" :key="month" :label="month" :value="month"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -76,9 +77,9 @@
 </template>
 
 <script>
-import moment from "moment";
 import axios from "axios";
 import Axios from "axios";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "PoolEventFilter",
@@ -92,10 +93,12 @@ export default {
       types: []
     };
   },
+  props: ["roles"],
   methods: {
-    getMonths() {
-      return moment.months();
-    },
+    ...mapActions({
+      fetchAllMonths: "FETCH_ALL_MONTHS"
+    }),
+    
     filterButtonHandler() {
       if (this.show) {
         const keys = Object.keys(this.filter);
@@ -117,6 +120,10 @@ export default {
     const { data } = await axios.get("/waves/api/v1/regions");
     this.regions = data.data;
     await this.fetchAllTypes();
+    this.fetchAllMonths();
+  },
+  computed: {
+    ...mapGetters(["getAllMonths"])
   }
 };
 </script>

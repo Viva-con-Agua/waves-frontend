@@ -12,6 +12,7 @@ import io from "socket.io-client";
 import { Button, Select } from "element-ui";
 import Navbar from "./components/Navbar";
 import vueCookies from "vue-cookies";
+import { mapGetters } from "vuex";
 
 Vue.component(Select.name, Select);
 Vue.component(Button.name, Button);
@@ -27,9 +28,11 @@ export default {
   },
   data() {
     return {
-      socket: io("localhost:5000"),
-      errors: []
+      socket: io("localhost:5000")
     };
+  },
+  computed: {
+    ...mapGetters(["getErrors","getSuccessMessage"])
   },
   created() {
     this.socket.on("NEW_POOLEVENT", pooleventId => {
@@ -66,6 +69,11 @@ export default {
       } catch (error) {
         throw error;
       }
+    },
+    setRoles() {
+      if (this.$cookies.get("roles")) {
+        this.$store.dispatch("SET_ROLES", this.$cookies.get("roles"));
+      }
     }
   },
   mounted() {
@@ -76,6 +84,20 @@ export default {
         }
       });
     }
+    this.setRoles();
+    this.getErrors.map(error => {
+      this.$notify({
+        title: `Error god damn: ${error}`,
+        type: "danger"
+      });
+    });
+    this.getSuccessMessage.map(message => {
+      this.$notify({
+        title: `success`,
+        message: "click ",
+        type: "success"
+      });
+    });
   }
 };
 </script>

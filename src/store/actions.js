@@ -10,7 +10,7 @@ export default {
         commit("updatePoolEvents", res.data);
       })
       .catch(err => {
-        commit("pushError", error);
+        commit("pushError", err.message);
       });
   },
   POST_POOLEVENT: ({ commit, getters }, poolevent) => {
@@ -30,7 +30,10 @@ export default {
     axios
       .delete(API_URI + `/poolevent/${id}`)
       .then(resp => {})
-      .catch(err => {});
+
+      .catch(err => {
+        commit("pushError", err.message);
+      });
   },
   PUT_POOLEVENT: ({ commit, getters }, data) => {
     axios
@@ -42,13 +45,9 @@ export default {
       .then(resp => {
         commit("transition", "unrelease");
       })
-      .catch(err => {});
-  },
-  EDIT_AND_SAVE_AS_DRAFT: ({ commit }, poolEvent) => {
-    axios
-      .put(apiMockUrl + "/" + poolEvent.id, poolEvent)
-      .then(resp => {})
-      .catch(err => {});
+      .catch(err => {
+        commit("pushError", err.message);
+      });
   },
   GET_POOLEVENT_BY_ID: ({ commit }, id) => {
     axios.get(`${API_URI}/poolevent/${id}`).then(({ data }) => {
@@ -62,10 +61,12 @@ export default {
         { front: { state: "RELEASED" } },
         getters.getAccessToken
       )
-      .then((resp, err) => {
-        commit("transition", "release");
+      .then(resp => {
+        commit("pushSuccessMessage", "release");
       })
-      .catch(err => {});
+      .catch(err => {
+        commit("pushError", err.message);
+      });
   },
   SET_TO_REFUSED: ({ commit, getters }, id) => {
     axios
@@ -74,10 +75,23 @@ export default {
         { front: { state: "REJECTED" } },
         getters.getAccessToken
       )
-      .then((resp, err) => {
+      .then(resp => {
         commit("transition", "refuse");
       })
-      .catch(err => {});
+      .catch(err => {
+        commit("pushError", err.message);
+      });
+  },
+  SET_TO_CANCELED: async ({ commit, getters }, id) => {
+    try {
+      await axios.put(
+        API_URI + `/poolevent/${id}`,
+        { front: { state: "CANCELED" } },
+        getters.getAccessToken
+      );
+    } catch (error) {
+      commit("pushError", error.message);
+    }
   },
   SET_TO_UNRELEASED: ({ commit }, id) => {
     axios
@@ -85,7 +99,9 @@ export default {
       .then((resp, err) => {
         commit("transition", "unrelease");
       })
-      .catch(err => {});
+      .catch(err => {
+        commit("pushError", err.message);
+      });
   },
   APPLY: ({ commit }, { config, application }) => {
     axios
@@ -94,7 +110,7 @@ export default {
         commit("addApplication", resp);
       })
       .catch(err => {
-        commit("setError", err);
+        commit("pushError", err.message);
       });
   },
   ACCEPT_APPLICATION: ({ commit, getters }, id) => {
@@ -108,17 +124,21 @@ export default {
         commit("acceptApplication", resp.data);
       })
       .catch(err => {
-        commit("setError", err);
+        commit("pushError", err.message);
       });
   },
-  REJECT_APPLICATION: ({ commit }, id) => {
+  REJECT_APPLICATION: ({ commit, getters }, id) => {
     axios
-      .put(API_URI + "/application/" + id, { state: "REJECTED" })
+      .put(
+        API_URI + "/application/" + id,
+        { state: "REJECTED" },
+        getters.getAccessToken
+      )
       .then(resp => {
-        commit("rejectApplication", resp.data);
+        commit("acceptApplication", resp.data);
       })
       .catch(err => {
-        commit("setError", err);
+        commit("pushError", err.message);
       });
   },
   GET_APPLICATIONS: ({ commit }, id) => {
@@ -128,7 +148,7 @@ export default {
         commit("setApplications", data.data);
       })
       .catch(err => {
-        commit("setError", err);
+        commit("pushError", err.message);
       });
   },
   SUBMIT_COMMENT: ({ commit, getters }, comment) => {
@@ -138,7 +158,7 @@ export default {
         commit("addComment", resp.data);
       })
       .catch(err => {
-        commit("setError", err);
+        commit("pushError", err.message);
       });
   },
   FETCH_COMMENTS: ({ commit }, id) => {
@@ -148,7 +168,7 @@ export default {
         commit("setComments", resp.data);
       })
       .catch(err => {
-        commit("setError", err);
+        commit("pushError", err.message);
       });
   },
   FETCH_POOLEVENTS_BY_FILTER: ({ commit }, filter) => {
@@ -158,7 +178,7 @@ export default {
         commit("updatePoolEvents", resp.data);
       })
       .catch(err => {
-        commit("setError", err);
+        commit("pushError", err.message);
       });
   },
   POST_VOTE: ({ commit, getters }, vote) => {
@@ -166,14 +186,16 @@ export default {
       .post(API_URI + `/vote`, vote, getters.getAccessToken)
       .then(resp => {})
       .catch(err => {
-        commit("setError", err);
+        commit("pushError", err.message);
       });
   },
   DELETE_VOTE: ({ commit, getters }, id) => {
     axios
       .delete(API_URI + `/vote/${id}`, getters.getAccessToken)
       .then(resp => {})
-      .catch(err => {});
+      .catch(err => {
+        commit("pushError", err.message);
+      });
   },
   FETCH_MY_POOLEVENTS: ({ commit }) => {
     axios
@@ -186,10 +208,28 @@ export default {
       });
   },
   SET_ACCESS_TOKEN: ({ commit }, access_token) => {
-    commit("setAccessToken", access_token).then((response)=>{
-
-    }).catch((err)=>{
-      commit("setError", err);
-    });
+    commit("setAccessToken", access_token);
+  },
+  SET_ROLES: ({ commit }, roles) => {
+    commit("setRoles", roles);
+  },
+  FETCH_ALL_MONTHS: async ({ commit }) => {
+    const { data } = await axios.get(API_URI + "/months");
+    commit("setMonths", data.months);
+  },
+  FETCH_USER_STATISTIC: async ({ commit, getters }, userId) => {
+    const { data } = await axios.get(
+      API_URI + `/application/user/${userId}/statistic`
+    );
+    commit("setUserStatistic", data.statistic);
+  },
+  FETCH_RECOMANDATIONS: async ({ commit }) => {
+    try {
+      const { data } = await axios.get(API_URI + `/favorite/most/me`);
+      console.log(data);
+      commit("setRecomandations", data.recomandations);
+    } catch (error) {
+      commit("pushError", error.message);
+    }
   }
 };

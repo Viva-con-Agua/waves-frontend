@@ -1,6 +1,6 @@
 <template>
-  <div style="margin:auto;width:100%">
-    <el-tabs tab-position="left" style="width:70%;margin-top:60px">
+  <div style="margin:auto;width:60%">
+    <el-tabs tab-position="left" style="margin-top:60px">
       <el-tab-pane label="Type">
         <el-row>
           <el-col :span="20">
@@ -31,8 +31,8 @@ import AchievementCreater from "../components/AchievementCreater";
 
 export default {
   name: "DaschboardView",
-  components:{
-      AchievementCreater
+  components: {
+    AchievementCreater
   },
   data() {
     return {
@@ -50,7 +50,7 @@ export default {
       } catch (error) {
         this.$notify.error({
           title: "Error",
-          message: `submit type error`
+          message: `submit type error: ${error.message}`
         });
       }
     },

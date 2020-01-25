@@ -10,7 +10,7 @@
             ></el-input>
           </el-form-item>
 
-          <el-form-item :label="$t('poolEventForm.input.type.label')" prop="front.type">
+          <el-form-item :label="$t('poolEventForm.input.type.label')" prop="front.idevent_type">
             <el-select
               v-model="poolevent.front.idevent_type"
               :placeholder="$t('poolEventForm.input.type.placeholder')"

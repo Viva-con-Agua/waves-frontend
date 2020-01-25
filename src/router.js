@@ -8,6 +8,7 @@ import PoolEventsView from "./views/PoolEventsView";
 import ProfileView from "./views/ProfileView";
 import AchievementWikiView from "./views/AchievementWikiView";
 import InformationView from "./views/InformationView";
+import RecomandationView from "./views/RecomandationView";
 import ErrorView from "./views/ErrorView";
 import Router from "vue-router";
 import Vue from "vue";
@@ -71,6 +72,12 @@ export default new Router({
       path: "/waves/dashboard",
       name: "dashboardView",
       component: DashboardView
+    },
+    ,
+    {
+      path: "/waves/recomandations",
+      name: "recomandation",
+      component: RecomandationView
     },
     { path: "*", component: ErrorView }
   ]

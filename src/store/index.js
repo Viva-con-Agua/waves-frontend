@@ -3,8 +3,7 @@ import Vue from "vue";
 import { Machine } from "xstate";
 import mutations from "./mutations";
 import actions from "./actions";
-
-
+import getters from "./getters";
 
 Vue.use(Vuex);
 
@@ -44,43 +43,16 @@ export const store = new Vuex.Store({
     currentState: poolEventStateMachine.initial,
     applications: [],
     comments: [],
-    currentUser: {
-      id: "0",
-      name: "John Doe"
-    },
     isAdmin: true,
     isLogedIn: true,
-    access_token: ""
+    access_token: "",
+    roles: "",
+    months: [],
+    statistic: "",
+    recomandations: [],
+    successMessage: []
   },
-  getters: {
-    getAllPoolEvents(state) {
-      return state.poolEvents;
-    },
-    getPoolEvent(state) {
-      return state.poolEvent;
-    },
-    getApplications(state) {
-      return state.applications;
-    },
-    getComments(state) {
-      return state.comments;
-    },
-    isLogedIn(state) {
-      return state.isLogedIn;
-    },
-    isAdmin(state) {
-      return state.isAdmin;
-    },
-    getCurrentUser(state) {
-      return state.currentUser;
-    },
-    getErrors(state) {
-      return state.errors;
-    },
-    getAccessToken(state) {
-      return state.access_token;
-    }
-  },
+  getters,
   actions,
   mutations
 });
