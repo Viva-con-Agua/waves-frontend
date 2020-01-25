@@ -1,9 +1,9 @@
 <template>
-  <div style="margin:auto;width:60%">
+  <div class="p-container">
     <el-row>
-      <el-col :span="14" style="margin-top:20px;padding:5px;" size="600px">
+      <el-col :xs="24" :lg="14" style="margin-top:20px;padding:5px;" size="600px">
         <el-row>
-          <PoolEventFilter />
+          <PoolEventFilter :roles="getRoles" />
         </el-row>
         <el-row v-if="!poolEvents" style="margin-top:50%;padding:10px;">
           <rotate-square2 style="margin:auto;"></rotate-square2>
@@ -14,7 +14,7 @@
           </el-col>
         </el-row>
       </el-col>
-      <el-col fixed :span="10" style="margin-top:20px;padding:5px" size="250px">
+      <el-col class="most-faved" fixed :span="10" style="margin-top:20px;padding:5px" size="250px">
         <MostFavedPoolevents />
       </el-col>
     </el-row>
@@ -29,6 +29,7 @@ import PoolEventCard from "../components/PoolEventCard";
 import MyPoolEvents from "../components/MyPoolEvents";
 import Pagination from "../components/Pagination";
 import MostFavedPoolevents from "../components/MostFavedPoolevents";
+import { mapGetters } from "vuex";
 
 import {
   Input,
@@ -57,6 +58,7 @@ export default {
     Dropdown
   },
   computed: {
+    ...mapGetters(["getRoles"]),
     poolEvents() {
       return this.$store.getters.getAllPoolEvents.data;
     }
@@ -118,4 +120,20 @@ input {
   margin-right: 0;
 }
 
+.most-faved {
+  display: none;
+}
+.p-container {
+  margin: auto;
+  width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  .most-faved {
+    display: block;
+  }
+  .p-container {
+    margin: auto;
+    width: 60%;
+  }
+}
 </style>

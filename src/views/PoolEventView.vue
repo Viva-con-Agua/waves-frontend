@@ -2,30 +2,42 @@
   <div style="margin:0;padding:0">
     <rotate-square2 style="margin:auto auto" v-if="!poolEvent"></rotate-square2>
     <VcAFrame v-if="poolEvent">
-      <VcAColumn size="50%">
-        <VcABox :title="poolEvent.name">
+      <VcAColumn size="45%">
+        <VcABox :title="poolEvent.event_name">
           <div slot="header">
+            <span style="color:grey;float:right">{{poolEvent.type_name}}</span>
+
             <el-tag
+              size="mini"
               class="active-user-tag"
               v-if="poolEvent.active_user_only && isAdmin"
               type="warning"
             >active users only</el-tag>
             <el-tag
+              size="mini"
               v-if="poolEvent.state==='UNRELEASED'"
               type="gray"
             >{{$t('poolEventView.state.unreleased')}}</el-tag>
             <el-tag
+              size="mini"
               type="success"
               v-if="poolEvent.state==='RELEASED'"
             >{{$t('poolEventView.state.released')}}</el-tag>
             <el-tag
+              size="mini"
               v-if="poolEvent.state==='REJECTED'"
               type="danger"
             >{{$t('poolEventView.state.refused')}}</el-tag>
             <el-tag
+              size="mini"
               v-if="poolEvent.state==='DRAFT'"
               type="standard"
             >{{$t('poolEventView.state.draft')}}</el-tag>
+            <el-tag
+              size="mini"
+              v-if="poolEvent.state==='CANCELED'"
+              type="warning"
+            >{{poolEvent.state}}</el-tag>
           </div>
           <el-row>
             <ul class="event-start-end">
@@ -61,39 +73,54 @@
               <li>
                 <i class="el-icon-info"></i>
               </li>
-              <li>{{ poolEvent.website}}</li>
+              <li>{{poolEvent.website}}</li>
             </ul>
           </el-row>
-          <el-row>
-            <PooleventDropdown
-              :poolevent="poolEvent"
-              style="float:right;margin-top:0;padding-top:0"
-            />
-            <SharingButton
-              :location="`https://localhost${this.$router.history.current.path}`"
-              style="width:40px;float:right;margin:0;border:0"
-            />
-            <ApplicationButton
-              :poolevent="poolEvent"
-              style="width:40px;float:right;margin:0;border:0"
-            />
-            <el-button
-              style="margin-top:5px;width:40px;height:40px;float:right;margin:0;border:0"
-              @click="()=> this.$router.push(`/waves/applications/${this.$route.params.id}`)"
-              circle
-            >
-              <i class="el-icon-message"></i>
-            </el-button>
+          <el-row >
+            <el-col style="text-align:center" :span="6">
+              <el-button
+                v-if="getRoles=='admin'"
+                style="margin-top:5px;
+                width:40px;
+                height:40px;
+                margin:auto;
+                border:0
+                text-align:center"
+                @click="()=> this.$router.push(`/waves/applications/${this.$route.params.id}`)"
+                circle
+              >
+                <i class="el-icon-circle-plus"></i>
+              </el-button>
+            </el-col>
+            <el-col style="text-align:center" :span="6">
+              <ApplicationButton
+                :poolevent="poolEvent"
+                style="width:40px;margin:0;border:0;text-align:center;margin:auto"
+              />
+            </el-col>
+            <el-col style="text-align:center" :span="6">
+              <SharingButton
+                :location="`https://localhost${this.$router.history.current.path}`"
+                style="width:40px;margin:0;border:0;text-align:center;margin:auto"
+              />
+            </el-col>
+            <el-col style="text-align:center" v-if="getRoles=='admin'" :span="6">
+              <PooleventDropdown
+                :poolevent="poolEvent"
+                style="margin-top:0;padding-top:0;"
+              />
+            </el-col>
           </el-row>
         </VcABox>
 
-        <el-card :title="$t('poolEventView.description')">
+        <el-card v-if="poolEvent.description.html" :title="$t('poolEventView.description')">
           <div v-html="getDescription"></div>
         </el-card>
         <el-card :body-style="{ padding: '0px' }">
+
           <div style="margin:13px">
+            {{poolEvent.asp_event_id}}
             <p>
-              <strong>Adressbeschreibung:</strong>
               {{poolEvent.location.desc}}
             </p>
           </div>
@@ -131,6 +158,7 @@ import CommentCard from "../components/CommentCard";
 import CommentForm from "../components/CommentForm";
 import ApplicationReceiverButton from "../components/ApplicationReceiverButton";
 import { RotateSquare2 } from "vue-loading-spinner";
+import { mapGetters } from "vuex";
 
 export default {
   name: "PoolEventView",
@@ -185,6 +213,7 @@ export default {
     SharingButton
   },
   computed: {
+    ...mapGetters(["getRoles"]),
     poolEvent() {
       return this.$store.getters.getPoolEvent;
     },

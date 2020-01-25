@@ -1,9 +1,6 @@
 <template>
   <el-card style="padding:0">
     <el-form :model="comment">
-      <el-row>
-        Comments - 1990
-      </el-row>
       <el-row style="margin-top:10px">
         <el-col :span="1" :offset="0">
           <img
@@ -43,6 +40,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "CommentForm",
   data() {
@@ -57,12 +55,17 @@ export default {
   methods: {
     async submit() {
       if (!this.comment.text) {
-        alert("comment sction empty");
+        alert("comment section empty");
       } else {
-        await this.$store.dispatch("SUBMIT_COMMENT", {
-          data: this.comment
-        });
-        this.comment.text = '';
+        try {
+          await this.$store.dispatch("SUBMIT_COMMENT", {
+            data: this.comment
+          });
+          this.fetchComments();
+          this.comment.text = "";
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   }

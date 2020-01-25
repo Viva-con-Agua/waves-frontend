@@ -53,7 +53,6 @@ export default {
       }
     });
     this.badges = data.data;
-    console.log(data.data);
   }
 };
 </script>

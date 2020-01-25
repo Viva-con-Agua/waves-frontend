@@ -103,6 +103,7 @@ export default {
         this.config
       );
       this.allNotification = data.data;
+      console.log(data.data);
       this.setSeen = true;
     }
   }

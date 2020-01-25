@@ -13,7 +13,7 @@
       </el-button>
     </el-col>
     <el-col style="padding:0" :span="1">
-      <p style="text-align:center">{{votes.length}}</p>
+      <p style="text-align:center;color:grey">{{votes.length}}</p>
     </el-col>
   </el-row>
 </template>

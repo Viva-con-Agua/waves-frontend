@@ -27,16 +27,26 @@
           v-if="this.$cookies.get('access_token')&&poolevent.state!='REJECTED'"
           class="profile-item"
         >reject</li>
+        <li
+          @click="cancelHandler"
+          v-if="this.$cookies.get('access_token')&&poolevent.state!='CANCELED'"
+          class="profile-item"
+        >cancel</li>
       </ul>
     </el-dropdown-menu>
   </el-dropdown>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "PooleventDropdown",
   props: ["poolevent"],
   methods: {
+    ...mapActions({
+      cancelEvent: "SET_TO_CANCELED"
+    }),
     async releaseHandler() {
       await this.$store.dispatch("SET_TO_RELEASED", this.$route.params.id);
       this.$message({
@@ -50,6 +60,9 @@ export default {
         message: "Poolevent rejected!",
         type: "success"
       });
+    },
+    async cancelHandler() {
+      await this.cancelEvent(this.$route.params.id);
     }
   }
 };
