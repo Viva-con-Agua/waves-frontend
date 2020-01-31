@@ -5,6 +5,7 @@
     :reject_application="reject_application"
     :applications="getApplications"
     :fetchUserStatistic="fetchUserStatistic"
+    :fetch_applications="fetch_applications"
   />
 </template>
 
@@ -17,6 +18,7 @@ export default {
     ApplicationsHandler
   },
   mounted() {
+    this.fetch_applications(this.$route.params.id)
   },
   computed: {
     ...mapGetters(["getApplications"])

@@ -54,7 +54,7 @@
                 margin:auto;
                 border:0
                 text-align:center"
-          @click="()=> this.$router.push(`/waves/applications/${this.$route.params.id}`)"
+          @click="()=> this.$router.push(`/waves/applications/${poolEvent.id}`)"
           circle
         >
           <i class="el-icon-circle-plus"></i>

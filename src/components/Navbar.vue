@@ -3,7 +3,7 @@
     <el-col style="margin:auto;" :span="24">
       <a href="/waves">
         <img
-          style="float:left;margin-top:5px;margin-left:10px"
+          style="float:left;margin-top:5px;margin-left:10px;"
           src="https://pool2.vivaconagua.org/dispenser/images/drop_small.png"
         />
         <h3

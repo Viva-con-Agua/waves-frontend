@@ -77,9 +77,10 @@ export default {
     },
     async fetchApplications() {
       const { data } = await Axios.get(
-        "/waves/api/v1/application/user/1",
+        "/waves/api/v1/application/user",
         this.config
       );
+      console.log(data);
       this.applications = data.data;
     }
   }

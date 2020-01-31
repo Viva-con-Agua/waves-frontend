@@ -1,5 +1,5 @@
 <template>
-  <el-card style="margin:auto;width:90%">
+  <el-card style="margin:auto;width:95%">
     <el-col :span="3">
       <img
         :style="badge.completed==0? 'width:80px;opacity:0.1;' : 'opacity:1;filter;alpha(opacity=50);width:80px'"
@@ -21,7 +21,10 @@
         </li>
         <li>{{badge.completed===1?badge.message: badge.desc}}</li>
         <li>
-          <span v-if="badge.completed" style="color:gray;">{{avg * 100}}% of supporters have this achievement</span>
+          <span
+            v-if="badge.completed"
+            style="color:gray;"
+          >{{avg * 100}}% of supporters have this achievement</span>
         </li>
       </ul>
     </el-col>

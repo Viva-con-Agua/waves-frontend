@@ -4,8 +4,8 @@
       <i class="el-icon-share"></i>
     </el-button>
 
-    <el-dialog class="sh-container" title="Share" :visible.sync="dialogFormVisible">
-      <container style="margin:auto">
+    <el-dialog width="100%" class="sh-container" title="Share" :visible.sync="dialogFormVisible">
+      <div style="margin:auto">
         <el-row>
           <el-col :span="6">
             <facebook :url="location" scale="3"></facebook>
@@ -20,7 +20,7 @@
             <telegram :url="location" scale="3"></telegram>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row style="margin-top:20px">
           <el-col :span="6">
             <whats-app :url="location" title="Hello" scale="3"></whats-app>
           </el-col>
@@ -31,13 +31,10 @@
             <reddit :url="location" scale="3" title="Supporter needed at vca"></reddit>
           </el-col>
           <el-col :span="6">
-            <google :url="location" scale="3"></google>
-          </el-col>
-          <el-col :span="6">
             <email :url="location" subject="Hello" scale="3"></email>
           </el-col>
         </el-row>
-      </container>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -51,8 +48,7 @@ import {
   Reddit,
   Telegram,
   WhatsApp,
-  Email,
-  Google
+  Email
 } from "vue-socialmedia-share";
 export default {
   name: "SharingButton",
@@ -64,8 +60,7 @@ export default {
     Reddit,
     Telegram,
     WhatsApp,
-    Email,
-    Google
+    Email
   },
   data() {
     return {
@@ -79,7 +74,7 @@ export default {
 <style>
 .sh-container {
   margin: auto;
-  width: 110%;
+  width: 100%;
 }
 @media screen and (min-width: 765px) {
   .sh-container {

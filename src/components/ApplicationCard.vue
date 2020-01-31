@@ -7,10 +7,14 @@
     >Check all</el-checkbox>
     <div style="margin: 15px 0;"></div>
     <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-      <el-card v-for="application in applications" :key="application.id" :body-style="{ padding: '0px' }" style="padding:20px;margin:0;">
+      <el-card
+        v-for="application in applications"
+        :key="application.id"
+        :body-style="{ padding: '0px' }"
+        style="padding:20px;margin:0;"
+      >
         <el-col :span="1">
-          <el-checkbox
-          ></el-checkbox>
+          <el-checkbox></el-checkbox>
         </el-col>
         <el-col :span="23">
           <span style="margin-left:10px;">{{`${application.first_name} ${application.last_name}`}}</span>
@@ -26,7 +30,6 @@
         </el-col>
       </el-card>
     </el-checkbox-group>
-    {{checkedCities}}
   </div>
 </template>
 

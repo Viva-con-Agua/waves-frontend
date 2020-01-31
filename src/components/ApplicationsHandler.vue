@@ -37,26 +37,25 @@
               :src="`https://eu.ui-avatars.com/api/?rounded=true&name=${application.first_name}+${application.last_name}`"
             ></el-image>
           </el-col>
-          <el-col  style="margin-top:8px" :span="20">
+          <el-col style="margin-top:8px" :span="20">
             <span>{{`${application.first_name} ${application.last_name}`}}</span>
             <el-tag
-            :type="application.state=='REJECTED'?'danger'
+              :type="application.state=='REJECTED'?'danger'
             :application.state=='ACCEPTED'?'success':
             'warning'"
-            style="float:right"
-            size="mini"
-          >{{application.state}}</el-tag>
+              style="float:right"
+              size="mini"
+            >{{application.state}}</el-tag>
           </el-col>
-          
         </el-row>
         <el-row class="application-row" :span="24" style="margin-top:10px">
           <el-col :sm="24">
             <span style="float:left">{{`crew`}}</span>
-            <span style="float:right">Berlin</span>
+            <span style="float:right">{{application.user.profiles[0].supporter.crew.name}}</span>
           </el-col>
           <el-col class="application-row" :sm="24">
             <span style="float:left">{{`supporter seit`}}</span>
-            <span style="float:right">12 years</span>
+            <span style="float:right">{{new Date(application.user.created).toLocaleDateString()}}</span>
           </el-col>
           <el-col class="application-row" :sm="24">
             <span style="float:left">{{`accepted`}}</span>
@@ -72,7 +71,7 @@
           </el-col>
           <el-col class="application-row" :sm="24">
             <span style="float:left">{{`verfied`}}</span>
-            <span style="float:right">yes</span>
+            <span style="float:right">{{application.user.profiles[0].confirmed?"yes":"no"}}</span>
           </el-col>
         </el-row>
         <el-row
@@ -105,7 +104,8 @@ export default {
     "accept_application",
     "reject_application",
     "fetchUserStatistic",
-    "getUserStatistic"
+    "getUserStatistic",
+    "fetch_applications"
   ],
   mounted() {
     this.getStats("1");
@@ -125,13 +125,15 @@ export default {
       }
     },
     setToAccepted() {
-      this.checkedCities.map(c => {
-        this.accept_application(c);
+      this.checkedCities.map(async c => {
+        await this.accept_application(c);
+        this.fetch_applications(this.$route.params.id);
       });
     },
     setToRejected() {
       this.checkedCities.map(c => {
         this.reject_application(c);
+        this.fetch_applications(this.$route.params.id);
       });
     },
     getStatistic(userId) {

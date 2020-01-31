@@ -113,7 +113,7 @@ export default {
         commit("pushError", err.message);
       });
   },
-  ACCEPT_APPLICATION: ({ commit, getters }, id) => {
+  ACCEPT_APPLICATION: ({ commit, getters  }, id) => {
     axios
       .put(
         API_URI + "/application/" + id,

@@ -5,7 +5,8 @@
         <el-badge type="danger">
           <img
             style="float:right;width:35px;height:35px"
-            :src="`https://eu.ui-avatars.com/api/?rounded=true&name=${this.$cookies.get('first_name')}+${this.$cookies.get('last_name')}`"
+            :src="this.$cookies.get('access_token')?`https://eu.ui-avatars.com/api/?rounded=true&name=${this.$cookies.get('first_name')}+${this.$cookies.get('last_name')}`
+          :'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"
             alt="profile-img"
           />
         </el-badge>

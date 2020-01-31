@@ -358,7 +358,6 @@ export default {
       this.poolevent.front.idevent_type = front.type_name;
       this.poolevent.front.asp_event_id = front.asp_event_id;
       this.poolevent.front.supporter_lim = front.supporter_lim;
-      console.log(this.poolevent);
     },
     async fetchAllTypes() {
       try {
