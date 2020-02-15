@@ -1,10 +1,14 @@
 <template>
-  <div style="text-align:center;">
+  <div class="sh-container" style="margin:auto;text-align:center;">
     <el-button style="width:40px;margin:0;border:0" @click="dialogFormVisible = true" circle>
       <i class="el-icon-share"></i>
     </el-button>
 
-    <el-dialog width="100%" class="sh-container" title="Share" :visible.sync="dialogFormVisible">
+    <el-dialog
+      :width="innerWidth>=765?'30%':'90%'"
+      title="Share"
+      :visible.sync="dialogFormVisible"
+    >
       <div style="margin:auto">
         <el-row>
           <el-col :span="6">
@@ -64,10 +68,15 @@ export default {
   },
   data() {
     return {
-      dialogFormVisible: false
+      dialogFormVisible: false,
+      innerWidth: ""
     };
   },
-  props: ["location"]
+  props: ["location"],
+  mounted() {
+    console.log(window.innerWidth);
+    this.innerWidth = window.innerWidth;
+  }
 };
 </script>
 
@@ -78,8 +87,7 @@ export default {
 }
 @media screen and (min-width: 765px) {
   .sh-container {
-    margin: auto;
-    width: 30%;
+    width: 10%;
   }
 }
 </style>

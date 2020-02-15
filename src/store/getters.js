@@ -40,5 +40,14 @@ export default {
   },
   getSuccessMessage: state => {
     return state.successMessage;
+  },
+  isLogedIn: state => {
+    return state.isLogedIn;
+  },
+  crew : state =>{
+    return {
+      role : state.crewRole,
+      city : state.crewCity
+    }
   }
 };

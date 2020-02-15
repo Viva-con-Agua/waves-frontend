@@ -1,7 +1,7 @@
 <template>
   <div class="p-container">
     <el-row>
-      <el-col :xs="24" :lg="14" style="margin-top:20px;padding:5px;" size="600px">
+      <el-col :xs="24" :lg="14" style="margin-top:16px;padding:5px;" size="600px">
         <el-row>
           <PoolEventFilter :roles="getRoles" />
         </el-row>
@@ -9,7 +9,7 @@
           <rotate-square2 style="margin:auto;"></rotate-square2>
         </el-row>
         <el-row style="margin-top:1%;">
-          <el-col :span="24" v-for="poolEvent in poolEvents" :key="poolEvent.id">
+          <el-col :span="24" style="margin-top:5px" v-for="poolEvent in poolEvents" :key="poolEvent.id">
             <PoolEventCard :poolEvent="poolEvent" />
           </el-col>
         </el-row>

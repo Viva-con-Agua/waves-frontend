@@ -10,7 +10,7 @@
             <el-row>
               <a
                 style="text-decoration:none;color:black"
-                :href="`/waves/poolevent/${application.poolevent_id}`"
+                :href="`/waves/event/${application.poolevent_id}`"
               >
                 <span>{{application.name}}</span>
               </a>
@@ -18,7 +18,7 @@
               <el-tag
                 style="float:right;padding:0;"
                 :type="application.state=='WAITING'?'warning'
-              :application.state=='ACCEPTED'?'success':'danger'"
+              :application.state=='ACCEPTED'?'success':application.state=='CANCELED'?'danger':'danger'"
                 size="mini"
               >{{application.state}}</el-tag>
             </el-row>
@@ -80,7 +80,6 @@ export default {
         "/waves/api/v1/application/user",
         this.config
       );
-      console.log(data);
       this.applications = data.data;
     }
   }

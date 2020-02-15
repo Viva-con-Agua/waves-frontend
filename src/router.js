@@ -24,7 +24,7 @@ export default new Router({
       component: PoolEventsView
     },
     {
-      path: "/waves/poolevent/:id",
+      path: "/waves/event/:id",
       name: "pooleventview",
       component: PoolEventView
     },
@@ -34,7 +34,7 @@ export default new Router({
       component: PoolEventFormView
     },
     {
-      path: "/waves/poolevent/:id/edit",
+      path: "/waves/event/:id/edit",
       name: "EditPoolevent",
       component: PoolEventFormView
     },

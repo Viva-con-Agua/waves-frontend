@@ -2,14 +2,14 @@
   <el-form>
     <el-row>
       <el-button
-        style="margin-left:0;width:80px;padding:10px;border:0;"
+        style="margin-left:0;width:80px;padding:10px;border:0;background-color:#e9ebee"
         @click="()=>{show?show=false:show=true}"
         icon="el-icon-s-operation"
       >FILTER</el-button>
     </el-row>
     <el-collapse-transition>
       <el-row v-if="show" style="margin:auto;margin-top:10px">
-        <el-col v-if="roles=='admin'" style="padding:5px" :span="roles=='admin'?6:8">
+        <el-col v-if="roles=='admin'&&isLogedIn" style="padding:5px" :span="roles=='admin'&&isLogedIn?6:8">
           <el-form-item prop="type">
             <el-select
               @change="filterButtonHandler"
@@ -24,7 +24,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col style="padding:5px" :span="roles=='admin'?6:8">
+        <el-col style="padding:5px" :span="roles=='admin'&&isLogedIn?6:8">
           <el-form-item prop="type">
             <el-select
               @change="filterButtonHandler"
@@ -41,7 +41,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col style="padding:5px" :span="roles=='admin'?6:8">
+        <el-col style="padding:5px" :span="roles=='admin'&&isLogedIn?6:8">
           <el-form-item prop="region">
             <el-select
               @change="filterButtonHandler"
@@ -59,7 +59,7 @@
           </el-form-item>
         </el-col>
 
-        <el-col style="padding:5px" :span="roles=='admin'?6:8">
+        <el-col style="padding:5px" :span="roles=='admin'&&isLogedIn?6:8">
           <el-form-item prop="type">
             <el-select
               @change="filterButtonHandler"
@@ -123,7 +123,7 @@ export default {
     this.fetchAllMonths();
   },
   computed: {
-    ...mapGetters(["getAllMonths"])
+    ...mapGetters(["getAllMonths", "isLogedIn"])
   }
 };
 </script>

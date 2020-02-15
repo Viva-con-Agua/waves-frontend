@@ -8,41 +8,54 @@
     <el-dropdown-menu style="margin:0;padding:0;width:100px" slot="dropdown">
       <ul style="list-style:none;padding:0px;margin:0px;">
         <li
-          v-if="this.$cookies.get('access_token')"
+          v-if="isLogedIn&&getRoles=='admin'||crew.city==poolevent.crew"
           @click="()=> this.$router.push(`/waves/poolevent/${this.$route.params.id}/edit`)"
           class="profile-item"
-        >edit</li>
+        >
+          <i class="el-icon-edit"></i> edit
+        </li>
 
-        <li v-if="this.$cookies.get('access_token')" class="profile-item">remove</li>
-
-        <li v-if="this.$cookies.get('access_token')" class="profile-item">duplicate</li>
+        <li v-if="isLogedIn&&getRoles=='admin'" class="profile-item">
+          <i class="el-icon-delete"></i> remove
+        </li>
 
         <li
           @click="releaseHandler"
-          v-if="this.$cookies.get('access_token')&&poolevent.state!='RELEASED'"
+          v-if="isLogedIn&&getRoles=='admin'&&poolevent.state!='RELEASED'"
           class="profile-item"
-        >release</li>
+        >
+          <i class="el-icon-circle-check"></i> release
+        </li>
         <li
           @click="rejectHandler"
-          v-if="this.$cookies.get('access_token')&&poolevent.state!='REJECTED'"
+          v-if="isLogedIn&&getRoles=='admin'&&poolevent.state!='REJECTED'"
           class="profile-item"
-        >reject</li>
+        >
+          <i class="el-icon-circle-close"></i> reject
+        </li>
         <li
           @click="cancelHandler"
-          v-if="this.$cookies.get('access_token')&&poolevent.state!='CANCELED'"
+          v-if="isLogedIn&&poolevent.state!='CANCELED'&&
+          (getRoles=='admin'||(crew.role=='VolunteerManager'&&
+          crew.city==poolevent.crew))"
           class="profile-item"
-        >cancel</li>
+        >
+          <i class="el-icon-document-delete"></i> cancel
+        </li>
       </ul>
     </el-dropdown-menu>
   </el-dropdown>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "PooleventDropdown",
   props: ["poolevent"],
+  computed: {
+    ...mapGetters(["crew", "getRoles", "isLogedIn"])
+  },
   methods: {
     ...mapActions({
       cancelEvent: "SET_TO_CANCELED"

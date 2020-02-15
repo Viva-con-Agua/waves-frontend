@@ -1,6 +1,6 @@
 <template>
   <el-row style="padding:0;margin:0;">
-    <el-col :span="1">
+    <el-col :xs="2"  :lg="1">
       <el-button style="margin-top:12px;border:0;height:20px;width:20px;padding:0;" circle>
         <img
           style="height:20px;width:20px;padding:0;margin:0"
@@ -12,7 +12,7 @@
         />
       </el-button>
     </el-col>
-    <el-col style="padding:0" :span="1">
+    <el-col style="padding:0" :xs="1" :lg="1">
       <p style="text-align:center;color:grey">{{votes.length}}</p>
     </el-col>
   </el-row>
@@ -20,6 +20,8 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
+
 export default {
   name: "VoteForm",
   data() {
@@ -66,6 +68,9 @@ export default {
     } catch (error) {
       throw error.message;
     }
+  },
+  computed: {
+    ...mapGetters(["isLogedIn"])
   }
 };
 </script>

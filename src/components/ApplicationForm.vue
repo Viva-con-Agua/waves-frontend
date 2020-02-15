@@ -34,12 +34,12 @@ export default {
     VcAColumn,
     VcABox
   },
-  props: ["poolevent"],
+  props: ["poolevent_id"],
   data() {
     return {
       application: {
         text: "",
-        poolevent_id: this.poolevent.poolevent_id
+        poolevent_id: this.poolevent_id
       },
       applied: false,
       showApplicationForm: false

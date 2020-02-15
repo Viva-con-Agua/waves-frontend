@@ -40,6 +40,8 @@ import VoteForm from "../components/VoteForm";
 import CommentButton from "../components/CommentButton";
 
 
+
+
 export default {
   name: "CommentCard",
   components: {

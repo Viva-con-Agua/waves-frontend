@@ -2,8 +2,9 @@
   <el-dropdown trigger="click">
     <span class="el-dropdown-link">
       <el-button
+      size="small"
         class="bell-button"
-        style="width:40px;padding:0;height:40px;border:0;background:#0a6b91;"
+        style="padding:0;border:0;background:#0a6b91;"
         @click="fetchNotification"
         circle
       >
@@ -13,14 +14,14 @@
           :hidden="notifications.length==0|| setSeen"
         >
           <img
-            style="height:25px"
+            style="height:20px"
             src="https://img.icons8.com/officel/30/000000/appointment-reminders.png"
             alt="scoop"
           />
         </el-badge>
       </el-button>
     </span>
-    <el-dropdown-menu style="padding:0;width:450px" slot="dropdown">
+    <el-dropdown-menu class="noti-dialog" style="padding:0;" slot="dropdown">
       <el-row>
         <el-col style="padding:5px;" :span="24">Notifications</el-col>
       </el-row>
@@ -103,7 +104,6 @@ export default {
         this.config
       );
       this.allNotification = data.data;
-      console.log(data.data);
       this.setSeen = true;
     }
   }
@@ -112,6 +112,17 @@ export default {
 
 <style>
 .bell-button:hover {
-  background: #eee;
+  background: #0a6b91;
+}
+
+
+.noti-dialog {
+  width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+  .noti-dialog {
+    width: 30%;
+  }
 }
 </style>

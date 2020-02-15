@@ -64,5 +64,15 @@ export default {
   },
   setRecomandations: (state, recomandations) => {
     state.recomandations = recomandations;
+  },
+  setLogedIn: (state, isLogedIn) => {
+    state.isLogedIn = isLogedIn;
+  },
+  setCrewRoleCity: (state, crew) => {
+    state.crewRole = crew.crewRole;
+    state.crewCity = crew.crewCity;
+  },
+  resetError: state => {
+    state.errors = [];
   }
 };

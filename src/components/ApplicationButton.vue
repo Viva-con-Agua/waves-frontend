@@ -12,14 +12,11 @@
       <i class="el-icon-tickets"></i>
     </el-button>
     <el-dialog
-      width="95%"
-      class="app-container"
+      :width="windowWidth>=768?'30%':'90%'"
       title="Application"
       :visible.sync="dialogFormVisible"
     >
-      <span></span>
-
-      <ApplicationForm :poolevent="poolevent" />
+      <ApplicationForm :poolevent_id="poolevent_id" />
     </el-dialog>
   </div>
 </template>
@@ -29,11 +26,15 @@ import ApplicationForm from "./ApplicationForm";
 export default {
   name: "ApplicationButton",
   components: { ApplicationForm },
-  props: ["poolevent"],
+  props: ["poolevent_id"],
   data() {
     return {
-      dialogFormVisible: false
+      dialogFormVisible: false,
+      windowWidth: ""
     };
+  },
+  mounted() {
+    this.windowWidth = window.innerWidth;
   }
 };
 </script>

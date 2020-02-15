@@ -1,42 +1,29 @@
  <template>
-  <el-container style="height:65px;width:100%;background:#0a6b91">
-    <el-col style="margin:auto;" :span="24">
+  <el-menu background-color="#0a6b91" mode="horizontal">
+    <el-menu-item padding:0 index="2-1">
       <a href="/waves">
-        <img
-          style="float:left;margin-top:5px;margin-left:10px;"
-          src="https://pool2.vivaconagua.org/dispenser/images/drop_small.png"
-        />
+        <img class="logo" src="https://pool2.vivaconagua.org/dispenser/images/drop_small.png" />
         <h3
-          class="logo"
+          class="logo-text"
           style="float:left;
-        margin-top:5px;
+        margin-top:0px;
         color:white;
-        margin-top:20px;
         margin-left:10px;"
         >Viva Con Agua</h3>
       </a>
-
-      <el-button
-        v-if="getRoles=='admin'"
-        @click="pushCreatePoolevent"
-        style="float:right;
-      width:90px;
-      padding:8px;
-      margin-top:17px;
-      margin-right:10px"
-        type="primary"
-      >
-        <strong>
-          <i class="el-icon-circle-plus-outline"></i> CREATE
-        </strong>
+    </el-menu-item>
+    <el-menu-item  v-if="isVolunteerManager()" style="padding:0 10px 0px 10px;float:right">
+      <el-button size="mini" type="primary" @click="pushCreatePoolevent">
+        <strong> <i style="color:white" class="el-icon-circle-plus-outline"></i> CREATE</strong>
       </el-button>
-      <ProfileDropdown
-        :logout="logout"
-        style="margin-left:5px;margin-right:10px;margin-top:15px;float:right"
-      ></ProfileDropdown>
-      <NotificationBell style="margin-top:13px;float:right"></NotificationBell>
-    </el-col>
-  </el-container>
+    </el-menu-item>
+    <el-menu-item style="padding:0 10px 0px 10px;float:right">
+      <ProfileDropdown :logout="logout"></ProfileDropdown>
+    </el-menu-item>
+    <el-menu-item v-if="isLogedIn" style="padding:0 10px 0px 10px;float:right">
+      <NotificationBell v-if="this.$cookies.get('access_token')" style="margin-top:0px;float:right"></NotificationBell>
+    </el-menu-item>
+  </el-menu>
 </template>
 
 <script>
@@ -46,12 +33,6 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "Navbar",
-  data() {
-    return {
-      activeIndex: "1",
-      activeIndex2: "1"
-    };
-  },
   props: ["logout"],
   components: {
     NotificationBell,
@@ -60,21 +41,42 @@ export default {
   methods: {
     pushCreatePoolevent() {
       this.$router.push("/waves/create");
+    },
+    isVolunteerManager() {
+      return this.crew.role === "VolunteerManager";
     }
   },
   computed: {
-    ...mapGetters(["getRoles"])
+    ...mapGetters(["getRoles", "crew","isLogedIn"])
   }
 };
 </script>
 
 <style>
-.logo {
+.logo-text {
   display: none;
 }
+
+.logo {
+  float: left;
+  margin-top: 10px;
+  margin-left: 10px;
+  height: 35px;
+}
+
+.nav-container {
+  margin-top: 1%;
+}
+
 @media only screen and (min-width: 768px) {
-  .logo {
+  .logo-text {
     display: block;
+  }
+  .logo {
+    float: left;
+    margin-top: 10px;
+    margin-left: 10px;
+    height: 35px;
   }
 }
 </style>

@@ -11,7 +11,7 @@
         v-for="pe in mostFavedPoolevents"
         :key="pe.id"
       >
-        <a style="text-decoration:none;color:black" :href="`/waves/poolevent/${pe.id}`">
+        <a style="text-decoration:none;color:black" :href="`/waves/event/${pe.id}`">
           <el-col :span="6">
             <el-row>
               <strong style="color:grey">{{`${calculateMonth(pe.event_start).toUpperCase()}`}}</strong>

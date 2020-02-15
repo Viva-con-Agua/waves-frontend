@@ -5,7 +5,7 @@ const API_URI = "/waves/api/v1";
 export default {
   LOAD_DATA: ({ commit }) => {
     axios
-      .get(API_URI + "/poolevent")
+      .get(API_URI + "/poolevent?limit=100")
       .then(res => {
         commit("updatePoolEvents", res.data);
       })
@@ -113,7 +113,7 @@ export default {
         commit("pushError", err.message);
       });
   },
-  ACCEPT_APPLICATION: ({ commit, getters  }, id) => {
+  ACCEPT_APPLICATION: ({ commit, getters }, id) => {
     axios
       .put(
         API_URI + "/application/" + id,
@@ -127,7 +127,7 @@ export default {
         commit("pushError", err.message);
       });
   },
-  REJECT_APPLICATION: ({ commit, getters }, id) => {
+  REJECT_APPLICATION: ({ commit, getters, dispatch }, id) => {
     axios
       .put(
         API_URI + "/application/" + id,
@@ -141,13 +141,14 @@ export default {
         commit("pushError", err.message);
       });
   },
-  GET_APPLICATIONS: ({ commit }, id) => {
-    axios
-      .get(API_URI + `/application/poolevent/${id}`)
+  GET_APPLICATIONS: async ({ commit, getters, dispatch }, id) => {
+    await axios
+      .get(API_URI + `/application/poolevent/${id}`, getters.getAccessToken)
       .then(({ data }) => {
         commit("setApplications", data.data);
       })
       .catch(err => {
+        dispatch("CHECK_ACCESS", err.response.status);
         commit("pushError", err.message);
       });
   },
@@ -207,8 +208,8 @@ export default {
         commit("pushError", error);
       });
   },
-  SET_ACCESS_TOKEN: ({ commit }, access_token) => {
-    commit("setAccessToken", access_token);
+  SET_ACCESS_TOKEN: async ({ commit }, access_token) => {
+    await commit("setAccessToken", access_token);
   },
   SET_ROLES: ({ commit }, roles) => {
     commit("setRoles", roles);
@@ -226,10 +227,38 @@ export default {
   FETCH_RECOMANDATIONS: async ({ commit }) => {
     try {
       const { data } = await axios.get(API_URI + `/favorite/most/me`);
-      console.log(data);
       commit("setRecomandations", data.recomandations);
     } catch (error) {
       commit("pushError", error.message);
+    }
+  },
+  IS_LOGED_IN: ({ commit }, isLogedIn) => {
+    commit("setLogedIn", isLogedIn);
+  },
+  SET_CREW_ROLE_CITY: ({ commit }, crew) => {
+    commit("setCrewRoleCity", crew);
+  },
+  RESET_ERRORS: ({ commit }) => {
+    commit("resetErrors");
+  },
+  LOGOUT: ({ commit }) => {
+    window.$cookies.remove("full_name")
+    window.$cookies.remove("roles");
+    window.$cookies.remove("full_name");
+    window.$cookies.remove("first_name");
+    window.$cookies.remove("CREW_CITY");
+    window.$cookies.remove("CREW_ROLE");
+    window.$cookies.remove("WAVES_JWT");
+    window.$cookies.remove("last_name");
+    window.$cookies.remove("user_id");
+    window.$cookies.remove("access_token");
+  },
+  CHECK_ACCESS: ({ dispatch, commit }, statusCode) => {
+    if (statusCode === 401) {
+      dispatch("LOGOUT");
+      window.location.href = "https://stage.vivaconagua.org";
+    } else if (statusCode === 403) {
+      commit("pushErrors", "Unauthorized");
     }
   }
 };

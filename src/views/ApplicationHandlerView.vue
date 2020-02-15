@@ -18,17 +18,24 @@ export default {
     ApplicationsHandler
   },
   mounted() {
-    this.fetch_applications(this.$route.params.id)
+    this.setAccessToken({
+      headers: {
+        Authorization: `Bearer ${this.$cookies.get("access_token")}`
+      }
+    });
+    this.fetch_applications(this.$route.params.id);
   },
   computed: {
-    ...mapGetters(["getApplications"])
+    ...mapGetters(["getApplications", "getAccesToken"])
   },
   methods: {
     ...mapActions({
       fetch_applications: "GET_APPLICATIONS",
       accept_application: "ACCEPT_APPLICATION",
       reject_application: "REJECT_APPLICATION",
-      fetchUserStatistic: "FETCH_USER_STATISTIC"
+      fetchUserStatistic: "FETCH_USER_STATISTIC",
+      setAccessToken: "SET_ACCESS_TOKEN",
+      logedIn: "IS_LOGED_IN"
     })
   }
 };

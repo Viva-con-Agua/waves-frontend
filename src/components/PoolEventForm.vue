@@ -193,6 +193,7 @@
                 @click.prevent="cancel"
                 size="mini"
               >CANCEL</el-button>
+
             </el-col>
           </el-row>
         </el-card>
@@ -287,7 +288,21 @@ export default {
     addPoolEvent(option) {
       if (this.$route.params.id == undefined) {
         this.submitForm("poolevent");
+
         if (this.isValidForm) {
+          this.poolevent.front.event_start = new Date().getTime(
+            this.poolevent.front.event_start
+          );
+          this.poolevent.front.event_end = new Date().getTime(
+            this.poolevent.front.event_end
+          );
+          this.poolevent.front.application_start = new Date().getTime(
+            this.poolevent.front.application_start
+          );
+          this.poolevent.front.application_end = new Date().getTime(
+            this.poolevent.front.application_end
+          );
+          console.log(this.poolevent);
           this.$store.dispatch("POST_POOLEVENT", this.poolevent);
         }
       } else if (this.$route.params.id != undefined) {

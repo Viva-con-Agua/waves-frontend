@@ -67,7 +67,7 @@ export default {
 @media only screen and (min-width: 768px) {
   .p-container {
     margin: auto;
-    width: 50%;
+    width: 40%;
   }
 }
 </style>
