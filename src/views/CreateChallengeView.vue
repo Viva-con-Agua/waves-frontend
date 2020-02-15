@@ -105,6 +105,8 @@ export default {
       dialogTableVisible: false
     };
   },
+  mounted(){
+  },
   methods: {
     createBadges() {
       let { badges } = JSON.parse(this.data);

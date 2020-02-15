@@ -42,6 +42,8 @@ export default {
   },
   async mounted() {
     this.event_types = await this.fetchAllTypes();
+    console.log("->",process.env.VUE_APP_BACKEND_URI);
+
   },
   methods: {
     async submit() {

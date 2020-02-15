@@ -39,7 +39,7 @@
         <a
           v-if="!this.$cookies.get('access_token')"
           style="text-decoration: none;"
-          :href="`https://stage.vivaconagua.org/drops/oauth2/code/get?client_id=wavesex&response_type=code&state=${`http://localhost${this.$router.history.current.path}`}&redirect_uri=http://localhost/waves/api/v1/oauth`"
+          :href="`https://stage.vivaconagua.org/drops/oauth2/code/get?client_id=wavesex&response_type=code&state=${`https://stage.vivaconagua.org/${this.$router.history.current.path}`}&redirect_uri=https://stage.vivaconagua.org/backend/waves/api/v1/oauth`"
         >
           <li class="profile-item">login</li>
         </a>

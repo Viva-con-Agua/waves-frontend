@@ -12,6 +12,10 @@ import { Button, Select } from "element-ui";
 import Navbar from "./components/Navbar";
 import vueCookies from "vue-cookies";
 import { mapGetters, actions, mapActions } from "vuex";
+import dotenv from "dotenv"
+
+dotenv.config({ path: "./.env" });
+
 
 Vue.component(Select.name, Select);
 Vue.component(Button.name, Button);
@@ -103,6 +107,7 @@ export default {
     }
   },
   mounted() {
+    console.log(process.env.VUE_APP_BACKEND_URI);
     this.logedIn(this.$cookies.get("access_token") !== null);
     if (this.$cookies.get("access_token")) {
       this.setAccessToken({

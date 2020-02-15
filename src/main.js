@@ -1,8 +1,5 @@
-import { WidgetTopNavigation, WidgetBottomNavigation } from 'vca-widget-navigation'
 import enElement from 'element-ui/lib/locale/lang/en';
 import deElement from 'element-ui/lib/locale/lang/de';
-import {library} from '@fortawesome/fontawesome-svg-core'
-import {faCoffee} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import Vue from 'vue'
@@ -24,7 +21,6 @@ import VShowSlide from 'v-show-slide'
 Vue.use(VShowSlide)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-library.add(faCoffee)
 
 // vsm requires a reference to a vuex store
 Vue.use(vsm.plugin, store)
@@ -60,6 +56,7 @@ const dateTimeFormats = {
 
 Vue.use(VueI18n);
 
+
 const locale = navigator.language;
 const i18n = new VueI18n({
   locale: locale,
@@ -76,8 +73,6 @@ Vue.use(ElementUI, {
   i18n: (key, value) => i18n.t(key, value)
 });
 
-Vue.use(WidgetBottomNavigation, { 'i18n': i18n })
-Vue.use(WidgetTopNavigation, { 'i18n': i18n })
 
 new Vue({
   router,

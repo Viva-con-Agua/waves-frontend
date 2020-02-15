@@ -79,7 +79,7 @@
               ></el-option>
             </el-select>
           </el-form-item>
-          <quill :config="config" v-model="poolevent.description.html" output="html"></quill>
+          <quill :config="config" ref="poolevent.description.html" v-model="poolevent.description.html" output="html"></quill>
         </VcABox>
       </VcAColumn>
       <VcAColumn>
