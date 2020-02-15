@@ -1,14 +1,15 @@
 import ApplicationHandlerView from "./views/ApplicationHandlerView.vue";
-import EditPoolEventFormView from "./views/EditPoolEventFormView";
 import CreateChallengeView from "./views/CreateChallengeView";
 import PoolEventFormView from "./views/PoolEventFormView";
 import NotificationsView from "./views/NotificationsView";
+import DashboardView from "./views/DashboardView";
 import PoolEventView from "./views/PoolEventView";
-import BadgesView from "./views/BadgesView";
-import PoolEvents from "./views/PoolEvents";
+import PoolEventsView from "./views/PoolEventsView";
 import ProfileView from "./views/ProfileView";
+import AchievementWikiView from "./views/AchievementWikiView";
+import InformationView from "./views/InformationView";
+import RecomandationView from "./views/RecomandationView";
 import ErrorView from "./views/ErrorView";
-import TESTSTUFF from "./views/TESTSTUFF";
 import Router from "vue-router";
 import Vue from "vue";
 
@@ -19,11 +20,11 @@ export default new Router({
   routes: [
     {
       path: "/waves",
-      name: "PoolEvents",
-      component: PoolEvents
+      name: "PoolEventsView",
+      component: PoolEventsView
     },
     {
-      path: "/waves/poolevent/:id",
+      path: "/waves/event/:id",
       name: "pooleventview",
       component: PoolEventView
     },
@@ -33,19 +34,14 @@ export default new Router({
       component: PoolEventFormView
     },
     {
-      path: "/waves/editpooleventform/:id",
-      name: "EditPoolEventFormView",
-      component: EditPoolEventFormView
+      path: "/waves/event/:id/edit",
+      name: "EditPoolevent",
+      component: PoolEventFormView
     },
     {
       path: "/waves/applications/:id",
       name: "applications",
       component: ApplicationHandlerView
-    },
-    {
-      path: "/waves/badges",
-      name: "BadgesView",
-      component: BadgesView
     },
     {
       path: "/waves/notifications",
@@ -63,9 +59,25 @@ export default new Router({
       component: ProfileView
     },
     {
-      path: "/teststuff",
-      name: "test",
-      component: TESTSTUFF
+      path: "/waves/wiki/badges",
+      name: "wiki",
+      component: AchievementWikiView
+    },
+    {
+      path: "/waves/info",
+      name: "information",
+      component: InformationView
+    },
+    {
+      path: "/waves/dashboard",
+      name: "dashboardView",
+      component: DashboardView
+    },
+    ,
+    {
+      path: "/waves/recomandations",
+      name: "recomandation",
+      component: RecomandationView
     },
     { path: "*", component: ErrorView }
   ]

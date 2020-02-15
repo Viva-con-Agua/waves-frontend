@@ -1,17 +1,17 @@
 <template>
-  <div>
-    <el-button
-      style="width:40px;float:right;margin:0;border:0"
-      @click="dialogFormVisible = true"
-      circle
-    >
+  <div class="sh-container" style="margin:auto;text-align:center;">
+    <el-button style="width:40px;margin:0;border:0" @click="dialogFormVisible = true" circle>
       <i class="el-icon-share"></i>
     </el-button>
 
-    <el-dialog width="30%" title="Share" :visible.sync="dialogFormVisible">
-      <container style="margin:auto"> 
+    <el-dialog
+      :width="innerWidth>=765?'30%':'90%'"
+      title="Share"
+      :visible.sync="dialogFormVisible"
+    >
+      <div style="margin:auto">
         <el-row>
-          <el-col  :span="6">
+          <el-col :span="6">
             <facebook :url="location" scale="3"></facebook>
           </el-col>
           <el-col :span="6">
@@ -23,26 +23,22 @@
           <el-col :span="6">
             <telegram :url="location" scale="3"></telegram>
           </el-col>
-          
         </el-row>
-        <el-row>
-            <el-col :span="6">
+        <el-row style="margin-top:20px">
+          <el-col :span="6">
             <whats-app :url="location" title="Hello" scale="3"></whats-app>
           </el-col>
           <el-col :span="6">
             <pinterest :url="location" scale="3"></pinterest>
           </el-col>
           <el-col :span="6">
-            <reddit :url="location" scale="3" title="My Github"></reddit>
-          </el-col>
-          <el-col :span="6">
-            <google :url="location" scale="3"></google>
+            <reddit :url="location" scale="3" title="Supporter needed at vca"></reddit>
           </el-col>
           <el-col :span="6">
             <email :url="location" subject="Hello" scale="3"></email>
           </el-col>
         </el-row>
-      </container>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -56,8 +52,7 @@ import {
   Reddit,
   Telegram,
   WhatsApp,
-  Email,
-  Google
+  Email
 } from "vue-socialmedia-share";
 export default {
   name: "SharingButton",
@@ -69,17 +64,30 @@ export default {
     Reddit,
     Telegram,
     WhatsApp,
-    Email,
-    Google
+    Email
   },
   data() {
     return {
-      dialogFormVisible: false
+      dialogFormVisible: false,
+      innerWidth: ""
     };
   },
-  props: ["location"]
+  props: ["location"],
+  mounted() {
+    console.log(window.innerWidth);
+    this.innerWidth = window.innerWidth;
+  }
 };
 </script>
 
 <style>
+.sh-container {
+  margin: auto;
+  width: 100%;
+}
+@media screen and (min-width: 765px) {
+  .sh-container {
+    width: 10%;
+  }
+}
 </style>

@@ -1,8 +1,9 @@
 <template>
   <el-container>
     <el-row>
+      <p style="margin-left:40px">learn more about Achievements <a href="/waves/wiki/badges">here</a></p>
       <el-col :span="24" :v-if="badges.length>0" v-for="badge in badges" :key="badge.id">
-        <Badge style="margin-top:20px" :badge="badge"></Badge>
+        <Badge style="margin-top:5px" :badge="badge"></Badge>
       </el-col>
     </el-row>
   </el-container>

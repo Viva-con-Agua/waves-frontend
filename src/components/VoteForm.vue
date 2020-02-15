@@ -1,59 +1,76 @@
 <template>
-  <Row style="padding:0;margin:0;">
-    
-    <el-col :span="1">
-      <img
-        class="like-button"
-        style="height:20px;margin-top:14px"
-        @click="postVote"
-        alt="vote-button"
-        :src="heartImg" 
-        @mouseover="heartImg=filledImg"
-        @mouseleave="heartImg=emptyImg"
-      />
+  <el-row style="padding:0;margin:0;">
+    <el-col :xs="2"  :lg="1">
+      <el-button style="margin-top:12px;border:0;height:20px;width:20px;padding:0;" circle>
+        <img
+          style="height:20px;width:20px;padding:0;margin:0"
+          @click="()=>{liked?deleteVote():postVote()}"
+          alt="vote-button"
+          :src="liked?filledImg:heartImg"
+          @mouseover="heartImg=filledImg"
+          @mouseleave="heartImg=emptyImg"
+        />
+      </el-button>
     </el-col>
-    <el-col style="padding:0" :span="1">
-      <p style="text-align:center">{{votes.length}}</p>
+    <el-col style="padding:0" :xs="1" :lg="1">
+      <p style="text-align:center;color:grey">{{votes.length}}</p>
     </el-col>
-  </Row>
+  </el-row>
 </template>
 
 <script>
-import { Container, Form, Button, Row, Col } from "element-ui";
 import axios from "axios";
+import { mapGetters } from "vuex";
+
 export default {
   name: "VoteForm",
   data() {
     return {
       votes: [],
-      emptyImg:"https://cdn2.iconfinder.com/data/icons/music-media-player-outline-basic/32/1-icon-music-09-512.png",
-      filledImg: "https://cdn0.iconfinder.com/data/icons/twitter-24/512/166_Heart_Love_Like_Twitter-512.png",
-      heartImg: "https://cdn2.iconfinder.com/data/icons/music-media-player-outline-basic/32/1-icon-music-09-512.png"
+      emptyImg:
+        "https://cdn2.iconfinder.com/data/icons/music-media-player-outline-basic/32/1-icon-music-09-512.png",
+      filledImg:
+        "https://cdn0.iconfinder.com/data/icons/twitter-24/512/166_Heart_Love_Like_Twitter-512.png",
+      heartImg:
+        "https://cdn2.iconfinder.com/data/icons/music-media-player-outline-basic/32/1-icon-music-09-512.png",
+      user_id: "",
+      liked: false
     };
   },
   props: ["commentId"],
-  components: {
-    Container,
-    Form,
-    Button,
-    Row,
-    Col
-  },
   methods: {
+    async checkLiked() {
+      const votes = await this.votes.filter(
+        vote => vote.user_id == this.user_id
+      );
+      if (votes.length > 0) {
+        this.liked = true;
+      }
+    },
     postVote() {
       this.$store.dispatch("POST_VOTE", {
-        user_id: 1,
         comment_id: this.commentId
       });
+    },
+    deleteVote() {
+      const myVote = this.votes.filter(vote => {
+        return vote.user_id == this.user_id;
+      });
+      this.$store.dispatch("DELETE_VOTE", myVote[0].id);
     }
   },
   async mounted() {
     try {
       const { data } = await axios.get(`/waves/api/v1/vote/${this.commentId}`);
       this.votes = data.data;
+      this.user_id = this.$cookies.get("user_id");
+      this.checkLiked();
     } catch (error) {
       throw error.message;
     }
+  },
+  computed: {
+    ...mapGetters(["isLogedIn"])
   }
 };
 </script>

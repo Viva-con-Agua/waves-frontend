@@ -1,133 +1,169 @@
 <template>
-  <VcAFrame>
-    <VcAColumn size="50%">
-      <el-row style="margin-top:20px">
-        <h3>Respond to Your {{applications.length}} Application Requests</h3>
-        <el-card
-          :body-style="{ padding: '0px' }"
-          style="padding:20px;margin:0;margin-bottom:5px"
-          v-for="application in getApplications()"
-          :key="application.id"
-        >
-          <el-col :span="2">
-            <img src="https://img.icons8.com/cotton/64/000000/gender-neutral-user--v1.png" />
-          </el-col>
-          <el-col :span="4">
-            <span style="margin:20px;">{{`${application.first_name} ${application.last_name}`}}</span>
-          </el-col>
-          <el-col :span="12">
-            <span>{{application.text}}</span>
-          </el-col>
-          <el-col style="padding:10px" :span="6">
-            <el-col  :span="11">
-              <el-button
+  <div class="app-handler-container">
+    <el-checkbox
+      :indeterminate="isIndeterminate"
+      v-model="checkAll"
+      @change="handleCheckAllChange"
+    >Check all</el-checkbox>
 
-                @click="acceptApplication(application.application_id)"
-                style="margin:5px;padding:5px;float:right"
-                type="success"
-                :disabled="application.state=='ACCEPTED'"
-              >accept</el-button>
-            </el-col>
-            <el-col :span="11" :offset="1">
-              <el-button
+    <el-button
+      @click="setToAccepted"
+      style="float:right;width:80px;"
+      size="mini"
+      type="success"
+    >ACCEPT</el-button>
+    <el-button
+      @click="setToRejected"
+      style="float:right;width:80px;margin-right:10px"
+      size="mini"
+      type="danger"
+    >REJECT</el-button>
 
-                @click="rejectApplication(application.application_id)"
-                style="margin:5px;padding:5px;float:right"
-                type="danger"
-                :disabled="application.state==='REJECTED'"
-              >reject</el-button>
-            </el-col>
-          </el-col>
-        </el-card>
-      </el-row>
-    </VcAColumn>
-  </VcAFrame>
+    <el-row
+      v-for="(application) in applications"
+      :key="application.application_id"
+      style="margin-top:5px"
+    >
+      <el-col class="container-sc" :xs="2" :lg="1">
+        <el-row>
+          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+            <el-row>
+              <el-checkbox :label="application" :key="application.application_id">{{''}}</el-checkbox>
+            </el-row>
+          </el-checkbox-group>
+        </el-row>
+      </el-col>
+      <el-col class="container-sc" :xs="22" :lg="23">
+        <div style="margin-top:5px" :label="application" :key="application.application_id">
+          <el-card>
+            <el-row>
+              <el-col :xs="4" :lg="3">
+                <el-image
+                  class="avatar-p"
+                  :src="`https://eu.ui-avatars.com/api/?rounded=true&name=${application.first_name}+${application.last_name}`"
+                ></el-image>
+              </el-col>
+              <el-col style="margin-top:8px" :xs="20" :lg="21">
+                <span>{{`${application.first_name} ${application.last_name}`}}</span>
+                <el-tag
+                  :type="application.state=='REJECTED'?'danger'
+            :application.state=='ACCEPTED'?'success':
+            'warning'"
+                  style="float:right"
+                  size="mini"
+                >{{application.state}}</el-tag>
+              </el-col>
+            </el-row>
+            <el-row class="application-row" :span="24" style="margin-top:10px">
+              <el-col v-if="application.user.profiles[0].supporter.crew" :sm="24">
+                <span style="float:left">crew</span>
+                <span style="float:right">{{application.user.profiles[0].supporter.crew.name}}</span>
+              </el-col>
+              <el-col class="application-row" :sm="24">
+                <span style="float:left">{{`supporter seit`}}</span>
+                <span
+                  style="float:right"
+                >{{new Date(application.user.created).toLocaleDateString()}}</span>
+              </el-col>
+              <el-col class="application-row" :sm="24">
+                <span style="float:left">accepted</span>
+                <span style="float:right">{{`${application.statistic.accepted_count}`}}</span>
+              </el-col>
+              <el-col class="application-row" :sm="24">
+                <span style="float:left">rejected</span>
+                <span style="float:right">{{`${application.statistic.rejected_count}`}}</span>
+              </el-col>
+              <el-col class="application-row" :sm="24">
+                <span style="float:left">informed</span>
+                <span style="float:right">yes</span>
+              </el-col>
+              <el-col v-if="application.user.profiles" class="application-row" :sm="24">
+                <span style="float:left">{{`verfied`}}</span>
+                <span style="float:right">{{application.user.profiles[0].confirmed?"yes":"no"}}</span>
+              </el-col>
+            </el-row>
+            <el-row
+              style="margin-top:20px;margin-bottom:30px;padding:10px;background:#eee;border-radius:5px"
+            >
+              <span>{{application.text}}</span>
+            </el-row>
+          </el-card>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 <script>
-import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
+import { mapGetters , mapActions} from "vuex";
 export default {
-  name: "ApplicationsHandler",
-  components: { VcAFrame, VcAColumn, VcABox },
   data() {
     return {
-      states: {
-        WAITING_LIST: "WAITING_LIST",
-        ACCEPTED: "ACCEPTED",
-        REJECTED: "REJECTED"
-      },
-      multipleSelection: [],
-      loading: false
+      checkAll: false,
+      checkedCities: [],
+      isIndeterminate: true
     };
   },
-  mounted() {
-    this.$store.dispatch("GET_APPLICATIONS", this.$route.params.id);
-  },
+  props: [
+    "applications",
+    "accept_application",
+    "reject_application",
+    "fetchUserStatistic",
+    "getUserStatistic",
+    "fetch_applications"
+  ],
   computed: {
-    applications() {
-      return this.$store.getters.getApplications;
-    }
+    ...mapGetters(["getApplications"])
   },
   methods: {
-    getApplications() {
-      return this.$store.getters.getApplications;
+    handleCheckAllChange(val) {
+      this.checkedCities = val ? this.applications : [];
+      this.isIndeterminate = false;
     },
-    getPoolEvent() {
-      return this.$store.getters.getPoolEvent;
+    handleCheckedCitiesChange(value) {
+      let checkedCount = value.length;
+      this.checkAll = checkedCount === this.applications.length;
+      this.isIndeterminate =
+        checkedCount > 0 && checkedCount < this.applications.length;
     },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
+    setToAccepted() {
+      this.checkedCities.map(async c => {
+        await this.accept_application(c.application_id);
+      });
+      this.fetch_applications(this.$route.params.id);
     },
-    acceptApplication(id) {
-      this.$store.dispatch("ACCEPT_APPLICATION", id);
-    },
-    rejectApplication(id) {
-      this.$store.dispatch("REJECT_APPLICATION", id);
-    },
-    setToWaitingList() {
-      if (this.multipleSelection) {
-        this.multipleSelection.forEach(application => {
-          this.$store.dispatch("SET_TO_APPLICATION_WAITINGLIST", application);
-        });
-      }
+    async setToRejected() {
+      await this.checkedCities.map(c => {
+        this.reject_application(c.application_id);
+      });
+      await this.fetch_applications(this.$route.params.id);
     }
   }
 };
 </script>
 
-<style lang="less" scoped>
-.vca-button-primary {
-  background-color: #0a6b91;
-  color: #ffffff;
-  padding: 0.5em 0;
-  border: 0;
-  text-transform: uppercase;
-  font-weight: bold;
-  text-decoration: none;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-  -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
-    0 3px 10px 0 rgba(0, 0, 0, 0.19);
-  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
-    0 3px 10px 0 rgba(0, 0, 0, 0.19);
+<style scoped>
+.app-handler-container {
+  width: 95%;
+  margin: auto;
 }
 
-.vca-button-warn {
-  background-color: #d50000;
-  color: #ffffff;
-  padding: 0.5em 0;
-  border: 0;
-  text-transform: uppercase;
-  font-weight: bold;
-  text-decoration: none;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-  -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
-    0 3px 10px 0 rgba(0, 0, 0, 0.19);
-  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
-    0 3px 10px 0 rgba(0, 0, 0, 0.19);
+@media screen and (min-width: 768px) {
+  .app-handler-container {
+    width: 40%;
+    margin: auto;
+  }
 }
+
+.application-row {
+  margin-top: 5px;
+  color: gray;
+}
+
+.avatar-p {
+  height: 40px;
+  width: 40px;
+}
+
+
+
 </style>

@@ -1,10 +1,10 @@
 <template>
-
+  <h3>ELearning Badges</h3>
 </template>
 
 <script>
 export default {
-  name: "FavoritePooleventsView"
+  name: "ELearningBadges"
 };
 </script>
 

@@ -1,34 +1,24 @@
 <template>
-  <VcAFrame>
-    <VcAColumn style="margin-top:20px" size="50%">
-      <el-row v-if="!poolEvents" style="margin-top:50%;">
-        <rotate-square2 style="margin:auto;"></rotate-square2>
-      </el-row>
-      <el-row>
-        <el-col :span="12" v-for="poolEvent in poolEvents" :key="poolEvent.id">
-          <PoolEventCard :poolEvent="poolEvent" />
-        </el-col>
-      </el-row>
-      <el-row v-if="myPoolEventsFlag">
-        <MyPoolEvents :poolEvents="poolEvents" />
-      </el-row>
-    </VcAColumn>
-    <VcAColumn size="20%">
-      <VcABox style="padding:0px">
-        <div style="padding:0px" slot="header">
-          <img
-            style="width:15%;
-                  padding:0px;"
-            alt="filter"
-            src="https://cdn2.iconfinder.com/data/icons/photo-editor-user-interface-2/100/11-512.png"
-          />
-        </div>
-        <el-col :span="24">
-          <PoolEventFilter />
-        </el-col>
-      </VcABox>
-    </VcAColumn>
-  </VcAFrame>
+  <div class="p-container">
+    <el-row>
+      <el-col :xs="24" :lg="14" style="margin-top:16px;padding:5px;" size="600px">
+        <el-row>
+          <PoolEventFilter :roles="getRoles" />
+        </el-row>
+        <el-row v-if="!poolEvents" style="margin-top:50%;padding:10px;">
+          <rotate-square2 style="margin:auto;"></rotate-square2>
+        </el-row>
+        <el-row style="margin-top:1%;">
+          <el-col :span="24" style="margin-top:5px" v-for="poolEvent in poolEvents" :key="poolEvent.id">
+            <PoolEventCard :poolEvent="poolEvent" />
+          </el-col>
+        </el-row>
+      </el-col>
+      <el-col class="most-faved" fixed :span="10" style="margin-top:20px;padding:5px" size="250px">
+        <MostFavedPoolevents />
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 
@@ -38,6 +28,9 @@ import PoolEventFilter from "../components/PoolEventFilter";
 import PoolEventCard from "../components/PoolEventCard";
 import MyPoolEvents from "../components/MyPoolEvents";
 import Pagination from "../components/Pagination";
+import MostFavedPoolevents from "../components/MostFavedPoolevents";
+import { mapGetters } from "vuex";
+
 import {
   Input,
   Form,
@@ -49,8 +42,9 @@ import {
 import { RotateSquare2 } from "vue-loading-spinner";
 
 export default {
-  name: "PoolEvents",
+  name: "PoolEventsView",
   components: {
+    MostFavedPoolevents,
     RotateSquare2,
     PoolEventCard,
     VcAFrame,
@@ -64,6 +58,7 @@ export default {
     Dropdown
   },
   computed: {
+    ...mapGetters(["getRoles"]),
     poolEvents() {
       return this.$store.getters.getAllPoolEvents.data;
     }
@@ -123,5 +118,22 @@ input {
 .el-button {
   margin-left: 0;
   margin-right: 0;
+}
+
+.most-faved {
+  display: none;
+}
+.p-container {
+  margin: auto;
+  width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  .most-faved {
+    display: block;
+  }
+  .p-container {
+    margin: auto;
+    width: 60%;
+  }
 }
 </style>

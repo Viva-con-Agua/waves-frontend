@@ -1,13 +1,12 @@
 <template>
-
+  <h3>No data</h3>
 </template>
 
 <script>
 export default {
-    name: 'DashboardGamificationView'
-}
+  name: "NoData"
+};
 </script>
 
 <style>
-
 </style>

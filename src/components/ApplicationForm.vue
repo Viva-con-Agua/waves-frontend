@@ -1,21 +1,26 @@
 <template>
-  <el-form :model="application" ref="application" class="rows-container">
-    <el-form-item label="message">
+  <el-form :model="application" ref="application">
+    <el-form-item>
       <el-input
-        type="textarea"
-        :rows="4"
-        placeholder="Please input message..."
+        show-word-limit
+        placeholder="Please input"
         v-model="application.text"
+        maxlength="1000"
+        :autosize="{minRows: 4, maxRows:10}"
+        type="textarea"
       ></el-input>
     </el-form-item>
     <el-form-item>
       <el-button
-        class="vca-button-primary"
-        id="button"
-        type="success"
+        type="primary"
         @click.prevent="submitApplication"
-        style="margin-left:0px;margin-right:0px;"
-      >apply</el-button>
+        style="width:100px;float:right"
+      >APPLY</el-button>
+      <el-button
+        type="danger"
+        @click.prevent="submitApplication"
+        style="margin-left:5px;margin-right:5px;width:100px;float:right"
+      >CANCEL</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -29,12 +34,12 @@ export default {
     VcAColumn,
     VcABox
   },
-  props: ["poolEvent"],
+  props: ["poolevent_id"],
   data() {
     return {
       application: {
         text: "",
-        poolevent_id: this.$route.params.id
+        poolevent_id: this.poolevent_id
       },
       applied: false,
       showApplicationForm: false
@@ -63,21 +68,14 @@ export default {
   display: block;
 }
 
-.vca-button-primary {
-  background-color: #0a6b91;
-  color: #ffffff;
-  padding: 0.5em 0;
-  border: 0;
-  text-transform: uppercase;
-  font-weight: bold;
-  text-decoration: none;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-  -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
-    0 3px 10px 0 rgba(0, 0, 0, 0.19);
-  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
-    0 3px 10px 0 rgba(0, 0, 0, 0.19);
+@media only screen and (min-width: 768px) {
+  .app-container {
+    margin: auto;
+    width: 100%;
+  }
+  .app-btn {
+    width: 10%;
+  }
 }
+
 </style>

@@ -1,116 +1,115 @@
 <template>
-  <el-col>
-    <div class="card-expansion">
-      <md-card class="card-event">
-        <md-card-header>
-          <div class="md-title">
-            <a
-              :href="`/waves/poolevent/${poolEvent.id}`"
-              style="text-decoration : none;color:black"
-            >{{poolEvent.name}}</a>
+  <el-card style="width:100%" :body-style="{ paddingTop: '10px' }">
+    <div slot="header">
+      <el-row>
+        <el-col :span="getRoles=='admin'&&isLogedIn?14:17">
+          <a :href="`/waves/event/${poolEvent.id}`" style="text-decoration:none;color:black">
+            <span>{{poolEvent.name}}</span>
+          </a>
+        </el-col>
 
-            <i :v-model="favorite.poolevent_id=poolEvent.id" @click="setFavorite" style="float:right;" class="el-icon-star-off" />
-          </div>
-          <div class="md-subhead">{{poolEvent.type}}</div>
-          <div class="md-body">
-            <span>
-              <i class="el-icon-time"></i>
-              {{new Date(poolEvent.event_start).toLocaleString()}}
-            </span>
-          </div>
-          <div class="md-body">
-            <span>
-              <i class="el-icon-location-outline"></i>
-              {{`${poolEvent.street_name} ${poolEvent.street_number}, ${poolEvent.post_code} ${poolEvent.city}`}}
-            </span>
-          </div>
-        </md-card-header>
-        <md-card-expand>
-          <md-card-actions md-alignment="space-between">
-            <div></div>
-            <md-card-expand-trigger>
-              <md-button class="md-icon-button">
-                <i class="el-icon-arrow-up"></i>
-              </md-button>
-            </md-card-expand-trigger>
-          </md-card-actions>
-          <md-card-expand-content>
-            <md-card-content>
-              <span>Bewerbung möglich bis {{new Date(poolEvent.application_end).toLocaleString()}}</span>
-              <el-form :model="application">
-                <el-form-item label="message">
-                  <textarea
-                    class="input-text-area"
-                    v-model="application.text"
-                    placeholder="send message to asp... "
-                  ></textarea>
-                </el-form-item>
-                <el-button
-                  style="width:100%;margin:0"
-                  class="vca-button-primary"
-                  @click.prevent="submitForm"
-                >apply</el-button>
-              </el-form>
-            </md-card-content>
-          </md-card-expand-content>
-        </md-card-expand>
-      </md-card>
+        <el-col v-if="poolEvent.type_name" :span="7">
+          <span style="color:grey;float:right">{{poolEvent.type_name}}</span>
+        </el-col>
+        <el-col v-if="getRoles=='admin'&&isLogedIn&&poolEvent.state" :span="3">
+          <el-tag
+            :type="poolEvent.state=='RELEASED'?'success':poolEvent.state=='UNRELEASED'?'primary':'danger'"
+            size="mini"
+          >{{poolEvent.state}}</el-tag>
+        </el-col>
+      </el-row>
     </div>
-  </el-col>
+    <el-row style="margin-top: 10px;">
+      <el-col :xs="2" :lg="1">
+        <i class="el-icon-location-outline"></i>
+      </el-col>
+      <el-col
+        :span="22"
+      >{{`${poolEvent.route} ${poolEvent.street_number}, ${poolEvent.postal_code} ${poolEvent.locality}`}}</el-col>
+    </el-row>
+    <el-row style="margin-top: 10px;">
+      <el-col :xs="2" :lg="1">
+        <i class="el-icon-time"></i>
+      </el-col>
+      <el-col
+        :span="22"
+      >{{`${new Date(poolEvent.event_start).getUTCHours()}:${new Date(poolEvent.event_start).getUTCMinutes()}h`}} - {{`${new Date(poolEvent.event_end).getUTCHours()}:${new Date(poolEvent.event_end).getUTCMinutes()}h`}}</el-col>
+    </el-row>
+    <el-row style="margin-top: 10px;">
+      <el-col :xs="2" :lg="1">
+        <i class="el-icon-date"></i>
+      </el-col>
+      <el-col :span="22">
+        {{new Date(poolEvent.event_start).getDate()}}. {{new Date(poolEvent.event_start).toLocaleString("default", { month: "short" })}}
+        {{new Date(poolEvent.event_start).getFullYear()}}
+      </el-col>
+    </el-row>
+    <el-row v-if="isLogedIn" style="margin-top: 15px;">
+      <el-col style="text-align:center" :span="getRoles!='admin'?8:6">
+        <el-button
+          v-if="getRoles=='admin'"
+          style="margin-top:5px;
+                width:40px;
+                height:40px;
+                margin:auto;
+                border:0
+                text-align:center"
+          @click="()=> this.$router.push(`/waves/applications/${poolEvent.id}`)"
+          circle
+        >
+          <i class="el-icon-circle-plus"></i>
+        </el-button>
+      </el-col>
+      <el-col style="text-align:center" :span="getRoles!='admin'?8:6">
+        <ApplicationButton
+          :poolevent_id="poolEvent.id"
+          style="width:40px;margin:0;border:0;text-align:center;margin:auto"
+        />
+      </el-col>
+      <el-col style="text-align:center" :span="getRoles!='admin'?8:6">
+        <SharingButton
+          :location="`https://localhost${this.$router.history.current.path}`"
+          style="width:40px;margin:0;border:0;text-align:center;margin:auto"
+        />
+      </el-col>
+      <el-col style="text-align:center" :span="getRoles!='admin'?8:6">
+        <FavoriteButton :poolevent_id="poolEvent.id"/>
+      </el-col>
+
+    </el-row>
+  </el-card>
 </template>
 
 <script>
-import ApplicationForm from "./ApplicationForm";
-import icons_ from "../assets/poolEventIcons.json";
-import { Icon } from "element-ui";
-import Axios from 'axios';
+import PooleventDropdown from "./PooleventDropdown";
+import SharingButton from "./SharingButton";
+import FavoriteButton from "./FavoriteButton";
+import ApplicationButton from "./ApplicationButton";
+import Axios from "axios";
+import { mapGetters } from "vuex";
+
 export default {
   name: "PoolEventCard",
   components: {
-    ApplicationForm
+    ApplicationButton,
+    SharingButton,
+    PooleventDropdown,
+    FavoriteButton
   },
   props: ["poolEvent"],
   data() {
     return {
-      favorite : {
-        poolevent_id:''
-      },
       application: {
         user_id: 1,
         text: ""
       },
-      icons: icons_.data,
       startDate: "",
       endDate: "",
       startTime: "",
-      endTime: "",
-      daysGer: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
-      monthsGer: [
-        "Januar",
-        "Februar",
-        "März",
-        "April",
-        "Mai",
-        "Juni",
-        "Juli",
-        "August",
-        "September",
-        "Oktober",
-        "November",
-        "Dezember"
-      ],
-      
+      endTime: ""
     };
   },
   methods: {
-    async setFavorite(){
-      const config = {
-        headers: {
-          Authorization: `bearer ${this.$cookies.get("access_token")}`
-        }
-      };
-      const {data} = await Axios.post('/waves/api/v1/favorite', this.favorite, config);
-    },
     submitForm() {
       this.$store.dispatch("APPLY", {
         application: this.application,
@@ -119,62 +118,7 @@ export default {
     }
   },
   computed: {
-    getStart() {
-      let date = new Date(this.poolEvent.start);
-      return (
-        this.daysGer[date.getDay()] +
-        " " +
-        date.getDate() +
-        ". " +
-        this.monthsGer[date.getMonth()] +
-        " um " +
-        date.getHours() +
-        ":" +
-        date.getMinutes()
-      );
-    },
-    getEnd() {
-      let date = new Date(this.poolEvent.end);
-      return (
-        this.daysGer[date.getDay()] +
-        " " +
-        date.getDate() +
-        ". " +
-        this.monthsGer[date.getMonth()] +
-        " um " +
-        date.getHours() +
-        ":" +
-        date.getMinutes()
-      );
-    },
-    getApplicationStart() {
-      let date = new Date(this.poolEvent.start);
-      return (
-        this.daysGer[date.getDay()] +
-        " " +
-        date.getDate() +
-        ". " +
-        this.monthsGer[date.getMonth()] +
-        " um " +
-        date.getHours() +
-        ":" +
-        date.getMinutes()
-      );
-    },
-    getApplicationEnd() {
-      let date = new Date(this.poolEvent.end);
-      return (
-        this.daysGer[date.getDay()] +
-        " " +
-        date.getDate() +
-        ". " +
-        this.monthsGer[date.getMonth()] +
-        " um " +
-        date.getHours() +
-        ":" +
-        date.getMinutes()
-      );
-    },
+    ...mapGetters(["getRoles", "isLogedIn"]),
     url() {
       return "/poolevent/" + this.poolEvent.id;
     },
@@ -202,89 +146,7 @@ export default {
 </script>
 
 <style>
-.card {
-  margin: 10px;
-}
-.time {
-  font-size: 13px;
-  color: #999;
-}
-.date {
-  font-size: 13px;
-  color: #999;
-}
-.location {
-  font-size: 13px;
-  color: #999;
-}
-
-.bottom {
-  margin-top: 13px;
-  line-height: 12px;
-}
-
-.button {
-  padding: 0;
-  float: right;
-}
-
-.image {
-  width: 100%;
-  display: block;
-  margin-top: 5px;
-  margin-left: -5px;
-}
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-
-.clearfix:after {
-  clear: both;
-}
-#card {
-  margin: 10px;
-}
-
-.card-expansion {
-  height: auto;
-}
-
-.md-card {
-  width: 95%;
-  margin: 10px;
-  display: inline-block;
-  vertical-align: top;
-}
-
-.input-text-area {
-  position: relative;
-  font-size: 14px;
-  display: inline-block;
-  width: 100%;
-  background-color: #fff;
-  border-radius: 4px;
-  border: 1px solid #dcdfe6;
-  box-sizing: border-box;
-  color: #606266;
-  height: 100px;
-  line-height: 40px;
-  outline: 0;
-  padding: 0 15px;
-  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-}
-
-.md-body {
-  margin-top: 15px;
-}
-
 .card-event {
   border-radius: 2%;
-}
-
-.el-icon-star-off:hover{
-  color: #ffd700
 }
 </style>

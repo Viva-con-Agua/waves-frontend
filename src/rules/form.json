@@ -1,6 +1,6 @@
 {
     "rules": {
-        "name": [
+        "front.name": [
           {
             "required": true,
             "message": "Please input title",
@@ -13,7 +13,7 @@
             "trigger": "blur"
           }
         ],
-        "website": [
+        "front.website": [
           {
             "required": true,
             "message": "Please input website",
@@ -26,18 +26,46 @@
             "trigger": "blur"
           }
         ],
-        "addresss": [
+        "location.full_address": [
           {
             "required": true,
             "message": "Please input address",
             "trigger": "blur"
           }
         ],
-        "type": [
+        "location.route": [
+          {
+            "required": true,
+            "message": "Please input street name",
+            "trigger": "blur"
+          }
+        ],
+        "location.street_number": [
+          {
+            "required": true,
+            "message": "Please input street number",
+            "trigger": "blur"
+          }
+        ],
+        "location.locality": [
+          {
+            "required": true,
+            "message": "Please input city",
+            "trigger": "blur"
+          }
+        ],
+        "location.postal_code": [
+          {
+            "required": true,
+            "message": "Please input postal code",
+            "trigger": "blur"
+          }
+        ],
+        "front.idevent_type": [
           {
             "required": true,
             "message": "Please select event type",
-            "trigger": "change"
+            "trigger": "blur"
           }
         ],
         "start": [

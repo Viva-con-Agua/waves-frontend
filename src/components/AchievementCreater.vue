@@ -3,7 +3,7 @@
     <ChallengePreview :dialogTableVisible="dialogTableVisible"></ChallengePreview>
     <el-form :model="achievement" ref="achievement" class="columns-container">
       <el-col :span="12">
-        <el-card style="width:90%"  title="Badge">
+        <el-card  style="width:90%" title="Badge">
           <el-form-item label="name" prop="name">
             <el-input v-model="achievement.badge.name" placeholder="input badge name..."></el-input>
           </el-form-item>
@@ -35,8 +35,8 @@
           </el-form-item>
         </el-card>
       </el-col>
-      <el-col style="width:90%" :span="12">
-        <el-card >
+      <el-col :span="12">
+        <el-card style="width:90%">
           <el-form-item label="name" prop="name">
             <el-input v-model="achievement.challenge.name" placeholder="input badge name..."></el-input>
           </el-form-item>
@@ -51,7 +51,7 @@
             ></el-input>
           </el-form-item>
         </el-card>
-        <el-card>
+        <el-card style="width:90%">
           <el-button
             @click="submitAchievement"
             style="padding:7px;margin-left:0;margin-right:0;"
@@ -59,7 +59,7 @@
           >CREATE</el-button>
           <el-button
             @click="dialogTableVisible = true"
-            style="padding:7px;margin-left:0;margin-right:0;"
+            style="padding:7px;margin-left:0;margin-right:0;margin-top:5px"
             type="warning"
           >PREVIEW</el-button>
         </el-card>
@@ -143,5 +143,4 @@ export default {
 </script>
 
 <style>
-
 </style>
