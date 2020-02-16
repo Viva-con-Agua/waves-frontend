@@ -9,7 +9,7 @@
       <ul style="list-style:none;padding:0px;margin:0px;">
         <li
           v-if="isLogedIn&&getRoles=='admin'||crew.city==poolevent.crew"
-          @click="()=> this.$router.push(`/waves/poolevent/${this.$route.params.id}/edit`)"
+          @click="()=> this.$router.push(`/waves/event/${this.$route.params.id}/edit`)"
           class="profile-item"
         >
           <i class="el-icon-edit"></i> edit
@@ -62,17 +62,9 @@ export default {
     }),
     async releaseHandler() {
       await this.$store.dispatch("SET_TO_RELEASED", this.$route.params.id);
-      this.$message({
-        message: "Poolevent released!",
-        type: "success"
-      });
     },
     async rejectHandler() {
       await this.$store.dispatch("SET_TO_REFUSED", this.$route.params.id);
-      this.$message({
-        message: "Poolevent rejected!",
-        type: "success"
-      });
     },
     async cancelHandler() {
       await this.cancelEvent(this.$route.params.id);

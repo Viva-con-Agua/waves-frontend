@@ -19,14 +19,18 @@
           style="text-decoration: none;"
           href="/waves/profile"
         >
-          <li class="profile-item"> <i class="el-icon-user"></i>  my profile</li>
+          <li class="profile-item">
+            <i class="el-icon-user"></i> my profile
+          </li>
         </a>
         <a
           style="text-decoration: none;"
           v-if="getRoles=='admin'&&this.$cookies.get('access_token')"
           href="/waves/dashboard"
         >
-          <li class="profile-item"> <i class="el-icon-setting"></i> dashboard</li>
+          <li class="profile-item">
+            <i class="el-icon-setting"></i> dashboard
+          </li>
         </a>
         <a
           v-if="this.$cookies.get('access_token')"
@@ -39,7 +43,7 @@
         <a
           v-if="!this.$cookies.get('access_token')"
           style="text-decoration: none;"
-          :href="`https://stage.vivaconagua.org/drops/oauth2/code/get?client_id=wavesex&response_type=code&state=${`https://stage.vivaconagua.org/${this.$router.history.current.path}`}&redirect_uri=https://stage.vivaconagua.org/backend/waves/api/v1/oauth`"
+          :href="`${isDev?authUrlDev:authUrlProduction}/drops/oauth2/code/get?client_id=${isDev?clientIdDev:clientIdProduction}&response_type=code&state=${isDev?`${frontendDev}${this.$router.history.current.path}`:`${frontendProduction}${this.$router.history.current.path}`}&redirect_uri=${isDev?redirectDev:redirectProduction}`"
         >
           <li class="profile-item">login</li>
         </a>
@@ -52,9 +56,24 @@
 import { mapGetters } from "vuex";
 export default {
   name: "ProfileDropDown",
-  props: ['logout'],
+  props: ["logout"],
   computed: {
     ...mapGetters(["getRoles"])
+  },
+  data(){
+    return {
+      isDev: process.env.VUE_APP_ENV==='dev',
+      authUrlDev: process.env.VUE_APP_OAUTH_DEV,
+      authUrlProduction: process.env.VUE_APP_OAUTH_PRODUCTION,
+      clientIdDev: process.env.VUE_APP_CLIENT_ID_DEV,
+      clientIdProduction: process.env.VUE_APP_CLIENT_ID_PRODUCTION,
+      redirectDev:process.env.VUE_APP_REDIRECT_DEV,
+      redirectProduction:process.env.VUE_APP_REDIRECT_PRODUCTION,
+      frontendDev:process.env.VUE_APP_FRONTEND_DEV,
+      frontendProduction:process.env.VUE_APP_FRONTEND_PRODUCTION,
+
+
+    }
   }
 };
 </script>
