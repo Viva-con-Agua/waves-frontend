@@ -214,9 +214,9 @@ export default {
     FavoriteButton
   },
   computed: {
-    ...mapGetters(["getRoles", "isLogedIn", "crew"]),
+    ...mapGetters(["getRoles", "isLogedIn", "crew", "getPoolEvent"]),
     poolEvent() {
-      return this.$store.getters.getPoolEvent;
+      return this.getPoolEvent
     },
     getDescription() {
       return this.poolEvent.description.html;

@@ -79,7 +79,9 @@
               ></el-option>
             </el-select>
           </el-form-item>
-          <quill :config="config" v-model="poolevent.description.html" output="html"></quill>
+
+          <froala id="edit" :tag="'textarea'" :config="config" v-model="poolevent.description.html"></froala>
+
         </VcABox>
       </VcAColumn>
       <VcAColumn>
@@ -193,7 +195,6 @@
                 @click.prevent="cancel"
                 size="mini"
               >CANCEL</el-button>
-
             </el-col>
           </el-row>
         </el-card>
@@ -224,6 +225,13 @@ export default {
   },
   data() {
     return {
+      config: {
+        events: {
+          initialized: function() {
+            console.log("initialized");
+          }
+        }
+      },
       users: [],
       errors: [],
       content: {
@@ -365,14 +373,17 @@ export default {
       this.poolevent.location.longitude = location.longitude;
       this.poolevent.location.full_address = location.full_address;
       this.poolevent.front.name = front.event_name;
-      this.poolevent.front.event_start = front.event_start;
-      this.poolevent.front.event_end = front.event_end;
-      this.poolevent.front.application_start = front.application_start;
-      this.poolevent.front.application_end = front.application_end;
+      this.poolevent.front.event_start = new Date(front.event_start);
+      this.poolevent.front.event_end = new Date(front.event_end);
+      this.poolevent.front.application_start = new Date(
+        front.application_start
+      );
+      this.poolevent.front.application_end = new Date(front.application_end);
       this.poolevent.front.website = front.website;
-      this.poolevent.front.idevent_type = front.type_name;
-      this.poolevent.front.asp_event_id = front.asp_event_id;
+      this.poolevent.front.idevent_type = front.idevent_type;
+      this.poolevent.front.asp_event_id = front.asp_event_id.id;
       this.poolevent.front.supporter_lim = front.supporter_lim;
+      console.log(front);
     },
     async fetchAllTypes() {
       try {
@@ -385,3 +396,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#logo{
+  display: none
+}
+</style>

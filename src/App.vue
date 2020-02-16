@@ -5,18 +5,26 @@
   </div>
 </template>
 <script>
-import VueQuill from "vue-quill";
 import Vue from "vue";
 import io from "socket.io-client";
 import { Button, Select } from "element-ui";
 import Navbar from "./components/Navbar";
 import vueCookies from "vue-cookies";
 import { mapGetters, actions, mapActions } from "vuex";
+import "froala-editor/js/plugins.pkgd.min.js";
+import "froala-editor/js/third_party/embedly.min";
+import "froala-editor/js/third_party/font_awesome.min";
+import "froala-editor/js/third_party/spell_checker.min";
+import "froala-editor/js/third_party/image_tui.min";
+import "froala-editor/css/froala_editor.pkgd.min.css";
+
+import VueFroala from "vue-froala-wysiwyg";
+Vue.use(VueFroala);
+Vue.config.productionTip = false;
 
 Vue.component(Select.name, Select);
 Vue.component(Button.name, Button);
 
-Vue.use(VueQuill);
 Vue.use(vueCookies);
 
 export default {
@@ -26,7 +34,8 @@ export default {
   },
   data() {
     return {
-      socket: io("localhost:5000")
+      isDev: process.env.ENV === "dev",
+      socket: undefined
     };
   },
   computed: {
@@ -44,22 +53,23 @@ export default {
         title: `Error: ${this.getErrors[this.getErrors.length - 1]}`,
         type: "danger"
       });
-      this.resetErrors()
+      this.resetErrors();
     }
   },
   created() {
-    this.socket.on("NEW_POOLEVENT", pooleventId => {
-      this.$notify({
-        title: `Event with id: ${pooleventId} was added`,
-        message: "click ",
-        type: "success"
+    if (this.socket) {
+      this.socket.on("NEW_POOLEVENT", pooleventId => {
+        this.$notify({
+          title: `Event with id: ${pooleventId} was added`,
+          message: "click ",
+          type: "success"
+        });
       });
-    });
-    this.socket.on("NEW_BADGE", data => {
-      this.$notify({
-        title: `New badge unlocked: ${data.name}`,
-        dangerouslyUseHTMLString: true,
-        message: `
+      this.socket.on("NEW_BADGE", data => {
+        this.$notify({
+          title: `New badge unlocked: ${data.name}`,
+          dangerouslyUseHTMLString: true,
+          message: `
         <div>
           <el-row>
             <el-col :span="6">
@@ -68,10 +78,11 @@ export default {
           </el-row>
         </div>
         `,
-        type: "success",
-        duration: 1000
+          type: "success",
+          duration: 1000
+        });
       });
-    });
+    }
   },
   methods: {
     ...mapActions({
@@ -124,6 +135,7 @@ export default {
       crewRole: this.$cookies.get("CREW_ROLE"),
       crewCity: this.$cookies.get("CREW_CITY")
     });
+    this.socket = io("localhost:5000");
   }
 };
 </script>

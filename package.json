@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
+    "start": "VUE_APP_ENV=PRODUCTION vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -26,6 +27,7 @@
     "vca-widget-user": "^0.5.3",
     "vue-clap-button": "^1.0.5",
     "vue-cookies": "^1.5.13",
+    "vue-froala-wysiwyg": "^3.1.0",
     "vue-google-autocomplete": "^1.1.0",
     "vue-google-places": "^0.1.5",
     "vue-i18n": "^8.10.0",

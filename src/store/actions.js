@@ -54,7 +54,7 @@ export default {
       commit("setPoolEvent", data.data);
     });
   },
-  SET_TO_RELEASED: ({ commit, getters }, id) => {
+  SET_TO_RELEASED: ({ commit, getters  ,dispatch}, id) => {
     axios
       .put(
         API_URI + `/poolevent/${id}`,
@@ -62,13 +62,14 @@ export default {
         getters.getAccessToken
       )
       .then(resp => {
+        dispatch("GET_POOLEVENT_BY_ID", id);
         commit("pushSuccessMessage", "release");
       })
       .catch(err => {
         commit("pushError", err.message);
       });
   },
-  SET_TO_REFUSED: ({ commit, getters }, id) => {
+  SET_TO_REFUSED: ({ commit, getters, dispatch }, id) => {
     axios
       .put(
         API_URI + `/poolevent/${id}`,
@@ -76,27 +77,30 @@ export default {
         getters.getAccessToken
       )
       .then(resp => {
+        dispatch("GET_POOLEVENT_BY_ID", id);
         commit("transition", "refuse");
       })
       .catch(err => {
         commit("pushError", err.message);
       });
   },
-  SET_TO_CANCELED: async ({ commit, getters }, id) => {
+  SET_TO_CANCELED: async ({ commit, getters, dispatch }, id) => {
     try {
       await axios.put(
         API_URI + `/poolevent/${id}`,
         { front: { state: "CANCELED" } },
         getters.getAccessToken
       );
+      dispatch("GET_POOLEVENT_BY_ID", id);
     } catch (error) {
       commit("pushError", error.message);
     }
   },
-  SET_TO_UNRELEASED: ({ commit }, id) => {
+  SET_TO_UNRELEASED: ({ commit, dispatch }, id) => {
     axios
       .put(API_URI + `/poolevent/${id}`, { state: "UNRELEASED" })
       .then((resp, err) => {
+        dispatch("GET_POOLEVENT_BY_ID", id);
         commit("transition", "unrelease");
       })
       .catch(err => {
@@ -242,7 +246,7 @@ export default {
     commit("resetErrors");
   },
   LOGOUT: ({ commit }) => {
-    window.$cookies.remove("full_name")
+    window.$cookies.remove("full_name");
     window.$cookies.remove("roles");
     window.$cookies.remove("full_name");
     window.$cookies.remove("first_name");
