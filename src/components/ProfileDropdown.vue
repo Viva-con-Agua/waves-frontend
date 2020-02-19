@@ -45,7 +45,7 @@
           style="text-decoration: none;"
           :href="`${isDev?authUrlDev:authUrlProduction}/drops/oauth2/code/get?client_id=${isDev?clientIdDev:clientIdProduction}&response_type=code&state=${isDev?`${frontendDev}${this.$router.history.current.path}`:`${frontendProduction}${this.$router.history.current.path}`}&redirect_uri=${isDev?redirectDev:redirectProduction}`"
         >
-          <li class="profile-item">login</li>
+          <li class="profile-item">login {{isDev}}</li>
         </a>
       </ul>
     </el-dropdown-menu>
@@ -71,8 +71,6 @@ export default {
       redirectProduction:process.env.VUE_APP_REDIRECT_PRODUCTION,
       frontendDev:process.env.VUE_APP_FRONTEND_DEV,
       frontendProduction:process.env.VUE_APP_FRONTEND_PRODUCTION,
-
-
     }
   }
 };

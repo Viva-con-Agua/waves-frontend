@@ -3,9 +3,10 @@ import axios from "axios";
 const API_URI = "/waves/api/v1";
 
 export default {
-  LOAD_DATA: ({ commit }) => {
+  LOAD_DATA: ({ commit }, {page,limit}) => {
+
     axios
-      .get(API_URI + "/poolevent?limit=100")
+      .get(API_URI + `/poolevent?limit=${limit}&page=${page}`)
       .then(res => {
         commit("updatePoolEvents", res.data);
       })
@@ -54,7 +55,7 @@ export default {
       commit("setPoolEvent", data.data);
     });
   },
-  SET_TO_RELEASED: ({ commit, getters  ,dispatch}, id) => {
+  SET_TO_RELEASED: ({ commit, getters, dispatch }, id) => {
     axios
       .put(
         API_URI + `/poolevent/${id}`,

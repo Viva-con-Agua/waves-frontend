@@ -9,15 +9,34 @@
           <rotate-square2 style="margin:auto;"></rotate-square2>
         </el-row>
         <el-row style="margin-top:1%;">
-          <el-col :span="24" style="margin-top:5px" v-for="poolEvent in poolEvents" :key="poolEvent.id">
+          <el-col
+            :span="24"
+            style="margin-top:5px"
+            v-for="poolEvent in poolEvents"
+            :key="poolEvent.id"
+          >
             <PoolEventCard :poolEvent="poolEvent" />
           </el-col>
+        </el-row>
+        <el-row style="margin:30px 0px 30px 0px;">
+          <div style="margin-top:10%">
+            <el-pagination
+              style="text-align:center;"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page.sync="page"
+              :page-sizes="pageSizes"
+              :page-size="size"
+              layout="sizes, prev, pager, next"
+              :total="count"
+            ></el-pagination>
+          </div>
         </el-row>
       </el-col>
       <el-col class="most-faved" fixed :span="10" style="margin-top:20px;padding:5px" size="250px">
         <MostFavedPoolevents />
       </el-col>
-    </el-row>
+    </el-row>s
   </div>
 </template>
 
@@ -29,7 +48,8 @@ import PoolEventCard from "../components/PoolEventCard";
 import MyPoolEvents from "../components/MyPoolEvents";
 import Pagination from "../components/Pagination";
 import MostFavedPoolevents from "../components/MostFavedPoolevents";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
+import { range } from "../helper";
 
 import {
   Input,
@@ -58,9 +78,18 @@ export default {
     Dropdown
   },
   computed: {
-    ...mapGetters(["getRoles"]),
+    ...mapGetters(["getRoles", "getAllPoolEvents"]),
     poolEvents() {
       return this.$store.getters.getAllPoolEvents.data;
+    },
+    page() {
+      return this.getAllPoolEvents.page;
+    },
+    size() {
+      return this.getAllPoolEvents.size;
+    },
+    count() {
+      return this.getAllPoolEvents.count;
     }
   },
   data() {
@@ -69,13 +98,23 @@ export default {
       loading: true,
       myPoolEventsFlag: false,
       poolEventsFlag: true,
-      myApplicationsFlag: false
+      myApplicationsFlag: false,
+      pageSizes: [5, 10, 15, 20]
     };
   },
   mounted() {
-    this.$store.dispatch("LOAD_DATA");
+    this.fetchPoolevents(0, 10);
+
+    //this.pageSizes = range(5, this.getAllPoolEvents.count, 5);
   },
   methods: {
+    ...mapActions({ pe: "LOAD_DATA" }),
+    handleSizeChange(val) {
+      this.fetchPoolevents(+0, val);
+    },
+    handleCurrentChange(val) {
+      this.fetchPoolevents(+val - 1, 10);
+    },
     editPoolEvent() {
       this.$router.push();
     },
@@ -89,6 +128,9 @@ export default {
       this.myPoolEventsFlag = false;
       this.PoolEventsFlag = false;
       this.myApplicationsFlag = true;
+    },
+    fetchPoolevents(page, limit) {
+      this.pe({ page, limit });
     }
   }
 };

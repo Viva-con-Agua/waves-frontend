@@ -79,13 +79,9 @@
               ></el-option>
             </el-select>
           </el-form-item>
-<<<<<<< HEAD
-          <quill :config="config" ref="poolevent.description.html" v-model="poolevent.description.html" output="html"></quill>
-=======
 
           <froala id="edit" :tag="'textarea'" :config="config" v-model="poolevent.description.html"></froala>
 
->>>>>>> master
         </VcABox>
       </VcAColumn>
       <VcAColumn>
@@ -263,7 +259,8 @@ export default {
           postal_code: "",
           route: "",
           street_number: "",
-          full_address: ""
+          full_address: "",
+          desc:""
         },
         description: {
           text: "",
@@ -314,7 +311,6 @@ export default {
           this.poolevent.front.application_end = new Date().getTime(
             this.poolevent.front.application_end
           );
-          console.log(this.poolevent);
           this.$store.dispatch("POST_POOLEVENT", this.poolevent);
         }
       } else if (this.$route.params.id != undefined) {
@@ -339,7 +335,6 @@ export default {
     async fetchAllUsers() {
       const { data } = await Axios.get("/waves/api/v1/user");
       this.users = data.data;
-      console.log(this.users);
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
@@ -365,7 +360,6 @@ export default {
     async fetchPooleventById(id) {
       const { data } = await Axios.get(`/waves/api/v1/poolevent/${id}`);
       const { location, description, ...front } = data.data;
-      console.log(description.html);
       this.poolevent.description.html = description.html;
       this.poolevent.description.text = description.text;
       this.poolevent.location.route = location.route;

@@ -2,7 +2,7 @@
   <el-card style="width:100%" :body-style="{ paddingTop: '10px' }">
     <div slot="header">
       <el-row>
-        <el-col :span="getRoles=='admin'&&isLogedIn?14:17">
+        <el-col :span="getRoles=='admin'&&isLogedIn?13:17">
           <a :href="`/waves/event/${poolEvent.id}`" style="text-decoration:none;color:black">
             <span>{{poolEvent.name}}</span>
           </a>
@@ -11,7 +11,7 @@
         <el-col v-if="poolEvent.type_name" :span="7">
           <span style="color:grey;float:right">{{poolEvent.type_name}}</span>
         </el-col>
-        <el-col v-if="getRoles=='admin'&&isLogedIn&&poolEvent.state" :span="3">
+        <el-col v-if="getRoles=='admin'&&isLogedIn&&poolEvent.state" :span="4">
           <el-tag
             :type="poolEvent.state=='RELEASED'?'success':poolEvent.state=='UNRELEASED'?'primary':'danger'"
             size="mini"

@@ -78,7 +78,6 @@
 
 <script>
 import axios from "axios";
-import Axios from "axios";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
@@ -112,7 +111,7 @@ export default {
       }
     },
     async fetchAllTypes() {
-      const { data } = await Axios.get("/waves/api/v1/eventtype");
+      const { data } = await axios.get("/waves/api/v1/eventtype");
       this.types = data.types;
     }
   },
