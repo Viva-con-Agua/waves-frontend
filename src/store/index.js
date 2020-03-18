@@ -45,15 +45,15 @@ export const store = new Vuex.Store({
     comments: [],
     isAdmin: true,
     isLogedIn: false,
-    access_token: "" ,
+    access_token: "",
     roles: "",
     months: [],
     statistic: "",
     recomandations: [],
     successMessage: [],
     crewRole: "",
-    crewCity:"",
-    
+    crewCity: "",
+    leaderboard: []
   },
   getters,
   actions,

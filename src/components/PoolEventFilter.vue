@@ -8,7 +8,7 @@
       >FILTER</el-button>
     </el-row>
     <el-collapse-transition>
-      <el-row v-if="show" style="margin:auto;margin-top:10px">
+      <el-row v-if="show" style="margin:auto;">
         <el-col v-if="roles=='admin'&&isLogedIn" style="padding:5px" :span="roles=='admin'&&isLogedIn?6:8">
           <el-form-item prop="type">
             <el-select
@@ -93,7 +93,7 @@ export default {
       types: []
     };
   },
-  props: ["roles"],
+  props: ["getUser"],
   methods: {
     ...mapActions({
       fetchAllMonths: "FETCH_ALL_MONTHS"
@@ -117,7 +117,7 @@ export default {
     }
   },
   async mounted() {
-    const { data } = await axios.get("/waves/api/v1/regions");
+    const { data } = await axios.get("/backend/waves/api/v1/regions");
     this.regions = data.data;
     await this.fetchAllTypes();
     this.fetchAllMonths();

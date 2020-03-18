@@ -38,6 +38,7 @@
 import TimeAgo from "vue2-timeago";
 import VoteForm from "../components/VoteForm";
 import CommentButton from "../components/CommentButton";
+import {mapActions} from "vuex";
 
 
 
@@ -62,6 +63,11 @@ export default {
       this.$store.getters.getComments;
       return this.$store.getters.getComments.data;
     }
+  },
+  methods:{
+    ...mapActions({
+      
+    })
   }
 };
 </script>

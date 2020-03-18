@@ -1,9 +1,6 @@
 import { WidgetTopNavigation, WidgetBottomNavigation } from 'vca-widget-navigation'
 import enElement from 'element-ui/lib/locale/lang/en';
 import deElement from 'element-ui/lib/locale/lang/de';
-import {library} from '@fortawesome/fontawesome-svg-core'
-import {faCoffee} from '@fortawesome/free-solid-svg-icons'
-import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import Vue from 'vue'
 import App from './App.vue'
@@ -19,12 +16,8 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 
 
-import VShowSlide from 'v-show-slide'
 
-Vue.use(VShowSlide)
 
-Vue.component('font-awesome-icon', FontAwesomeIcon)
-library.add(faCoffee)
 
 // vsm requires a reference to a vuex store
 Vue.use(vsm.plugin, store)

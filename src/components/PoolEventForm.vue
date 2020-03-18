@@ -1,16 +1,22 @@
 <template>
-  <VcAFrame title="Poolevent erstellen" hasContainer="true">
-    <el-form :model="poolevent" :rules="rules" ref="poolevent" class="columns-container">
-      <VcAColumn>
-        <VcABox :expand="true" :first="true" title="Aktion">
-          <el-form-item :label="$t('poolEventForm.input.title.label')" prop="front.name">
+  <el-container>
+    <el-form>
+      <el-col :span="11">
+        <el-card>
+          <el-form-item
+            :label="$t('poolEventForm.input.title.label')"
+            prop="front.name"
+          >
             <el-input
               v-model="poolevent.front.name"
               :placeholder="$t('poolEventForm.input.title.placeholder')"
             ></el-input>
           </el-form-item>
 
-          <el-form-item :label="$t('poolEventForm.input.type.label')" prop="front.idevent_type">
+          <el-form-item
+            :label="$t('poolEventForm.input.type.label')"
+            prop="front.idevent_type"
+          >
             <el-select
               v-model="poolevent.front.idevent_type"
               :placeholder="$t('poolEventForm.input.type.placeholder')"
@@ -24,7 +30,10 @@
               ></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('poolEventForm.input.website.label')" prop="front.website">
+          <el-form-item
+            :label="$t('poolEventForm.input.website.label')"
+            prop="front.website"
+          >
             <el-input
               v-model="poolevent.front.website"
               :placeholder="$t('poolEventForm.input.website.placeholder')"
@@ -37,29 +46,43 @@
               v-model="poolevent.front.active_user_only"
             ></el-switch>
           </el-form-item>
-          <el-form-item :label="$t('poolEventForm.input.start.label')" prop="front.event_start">
+          <el-form-item
+            :label="$t('poolEventForm.input.start.label')"
+            prop="front.event_start"
+          >
             <el-date-picker
               type="date"
-              :placeholder="$t('poolEventForm.input.start.datePicker.placeholder')"
+              :placeholder="
+                $t('poolEventForm.input.start.datePicker.placeholder')
+              "
               v-model="poolevent.front.event_start"
               style="width: 100%;"
             ></el-date-picker>
             <el-time-picker
-              :placeholder="$t('poolEventForm.input.start.timePicker.placeholder')"
+              :placeholder="
+                $t('poolEventForm.input.start.timePicker.placeholder')
+              "
               v-model="poolevent.front.event_start"
               style="width: 100%;"
             ></el-time-picker>
           </el-form-item>
-          <el-form-item :label="$t('poolEventForm.input.end.label')" prop="front.event_end">
+          <el-form-item
+            :label="$t('poolEventForm.input.end.label')"
+            prop="front.event_end"
+          >
             <el-date-picker
               type="date"
-              :placeholder="$t('poolEventForm.input.end.datePicker.placeholder')"
+              :placeholder="
+                $t('poolEventForm.input.end.datePicker.placeholder')
+              "
               v-model="poolevent.front.event_end"
               style="width: 100%;"
             ></el-date-picker>
 
             <el-time-picker
-              :placeholder="$t('poolEventForm.input.end.timePicker.placeholder')"
+              :placeholder="
+                $t('poolEventForm.input.end.timePicker.placeholder')
+              "
               v-model="poolevent.front.event_end"
               style="width: 100%;"
             ></el-time-picker>
@@ -80,12 +103,17 @@
             </el-select>
           </el-form-item>
 
-          <froala id="edit" :tag="'textarea'" :config="config" v-model="poolevent.description.html"></froala>
+          <froala
+            id="edit"
+            :tag="'textarea'"
+            :config="config"
+            v-model="poolevent.description.html"
+          ></froala>
+        </el-card>
+      </el-col>
 
-        </VcABox>
-      </VcAColumn>
-      <VcAColumn>
-        <el-card :first="true" title="Location">
+      <el-col :offset="2" :span="11">
+        <el-card>
           <el-form-item
             :label="$t('poolEventForm.input.address.label')"
             prop="location.full_address"
@@ -102,24 +130,36 @@
           <el-row>
             <el-col :span="16">
               <el-form-item label="street name" prop="location.route">
-                <el-input v-model="poolevent.location.route" disabled></el-input>
+                <el-input
+                  v-model="poolevent.location.route"
+                  disabled
+                ></el-input>
               </el-form-item>
             </el-col>
             <el-col style="margin-left:10px" :span="7">
               <el-form-item label="number" prop="location.street_number">
-                <el-input v-model="poolevent.location.street_number" disabled></el-input>
+                <el-input
+                  v-model="poolevent.location.street_number"
+                  disabled
+                ></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="16">
               <el-form-item label="city" prop="location.locality">
-                <el-input v-model="poolevent.location.locality" disabled></el-input>
+                <el-input
+                  v-model="poolevent.location.locality"
+                  disabled
+                ></el-input>
               </el-form-item>
             </el-col>
             <el-col style="margin-left:10px" :span="7">
-              <el-form-item label="postal code" prop="location.postal_code">
-                <el-input v-model="poolevent.location.postal_code" disabled></el-input>
+              <el-form-item label="plz" prop="location.postal_code">
+                <el-input
+                  v-model="poolevent.location.postal_code"
+                  disabled
+                ></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -129,11 +169,12 @@
               placeholder="Please input"
               v-model="poolevent.location.desc"
               maxlength="1000"
-              :autosize="{minRows: 2, maxRows:10}"
+              :autosize="{ minRows: 2, maxRows: 10 }"
               type="textarea"
             ></el-input>
           </el-form-item>
         </el-card>
+
         <el-card title="Application" :expand="true">
           <el-form-item
             :label="$t('poolEventForm.input.applicationStart.label')"
@@ -141,13 +182,19 @@
           >
             <el-date-picker
               style="width: 100%;"
-              :placeholder="$t('poolEventForm.input.applicationStart.datePicker.placeholder')"
+              :placeholder="
+                $t(
+                  'poolEventForm.input.applicationStart.datePicker.placeholder'
+                )
+              "
               v-model="poolevent.front.application_start"
             ></el-date-picker>
 
             <el-time-picker
               style="width: 100%;"
-              :placeholder="$t('poolEventForm.input.applicationEnd.timePicker.placeholder')"
+              :placeholder="
+                $t('poolEventForm.input.applicationEnd.timePicker.placeholder')
+              "
               v-model="poolevent.front.application_start"
             ></el-time-picker>
           </el-form-item>
@@ -157,55 +204,60 @@
           >
             <el-date-picker
               style="width: 100%;"
-              :placeholder="$t('poolEventForm.input.applicationEnd.datePicker.placeholder')"
+              :placeholder="
+                $t('poolEventForm.input.applicationEnd.datePicker.placeholder')
+              "
               v-model="poolevent.front.application_end"
             ></el-date-picker>
 
             <el-time-picker
               style="width: 100%;"
-              :placeholder="$t('poolEventForm.input.applicationEnd.timePicker.placeholder')"
+              :placeholder="
+                $t('poolEventForm.input.applicationEnd.timePicker.placeholder')
+              "
               v-model="poolevent.front.application_end"
             ></el-time-picker>
           </el-form-item>
           <el-form-item :label="$t('poolEventForm.input.supporterLimit.label')">
-            <el-input-number v-model="poolevent.front.supporter_lim" :min="0" :step="1"></el-input-number>
+            <el-input-number
+              v-model="poolevent.front.supporter_lim"
+              :min="0"
+              :step="1"
+            ></el-input-number>
           </el-form-item>
         </el-card>
-        <el-card title="Erstellen">
-          <el-row>
-            <el-col>
-              <el-button
-                class="vca-button-primary"
-                type="primary"
-                @click.prevent="()=> addPoolEvent('UNRELEASED')"
-                style="margin-left:0;margin-right:0;"
-                size="mini"
-              >CREATE</el-button>
-              <el-button
-                class="vca-button-primary"
-                type="info"
-                @click.prevent="saveAsDraft('DRAFT')"
-                style="margin-left:0;margin-right:0;margin-top:10px"
-                size="mini"
-              >SAVE AS DRAFT</el-button>
-              <el-button
-                style="margin-left:0;margin-right:0;margin-top:10px"
-                class="vca-button-warn"
-                type="danger"
-                @click.prevent="cancel"
-                size="mini"
-              >CANCEL</el-button>
-            </el-col>
-          </el-row>
+        <el-card>
+          <el-button
+            class="vca-button-primary"
+            type="primary"
+            @click.prevent="() => addPoolEvent('UNRELEASED')"
+            style="margin-left:0;margin-right:0;"
+            size="mini"
+            >CREATE</el-button
+          >
+          <el-button
+            class="vca-button-primary"
+            type="info"
+            @click.prevent="saveAsDraft('DRAFT')"
+            style="margin-left:0;margin-right:0;margin-top:10px"
+            size="mini"
+            >SAVE AS DRAFT</el-button
+          >
+          <el-button
+            style="margin-left:0;margin-right:0;margin-top:10px"
+            class="vca-button-warn"
+            type="danger"
+            @click.prevent="cancel"
+            size="mini"
+            >CANCEL</el-button
+          >
         </el-card>
-      </VcAColumn>
+      </el-col>
     </el-form>
-  </VcAFrame>
+  </el-container>
 </template>
 
 <script>
-import { VcAFrame, VcAColumn, VcABox, VcAInfoBox } from "vca-widget-base";
-import "vca-widget-base/dist/vca-widget-base.css";
 import { Input, Form } from "element-ui";
 import VueGoogleAutocomplete from "vue-google-autocomplete";
 import "../assets/pool_event_style.css";
@@ -215,13 +267,7 @@ import Axios from "axios";
 export default {
   name: "PoolEventForm",
   components: {
-    VueGoogleAutocomplete,
-    VcAFrame: VcAFrame,
-    VcAColumn: VcAColumn,
-    VcABox: VcABox,
-    "el-input": Input,
-    "el-form": Form,
-    VcAInfoBox: VcAInfoBox
+    VueGoogleAutocomplete
   },
   data() {
     return {
@@ -275,22 +321,24 @@ export default {
       types: []
     };
   },
-  async mounted() {
-    this.fetchAllTypes();
-    this.errors = this.$store.state.errors;
-    await this.fetchAllUsers();
-    if (this.$route.params.id) {
-      await this.fetchPooleventById(this.$route.params.id);
-    }
-    const {
-      locality,
-      postal_code,
-      route,
-      street_number
-    } = this.poolevent.location;
-    this.poolevent.location.full_address = route
-      ? `${route} ${street_number}, ${postal_code} ${locality}`
-      : "";
+  mounted() {
+    (async () => {
+      this.fetchAllTypes();
+      this.errors = this.$store.state.errors;
+      await this.fetchAllUsers();
+      if (this.$route.params.id) {
+        await this.fetchPooleventById(this.$route.params.id);
+      }
+      const {
+        locality,
+        postal_code,
+        route,
+        street_number
+      } = this.poolevent.location;
+      this.poolevent.location.full_address = route
+        ? `${route} ${street_number}, ${postal_code} ${locality}`
+        : "";
+    })();
   },
   methods: {
     addPoolEvent(option) {
@@ -333,7 +381,9 @@ export default {
       });
     },
     async fetchAllUsers() {
-      const { data } = await Axios.get("/waves/api/v1/user");
+      const { data } = await Axios.get(
+        `${process.env.VUE_APP_BACKEND_DEV}/waves/api/v1/user`
+      );
       this.users = data.data;
       console.log(this.users);
     },
@@ -361,7 +411,6 @@ export default {
     async fetchPooleventById(id) {
       const { data } = await Axios.get(`/waves/api/v1/poolevent/${id}`);
       const { location, description, ...front } = data.data;
-      console.log(description.html);
       this.poolevent.description.html = description.html;
       this.poolevent.description.text = description.text;
       this.poolevent.location.route = location.route;
@@ -383,14 +432,16 @@ export default {
       this.poolevent.front.idevent_type = front.idevent_type;
       this.poolevent.front.asp_event_id = front.asp_event_id.id;
       this.poolevent.front.supporter_lim = front.supporter_lim;
-      console.log(front);
     },
     async fetchAllTypes() {
       try {
-        const { data } = await Axios.get(`/waves/api/v1/eventtype`);
+        const { data } = await Axios.get(
+          `${process.env.VUE_APP_BACKEND_DEV}/eventtype`
+        );
+        console.log(data);
         this.types = data.types;
       } catch (error) {
-        console.log(error);
+        throw error;
       }
     }
   }
@@ -398,7 +449,7 @@ export default {
 </script>
 
 <style scoped>
-#logo{
-  display: none
+#logo {
+  display: none;
 }
 </style>

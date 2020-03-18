@@ -1,3 +1,7 @@
+import { gamificationMutations } from "./gamification";
+import { authMutation } from "./auth";
+
+
 export default {
   addPoolEvent(state, poolEvent) {
     state.poolEvents.push(poolEvent);
@@ -74,5 +78,7 @@ export default {
   },
   resetError: state => {
     state.errors = [];
-  }
+  },
+  ...gamificationMutations,
+  ...authMutation
 };

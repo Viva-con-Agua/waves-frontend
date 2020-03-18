@@ -1,16 +1,20 @@
 <template>
-<div  class="p-container" style="margin-top:3%">
-    <el-row  style="margin:auto;padding:3%">
+  <div class="p-container">
+    <el-row style="margin:auto;padding:3%">
       <el-col :span="6">
         <img
           style="border-radius: 50%;margin:auto;"
           class="profile-img"
-          :src="`https://eu.ui-avatars.com/api/?rounded=true&name=${this.$cookies.get('first_name')}+${this.$cookies.get('last_name')}`"
+          :src="
+            `https://eu.ui-avatars.com/api/?rounded=true&name=${getUser.firstName}+${getUser.lastName}`
+          "
         />
       </el-col>
       <el-col style="margin-top:8px" :span="14">
         <el-row>
-          <strong style="margin-top:3%;font-size:20px">{{this.$cookies.get('full_name')}}</strong>
+          <strong style="font-size:20px">{{
+            getUser.fullName
+          }}</strong>
         </el-row>
         <el-row>
           <span style="color:gray">Supporter since 200 days</span>
@@ -42,7 +46,7 @@ import BadgeView from "../components/BadgeView";
 import MyFavoritePoolevents from "../components/MyFavoritePoolevents";
 import MyApplications from "../components/MyApplications";
 import MyPoolevents from "../components/MyPoolEvents";
-
+import { mapGetters } from "vuex";
 export default {
   name: "ProfileView",
   components: {
@@ -55,6 +59,9 @@ export default {
     return {
       activeName: "poolevents"
     };
+  },
+  computed: {
+    ...mapGetters(["getUser"])
   }
 };
 </script>
@@ -67,7 +74,7 @@ export default {
 @media only screen and (min-width: 768px) {
   .p-container {
     margin: auto;
-    width: 40%;
+    width: 100%;
   }
 }
 </style>

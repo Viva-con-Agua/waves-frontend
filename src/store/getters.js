@@ -1,3 +1,6 @@
+import { gamificationGetters } from "./gamification";
+import { authGetters } from "./auth";
+
 export default {
   getAllPoolEvents(state) {
     return state.poolEvents;
@@ -41,13 +44,12 @@ export default {
   getSuccessMessage: state => {
     return state.successMessage;
   },
-  isLogedIn: state => {
-    return state.isLogedIn;
-  },
-  crew : state =>{
+  crew: state => {
     return {
-      role : state.crewRole,
-      city : state.crewCity
-    }
-  }
+      role: state.crewRole,
+      city: state.crewCity
+    };
+  },
+  ...gamificationGetters,
+  ...authGetters
 };

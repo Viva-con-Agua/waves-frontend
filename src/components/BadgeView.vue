@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import { Container, Row, Col } from "element-ui";
 import axios from "axios";
 import Badge from "./Badge";
 export default {

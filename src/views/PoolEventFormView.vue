@@ -12,10 +12,10 @@ export default {
     PoolEventForm: PoolEventForm
   },
   computed:{
-    ...mapGetters(["isLogedIn"])
+    ...mapGetters(["getUser"])
   },
   mounted(){
-    if(!this.isLogedIn){
+    if(!this.getUser){
       window.location.href = '/waves';
     }
   }

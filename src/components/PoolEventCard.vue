@@ -2,20 +2,33 @@
   <el-card style="width:100%" :body-style="{ paddingTop: '10px' }">
     <div slot="header">
       <el-row>
-        <el-col :span="getRoles=='admin'&&isLogedIn?14:17">
-          <a :href="`/waves/event/${poolEvent.id}`" style="text-decoration:none;color:black">
-            <span>{{poolEvent.name}}</span>
+        <el-col :span="getRoles == 'admin' && isLogedIn ? 14 : 17">
+          <a
+            :href="`/waves/event/${poolEvent.idevent}`"
+            style="text-decoration:none;color:black"
+          >
+            <span>{{ poolEvent.name }}</span>
           </a>
         </el-col>
 
         <el-col v-if="poolEvent.type_name" :span="7">
-          <span style="color:grey;float:right">{{poolEvent.type_name}}</span>
+          <span style="color:grey;float:right">{{ poolEvent.type_name }}</span>
         </el-col>
-        <el-col v-if="getRoles=='admin'&&isLogedIn&&poolEvent.state" :span="3">
+        <el-col
+          v-if="getRoles == 'admin' && isLogedIn && poolEvent.state"
+          :span="3"
+        >
           <el-tag
-            :type="poolEvent.state=='RELEASED'?'success':poolEvent.state=='UNRELEASED'?'primary':'danger'"
+            :type="
+              poolEvent.state == 'RELEASED'
+                ? 'success'
+                : poolEvent.state == 'UNRELEASED'
+                ? 'primary'
+                : 'danger'
+            "
             size="mini"
-          >{{poolEvent.state}}</el-tag>
+            >{{ poolEvent.state }}</el-tag
+          >
         </el-col>
       </el-row>
     </div>
@@ -23,69 +36,83 @@
       <el-col :xs="2" :lg="1">
         <i class="el-icon-location-outline"></i>
       </el-col>
-      <el-col
-        :span="22"
-      >{{`${poolEvent.route} ${poolEvent.street_number}, ${poolEvent.postal_code} ${poolEvent.locality}`}}</el-col>
+      <el-col :span="22">{{
+        `${poolEvent.route} ${poolEvent.street_number}, ${poolEvent.postal_code} ${poolEvent.locality}`
+      }}</el-col>
     </el-row>
     <el-row style="margin-top: 10px;">
       <el-col :xs="2" :lg="1">
         <i class="el-icon-time"></i>
       </el-col>
-      <el-col
-        :span="22"
-      >{{`${new Date(poolEvent.event_start).getUTCHours()}:${new Date(poolEvent.event_start).getUTCMinutes()}h`}} - {{`${new Date(poolEvent.event_end).getUTCHours()}:${new Date(poolEvent.event_end).getUTCMinutes()}h`}}</el-col>
+      <el-col :span="22"
+        >{{
+          `${new Date(poolEvent.event_start).getUTCHours()}:${new Date(
+            poolEvent.event_start
+          ).getUTCMinutes()}h`
+        }}
+        -
+        {{
+          `${new Date(poolEvent.event_end).getUTCHours()}:${new Date(
+            poolEvent.event_end
+          ).getUTCMinutes()}h`
+        }}</el-col
+      >
     </el-row>
     <el-row style="margin-top: 10px;">
       <el-col :xs="2" :lg="1">
         <i class="el-icon-date"></i>
       </el-col>
       <el-col :span="22">
-        {{new Date(poolEvent.event_start).getDate()}}. {{new Date(poolEvent.event_start).toLocaleString("default", { month: "short" })}}
-        {{new Date(poolEvent.event_start).getFullYear()}}
+        {{ new Date(poolEvent.event_start).getDate() }}.
+        {{
+          new Date(poolEvent.event_start).toLocaleString("default", {
+            month: "short"
+          })
+        }}
+        {{ new Date(poolEvent.event_start).getFullYear() }}
       </el-col>
     </el-row>
     <el-row v-if="isLogedIn" style="margin-top: 15px;">
-      <el-col style="text-align:center" :span="getRoles!='admin'?8:6">
+      <el-col style="text-align:center" :span="getRoles != 'admin' ? 8 : 6">
         <el-button
-          v-if="getRoles=='admin'"
+          v-if="getRoles == 'admin'"
           style="margin-top:5px;
                 width:40px;
                 height:40px;
                 margin:auto;
                 border:0
                 text-align:center"
-          @click="()=> this.$router.push(`/waves/applications/${poolEvent.id}`)"
+          @click="
+            () => this.$router.push(`/waves/applications/${poolEvent.id}`)
+          "
           circle
         >
           <i class="el-icon-circle-plus"></i>
         </el-button>
       </el-col>
-      <el-col style="text-align:center" :span="getRoles!='admin'?8:6">
+      <el-col style="text-align:center" :span="getRoles != 'admin' ? 8 : 6">
         <ApplicationButton
           :poolevent_id="poolEvent.id"
           style="width:40px;margin:0;border:0;text-align:center;margin:auto"
         />
       </el-col>
-      <el-col style="text-align:center" :span="getRoles!='admin'?8:6">
+      <el-col style="text-align:center" :span="getRoles != 'admin' ? 8 : 6">
         <SharingButton
           :location="`https://localhost${this.$router.history.current.path}`"
           style="width:40px;margin:0;border:0;text-align:center;margin:auto"
         />
       </el-col>
-      <el-col style="text-align:center" :span="getRoles!='admin'?8:6">
-        <FavoriteButton :poolevent_id="poolEvent.id"/>
+      <el-col style="text-align:center" :span="getRoles != 'admin' ? 8 : 6">
+        <FavoriteButton :poolevent_id="poolEvent.id" />
       </el-col>
-
     </el-row>
   </el-card>
 </template>
 
 <script>
-import PooleventDropdown from "./PooleventDropdown";
 import SharingButton from "./SharingButton";
 import FavoriteButton from "./FavoriteButton";
 import ApplicationButton from "./ApplicationButton";
-import Axios from "axios";
 import { mapGetters } from "vuex";
 
 export default {
@@ -93,7 +120,6 @@ export default {
   components: {
     ApplicationButton,
     SharingButton,
-    PooleventDropdown,
     FavoriteButton
   },
   props: ["poolEvent"],

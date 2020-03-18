@@ -12,7 +12,7 @@
         >Viva Con Agua</h3>
       </a>
     </el-menu-item>
-    <el-menu-item  v-if="isVolunteerManager()" style="padding:0 10px 0px 10px;float:right">
+    <el-menu-item  v-if="getUser.crewRoleName" style="padding:0 10px 0px 10px;float:right">
       <el-button size="mini" type="primary" @click="pushCreatePoolevent">
         <strong> <i style="color:white" class="el-icon-circle-plus-outline"></i> CREATE</strong>
       </el-button>
@@ -20,7 +20,7 @@
     <el-menu-item style="padding:0 10px 0px 10px;float:right">
       <ProfileDropdown :logout="logout"></ProfileDropdown>
     </el-menu-item>
-    <el-menu-item v-if="isLogedIn" style="padding:0 10px 0px 10px;float:right">
+    <el-menu-item v-if="getUser.firstName" style="padding:0 10px 0px 10px;float:right">
       <NotificationBell v-if="this.$cookies.get('access_token')" style="margin-top:0px;float:right"></NotificationBell>
     </el-menu-item>
   </el-menu>
@@ -47,7 +47,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getRoles", "crew","isLogedIn"])
+    ...mapGetters(["getRoles", "getUser","isLogedIn"])
   }
 };
 </script>

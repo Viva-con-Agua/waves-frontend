@@ -1,95 +1,39 @@
 <template>
-  <div class="p-container">
+  <div >
     <el-row>
-      <el-col :xs="24" :lg="14" style="margin-top:16px;padding:5px;" size="600px">
-        <el-row>
-          <PoolEventFilter :roles="getRoles" />
+    <el-row>
+      <PoolEventFilter />
+    </el-row>
+      <el-col :span="24">
+        <el-row v-for="poolevent in getAllPoolEvents" :key="poolevent.idevent">
+          <PoolEventCard :poolEvent="poolevent" />
         </el-row>
-        <el-row v-if="!poolEvents" style="margin-top:50%;padding:10px;">
-          <rotate-square2 style="margin:auto;"></rotate-square2>
-        </el-row>
-        <el-row style="margin-top:1%;">
-          <el-col :span="24" style="margin-top:5px" v-for="poolEvent in poolEvents" :key="poolEvent.id">
-            <PoolEventCard :poolEvent="poolEvent" />
-          </el-col>
-        </el-row>
-      </el-col>
-      <el-col class="most-faved" fixed :span="10" style="margin-top:20px;padding:5px" size="250px">
-        <MostFavedPoolevents />
       </el-col>
     </el-row>
   </div>
 </template>
 
-
 <script>
-import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
-import PoolEventFilter from "../components/PoolEventFilter";
+import { mapGetters, mapActions } from "vuex";
 import PoolEventCard from "../components/PoolEventCard";
-import MyPoolEvents from "../components/MyPoolEvents";
-import Pagination from "../components/Pagination";
-import MostFavedPoolevents from "../components/MostFavedPoolevents";
-import { mapGetters } from "vuex";
-
-import {
-  Input,
-  Form,
-  Container,
-  Card,
-  Dropdown,
-  DropdownItem
-} from "element-ui";
-import { RotateSquare2 } from "vue-loading-spinner";
+import PoolEventFilter from "../components/PoolEventFilter";
 
 export default {
   name: "PoolEventsView",
   components: {
-    MostFavedPoolevents,
-    RotateSquare2,
     PoolEventCard,
-    VcAFrame,
-    VcAColumn,
-    VcABox,
-    Pagination,
-    PoolEventFilter,
-    MyPoolEvents,
-    Container,
-    Card,
-    Dropdown
-  },
-  computed: {
-    ...mapGetters(["getRoles"]),
-    poolEvents() {
-      return this.$store.getters.getAllPoolEvents.data;
-    }
-  },
-  data() {
-    return {
-      poolevents: this.$store.getters.getAllPoolEvents.data,
-      loading: true,
-      myPoolEventsFlag: false,
-      poolEventsFlag: true,
-      myApplicationsFlag: false
-    };
+    PoolEventFilter
   },
   mounted() {
-    this.$store.dispatch("LOAD_DATA");
+    this.fetchPoolevents("");
+  },
+  computed: {
+    ...mapGetters(["getAllPoolEvents"])
   },
   methods: {
-    editPoolEvent() {
-      this.$router.push();
-    },
-    createNewPoolEvent() {
-      this.$router.push("/waves/create");
-    },
-    myPoolEventsButtonHandler() {
-      this.$store.dispatch("FETCH_MY_POOLEVENTS");
-    },
-    myApplicationsButtonHandler() {
-      this.myPoolEventsFlag = false;
-      this.PoolEventsFlag = false;
-      this.myApplicationsFlag = true;
-    }
+    ...mapActions({
+      fetchPoolevents: "FETCH_POOLEVENTS_BY_FILTER"
+    })
   }
 };
 </script>

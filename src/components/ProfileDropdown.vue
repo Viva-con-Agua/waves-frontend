@@ -5,8 +5,11 @@
         <el-badge type="danger">
           <img
             style="float:right;width:30px;height:30px"
-            :src="this.$cookies.get('access_token')?`https://eu.ui-avatars.com/api/?rounded=true&name=${this.$cookies.get('first_name')}+${this.$cookies.get('last_name')}`
-          :'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"
+            :src="
+              getUser
+                ? `https://eu.ui-avatars.com/api/?rounded=true&name=${getUser.firstName}+${getUser.lastName}`
+                : 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
+            "
             alt="profile-img"
           />
         </el-badge>
@@ -15,17 +18,15 @@
     <el-dropdown-menu style="padding:0;width:110px" slot="dropdown">
       <ul style="list-style:none;padding:0px;margin:0px;">
         <a
-          v-if="this.$cookies.get('access_token')"
+          v-if="this.$cookies.get('waves_access_token')"
           style="text-decoration: none;"
           href="/waves/profile"
         >
-          <li class="profile-item">
-            <i class="el-icon-user"></i> my profile
-          </li>
+          <li class="profile-item"><i class="el-icon-user"></i> my profile</li>
         </a>
         <a
           style="text-decoration: none;"
-          v-if="getRoles=='admin'&&this.$cookies.get('access_token')"
+          v-if="getUser.secondRole == 'admin' && this.$cookies.get('waves_access_token')"
           href="/waves/dashboard"
         >
           <li class="profile-item">
@@ -33,7 +34,7 @@
           </li>
         </a>
         <a
-          v-if="this.$cookies.get('access_token')"
+          v-if="this.$cookies.get('waves_access_token')"
           style="text-decoration: none;"
           href="/waves"
           @click="logout"
@@ -41,9 +42,19 @@
           <li class="profile-item">logout</li>
         </a>
         <a
-          v-if="!this.$cookies.get('access_token')"
+          v-if="!this.$cookies.get('waves_access_token')"
           style="text-decoration: none;"
-          :href="`${isDev?authUrlDev:authUrlProduction}/drops/oauth2/code/get?client_id=${isDev?clientIdDev:clientIdProduction}&response_type=code&state=${isDev?`${frontendDev}${this.$router.history.current.path}`:`${frontendProduction}${this.$router.history.current.path}`}&redirect_uri=${isDev?redirectDev:redirectProduction}`"
+          :href="
+            `${
+              isDev ? authUrlDev : authUrlProduction
+            }/drops/oauth2/code/get?client_id=${
+              isDev ? clientIdDev : clientIdProduction
+            }&response_type=code&state=${
+              isDev
+                ? `${frontendDev}${this.$router.history.current.path}`
+                : `${frontendProduction}${this.$router.history.current.path}`
+            }&redirect_uri=${isDev ? redirectDev : redirectProduction}`
+          "
         >
           <li class="profile-item">login</li>
         </a>
@@ -58,22 +69,20 @@ export default {
   name: "ProfileDropDown",
   props: ["logout"],
   computed: {
-    ...mapGetters(["getRoles"])
+    ...mapGetters(["getUser"])
   },
-  data(){
+  data() {
     return {
-      isDev: process.env.VUE_APP_ENV==='dev',
+      isDev: process.env.VUE_APP_ENV === "dev",
       authUrlDev: process.env.VUE_APP_OAUTH_DEV,
       authUrlProduction: process.env.VUE_APP_OAUTH_PRODUCTION,
       clientIdDev: process.env.VUE_APP_CLIENT_ID_DEV,
       clientIdProduction: process.env.VUE_APP_CLIENT_ID_PRODUCTION,
-      redirectDev:process.env.VUE_APP_REDIRECT_DEV,
-      redirectProduction:process.env.VUE_APP_REDIRECT_PRODUCTION,
-      frontendDev:process.env.VUE_APP_FRONTEND_DEV,
-      frontendProduction:process.env.VUE_APP_FRONTEND_PRODUCTION,
-
-
-    }
+      redirectDev: process.env.VUE_APP_REDIRECT_DEV,
+      redirectProduction: process.env.VUE_APP_REDIRECT_PRODUCTION,
+      frontendDev: process.env.VUE_APP_FRONTEND_DEV,
+      frontendProduction: process.env.VUE_APP_FRONTEND_PRODUCTION
+    };
   }
 };
 </script>

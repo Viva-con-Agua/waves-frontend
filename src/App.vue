@@ -1,36 +1,40 @@
 <template>
   <div id="app">
     <Navbar :logout="logout"></Navbar>
-    <router-view />
+    <el-row style="width:80%;margin:auto;margin-top:40px;">
+      <el-col :span="15">
+        <router-view />
+      </el-col>
+      <el-col :offset="1" :span="7">
+        <CrewLeaderboard />
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
 import Vue from "vue";
 import io from "socket.io-client";
-import { Button, Select } from "element-ui";
 import Navbar from "./components/Navbar";
+import CrewLeaderboard from "./components/CrewLeaderboard";
 import vueCookies from "vue-cookies";
-import { mapGetters, actions, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import "froala-editor/js/plugins.pkgd.min.js";
 import "froala-editor/js/third_party/embedly.min";
 import "froala-editor/js/third_party/font_awesome.min";
 import "froala-editor/js/third_party/spell_checker.min";
 import "froala-editor/js/third_party/image_tui.min";
 import "froala-editor/css/froala_editor.pkgd.min.css";
-
 import VueFroala from "vue-froala-wysiwyg";
 Vue.use(VueFroala);
 Vue.config.productionTip = false;
-
-Vue.component(Select.name, Select);
-Vue.component(Button.name, Button);
 
 Vue.use(vueCookies);
 
 export default {
   name: "app",
   components: {
-    Navbar
+    Navbar,
+    CrewLeaderboard
   },
   data() {
     return {
@@ -43,8 +47,6 @@ export default {
       "getErrors",
       "getSuccessMessage",
       "isLogedIn",
-      "crew",
-      "getAccessToken"
     ])
   },
   updated() {
@@ -85,57 +87,17 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(["setUser", "logout"]),
     ...mapActions({
       logedIn: "IS_LOGED_IN",
-      setCrewRoleCity: "SET_CREW_ROLE_CITY",
-      setAccessToken: "SET_ACCESS_TOKEN",
       resetErrors: "RESET_ERRORS"
-    }),
-    logout() {
-      try {
-        this.$cookies.remove("full_name");
-        this.$cookies.remove("roles");
-        this.$cookies.remove("full_name");
-        this.$cookies.remove("first_name");
-        this.$cookies.remove("CREW_CITY");
-        this.$cookies.remove("CREW_ROLE");
-        this.$cookies.remove("WAVES_JWT");
-        this.$cookies.remove("last_name");
-        this.$cookies.remove("user_id");
-        this.$cookies.remove("access_token");
-      } catch (error) {
-        throw error;
-      }
-    },
-    setRoles() {
-      if (this.$cookies.get("roles")) {
-        this.$store.dispatch("SET_ROLES", this.$cookies.get("roles"));
-      }
-    }
+    })
   },
   mounted() {
-    this.logedIn(this.$cookies.get("access_token") !== null);
-    if (this.$cookies.get("access_token")) {
-      this.setAccessToken({
-        headers: {
-          Authorization: `Bearer ${this.$cookies.get("access_token")}`
-        }
-      });
+    const waves_access_token = this.$cookies.get("waves_access_token");
+    if (waves_access_token) {
+      this.setUser(waves_access_token);
     }
-    this.setRoles();
-
-    this.getSuccessMessage.map(message => {
-      this.$notify({
-        title: `success`,
-        message: "click ",
-        type: "success"
-      });
-    });
-    this.setCrewRoleCity({
-      crewRole: this.$cookies.get("CREW_ROLE"),
-      crewCity: this.$cookies.get("CREW_CITY")
-    });
-    this.socket = io("localhost:5000");
   }
 };
 </script>

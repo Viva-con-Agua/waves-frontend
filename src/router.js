@@ -17,6 +17,7 @@ Vue.use(Router);
 
 export default new Router({
   mode: "history",
+  // eslint-disable-next-line no-sparse-arrays
   routes: [
     {
       path: "/waves",

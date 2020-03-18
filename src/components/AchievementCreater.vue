@@ -109,7 +109,7 @@ export default {
     createBadges() {
       let { badges } = JSON.parse(this.data);
       badges.map(async badge => {
-        const response = await Axios.post("/waves/api/v1/achievement", {
+        await Axios.post("/waves/api/v1/achievement", {
           achievement: {
             badge: {
               name: badge.name,
@@ -131,11 +131,11 @@ export default {
       try {
         const achievement = this.achievement;
         achievement.challenge.type = achievement.badge.type;
-        const response = await Axios.post("/waves/api/v1/achievement", {
+        await Axios.post("/waves/api/v1/achievement", {
           achievement
         });
       } catch (error) {
-        console.log(error.message);
+        throw error.message
       }
     }
   }
