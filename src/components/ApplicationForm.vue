@@ -25,14 +25,11 @@
   </el-form>
 </template>
 <script>
-import { VcAFrame, VcAColumn, VcABox } from "vca-widget-base";
-import "vca-widget-base/dist/vca-widget-base.css";
+import {mapActions} from "vuex";
+
 export default {
   name: "ApplicationForm",
   components: {
-    VcAFrame,
-    VcAColumn,
-    VcABox
   },
   props: ["poolevent_id"],
   data() {
@@ -46,19 +43,12 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["APPLY"]),
     showApplciationForm() {
       this.showApplicationForm = true;
     },
     submitApplication() {
-      this.$store.dispatch("APPLY", {
-        config: {
-          headers: {
-            Authorization: `bearer ${this.$cookies.get("access_token")}`
-          }
-        },
-        application: this.application
-      });
-      //this.applied = true;
+      this.APPLY(this.application)
     }
   }
 };

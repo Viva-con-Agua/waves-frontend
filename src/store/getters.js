@@ -1,16 +1,21 @@
 import { gamificationGetters } from "./gamification";
+import { pooleventGetters } from "./poolevent";
 import { authGetters } from "./auth";
+import { applicationGetters } from "./application";
+import { eventTypeGetters } from "./eventtype";
+import { supporterGetters } from "./supporters";
+import { filterGetters } from "./filter";
+import { favoriteGetters } from "./favorite";
 
 export default {
-  getAllPoolEvents(state) {
-    return state.poolEvents;
-  },
-  getPoolEvent(state) {
-    return state.poolEvent;
-  },
-  getApplications(state) {
-    return state.applications;
-  },
+  ...pooleventGetters,
+  ...gamificationGetters,
+  ...authGetters,
+  ...applicationGetters,
+  ...eventTypeGetters,
+  ...supporterGetters,
+  ...filterGetters,
+  ...favoriteGetters,
   getComments(state) {
     return state.comments;
   },
@@ -25,9 +30,6 @@ export default {
   },
   getErrors(state) {
     return state.errors;
-  },
-  getAccessToken(state) {
-    return state.access_token;
   },
   getRoles(state) {
     return state.roles;
@@ -50,6 +52,7 @@ export default {
       city: state.crewCity
     };
   },
-  ...gamificationGetters,
-  ...authGetters
+  APP_STATE: state => {
+    return state.APP_STATE;
+  }
 };

@@ -1,6 +1,12 @@
 import axios from "axios";
 import { WAVES_BACKEND_URI } from "../actions";
 
+const access_token = {
+  headers: {
+    authorization: "Bearer "+window.$cookies.get("waves_access_token")
+  }
+};
+
 export const pooleventActions = {
   FETCH_POOLEVENTS_BY_FILTER: async ({ commit }, filter) => {
     try {
@@ -14,7 +20,9 @@ export const pooleventActions = {
   },
   GET_POOLEVENT_BY_ID: async ({ commit }, id) => {
     try {
-      const { data } = await axios.get(`${WAVES_BACKEND_URI}/poolevent/${id}`);
+      const { data } = await axios.get(
+        `${WAVES_BACKEND_URI}/poolevent/${id}`
+      );
       commit("setPoolEvent", data.data);
     } catch (error) {
       commit("pushError", error.message);
@@ -22,18 +30,21 @@ export const pooleventActions = {
   },
   FETCH_MY_POOLEVENTS: async ({ commit }) => {
     try {
-      const { data } = await axios.get(WAVES_BACKEND_URI + "/favorite");
-      commit("updatePoolevents", data.data);
+      const { data } = await axios.get(
+        WAVES_BACKEND_URI + "/poolevent/user/me",
+        access_token
+      );
+      commit("updatePoolEvents", data.data);
     } catch (error) {
       commit("pushError", error.message);
     }
   },
-  POST_POOLEVENT: async ({ commit, getters }, poolevent) => {
+  POST_POOLEVENT: async ({ commit }, poolevent) => {
     try {
       await axios.post(
         WAVES_BACKEND_URI + "/poolevent",
         poolevent,
-        getters.getAccessToken
+        access_token
       );
     } catch (error) {
       commit("pushError", error.response);
@@ -57,46 +68,46 @@ export const pooleventActions = {
       commit("pushError", error.message);
     }
   },
-  SET_TO_RELEASED: ({ commit, getters, dispatch }, id) => {
-    axios
-      .put(
-        this.WAVES_BACKEND_URI + `/poolevent/${id}`,
-        { front: { state: "RELEASED" } },
-        getters.getAccessToken
-      )
-      .then(resp => {
-        dispatch("GET_POOLEVENT_BY_ID", id);
-        commit("pushSuccessMessage", "release");
-      })
-      .catch(err => {
-        commit("pushError", err.message);
-      });
-  },
-  SET_TO_REFUSED: ({ commit, getters, dispatch }, id) => {
-    axios
-      .put(
-        this.WAVES_BACKEND_URI + `/poolevent/${id}`,
-        { front: { state: "REJECTED" } },
-        getters.getAccessToken
-      )
-      .then(resp => {
-        dispatch("GET_POOLEVENT_BY_ID", id);
-        commit("transition", "refuse");
-      })
-      .catch(err => {
-        commit("pushError", err.message);
-      });
-  },
-  SET_TO_CANCELED: async ({ commit, getters, dispatch }, id) => {
+  SET_TO_RELEASED: async ({ commit, getters }, id) => {
     try {
       await axios.put(
-        this.WAVES_BACKEND_URI + `/poolevent/${id}`,
-        { front: { state: "CANCELED" } },
+        WAVES_BACKEND_URI + `/poolevent/${id}`,
+        { front: { state: "RELEASED" } },
         getters.getAccessToken
       );
-      dispatch("GET_POOLEVENT_BY_ID", id);
     } catch (error) {
       commit("pushError", error.message);
     }
+  },
+  SET_TO_REFUSED: async ({ commit, getters }, id) => {
+    try {
+      await axios.put(
+        WAVES_BACKEND_URI + `/poolevent/${id}`,
+        { front: { state: "REJECTED" } },
+        getters.getAccessToken
+      );
+    } catch (error) {
+      commit("pushError", error.message);
+    }
+  },
+  SET_TO_CANCELED: async ({ commit, getters }, id) => {
+    try {
+      await axios.put(
+        WAVES_BACKEND_URI + `/poolevent/${id}`,
+        { front: { state: "CANCELED" } },
+        getters.getAccessToken
+      );
+    } catch (error) {
+      commit("pushError", error.message);
+    }
+  }
+};
+
+export const pooleventGetters = {
+  getAllPoolEvents(state) {
+    return state.poolEvents;
+  },
+  getPoolEvent(state) {
+    return state.poolEvent;
   }
 };

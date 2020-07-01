@@ -1,37 +1,31 @@
 <template>
   <div>
-    <el-col v-for="poolevent in mypoolevents" :key="poolevent.id" :span="24">
-      <PooleventCard style="width:95%;margin:auto;margin-top:5px" :poolEvent="poolevent"/>
+    <el-col
+      v-for="poolevent in getAllPoolEvents"
+      :key="poolevent.id"
+      :span="24"
+    >
+      <PooleventCard
+        style="width:95%;margin:auto;margin-top:5px"
+        :poolEvent="poolevent"
+      />
     </el-col>
   </div>
 </template>
 <script>
-import Axios from "axios";
-import PooleventCard from './PoolEventCard'
+import PooleventCard from "./PoolEventCard";
+import { mapGetters } from "vuex";
+
 export default {
   name: "MyPoolevents",
-  components:{PooleventCard},
+  components: { PooleventCard },
   data() {
     return {
       mypoolevents: []
     };
   },
-  async mounted() {
-    await this.fetchMyPoolevents();
-  },
-  methods: {
-    async fetchMyPoolevents() {
-      const config = {
-        headers: {
-          Authorization: `bearer ${this.$cookies.get("access_token")}`
-        }
-      };
-      const { data } = await Axios.get(
-        "/waves/api/v1/poolevent/user/me ",
-        config
-      );
-      this.mypoolevents = data.data;
-    }
+  computed: {
+    ...mapGetters(["getAllPoolEvents"])
   }
 };
 </script>

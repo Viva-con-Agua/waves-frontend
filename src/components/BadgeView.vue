@@ -1,41 +1,37 @@
 <template>
   <el-container>
     <el-row>
-      <p style="margin-left:40px">learn more about Achievements <a href="/waves/wiki/badges">here</a></p>
-      <el-col :span="24" :v-if="badges.length>0" v-for="badge in badges" :key="badge.id">
-        <Badge style="margin-top:5px" :badge="badge"></Badge>
+      <p style="margin-left:40px">
+        learn more about Achievements <a href="/waves/wiki/badges">here</a>
+      </p>
+      <el-col
+        :span="24"
+        :v-if="achievementProgress.length > 0"
+        v-for="p in achievementProgress"
+        :key="p.idbadge"
+      >
+        <Achievement :achievement="p"/>
       </el-col>
     </el-row>
   </el-container>
 </template>
 
 <script>
-import axios from "axios";
-import Badge from "./Badge";
+import Achievement from "./Achievement";
+import { mapGetters } from 'vuex';
 export default {
   name: "BadgeView",
   components: {
-    Badge
+    Achievement
   },
   data() {
     return {
-      badges: ""
+      progress: []
     };
   },
-  methods: {
-    async getAllBadges() {
-      const config = {
-        headers: {
-          Authorization: `bearer ${this.$cookies.get("access_token")}`
-        }
-      };
-      const { data } = await axios.get("/waves/api/v1/badge/user/1", config);
-      this.badges = data.data;
-    }
+  computed:{
+    ...mapGetters(["achievementProgress"])
   },
-  async mounted() {
-    this.getAllBadges();
-  }
 };
 </script>
 

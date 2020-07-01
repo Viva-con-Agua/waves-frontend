@@ -14,18 +14,14 @@
       <NormalBadges :badges="badges" />
     </el-row>
     <el-row>
-      <ELearningBadges />
     </el-row>
     <el-row>
-      <LegendaryBadges />
     </el-row>
   </div>
 </template>
 
 <script>
 import NormalBadges from "../components/NormalBadges";
-import LegendaryBadges from "../components/LegendaryBadges";
-import ELearningBadges from "../components/ElearningBadges";
 
 import Axios from "axios";
 
@@ -33,8 +29,6 @@ export default {
   name: "AchievementWikiView",
   components: {
     NormalBadges,
-    LegendaryBadges,
-    ELearningBadges
   },
   data() {
     return {

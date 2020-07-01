@@ -1,15 +1,15 @@
 <template>
-  <div v-if="poolEvent">
-    <el-row >
-      <el-card >
+  <div style="margin-top:45px" v-if="poolEvent">
+    <el-row>
+      <el-card>
         <div slot="header" class="clearfix">
-          <strong>{{poolEvent.event_name}}</strong>
+          <strong>{{ poolEvent.event_name }}</strong>
           <span style="color:grey;float:right">{{ poolEvent.type_name }}</span>
-          <div v-if="isLogedIn">
+          <div>
             <el-tag
               size="mini"
               class="active-user-tag"
-              v-if="poolEvent.active_user_only && isAdmin"
+              v-if="poolEvent.active_user_only"
               type="warning"
               >active users only</el-tag
             >
@@ -116,27 +116,19 @@
             <li>
               <i class="el-icon-user"></i>
             </li>
-            <li>{{ poolEvent.asp_event_id.profiles[0].supporter.fullName }}</li>
+            <li>
+              {{ poolEvent.asp.fullName }} (crew:
+              {{ poolEvent.asp.crew.crewName }})
+            </li>
           </ul>
         </el-row>
-
-        <el-row v-if="isLogedIn">
+        <el-row >
           <el-col
-            v-if="
-              getRoles == 'admin' ||
-                (crew.role == 'VolunteerManager' && crew.city == poolEvent.crew)
-            "
+            :lg="size"
+            v-if="appState == (APPSTATE.ADMIN || APPSTATE.VOLUNTEER_MANAGER)"
             style="text-align:center"
-            :span="
-              getRoles == 'admin' || crew.role == 'VolunteerManager' ? 5 : 8
-            "
           >
             <el-button
-              v-if="
-                getRoles == 'admin' ||
-                  (crew.role == 'VolunteerManager' &&
-                    crew.city == poolEvent.crew)
-              "
               style="margin-top:5px;
                 width:40px;
                 height:40px;
@@ -154,23 +146,13 @@
               <i class="el-icon-circle-plus"></i>
             </el-button>
           </el-col>
-          <el-col
-            style="text-align:center"
-            :span="
-              getRoles == 'admin' || crew.role == 'VolunteerManager' ? 5 : 8
-            "
-          >
+          <el-col :lg="size" style="text-align:center">
             <ApplicationButton
               :poolevent_id="id"
               style="width:40px;margin:0;border:0;text-align:center;margin:auto"
             />
           </el-col>
-          <el-col
-            style="text-align:center"
-            :span="
-              getRoles == 'admin' || crew.role == 'VolunteerManager' ? 5 : 8
-            "
-          >
+          <el-col :lg="size" style="text-align:center">
             <SharingButton
               :location="
                 `https://localhost${this.$router.history.current.path}`
@@ -178,23 +160,13 @@
               style="width:40px;margin:0;border:0;text-align:center;margin:auto"
             />
           </el-col>
-          <el-col
-            style="text-align:center"
-            :span="
-              getRoles == 'admin' || crew.role == 'VolunteerManager' ? 5 : 8
-            "
-          >
+          <el-col :lg="size" style="text-align:center">
             <FavoriteButton :poolevent_id="id" />
           </el-col>
           <el-col
+            :lg="4"
+            v-if="appState == (APPSTATE.ADMIN || APPSTATE.VOLUNTEER_MANAGER)"
             style="text-align:center"
-            v-if="
-              getRoles == 'admin' ||
-                (crew.role == 'VolunteerManager' && crew.city == poolEvent.crew)
-            "
-            :span="
-              getRoles == 'admin' || crew.role == 'VolunteerManager' ? 4 : 8
-            "
           >
             <PooleventDropdown
               :poolevent="poolEvent"
@@ -238,8 +210,8 @@
       </el-card>
     </el-row>
     <el-row>
-      <CommentForm v-if="isLogedIn" />
-      <CommentCard />
+      <CommentForm />
+      <CommentCards :pid="this.$route.params.id" />
     </el-row>
   </div>
 </template>
@@ -247,16 +219,17 @@
 import PooleventDropdown from "../components/PooleventDropdown";
 import ApplicationButton from "../components/ApplicationButton";
 import SharingButton from "../components/SharingButton";
-import CommentCard from "../components/CommentCard";
+import CommentCards from "../components/CommentCards";
 import CommentForm from "../components/CommentForm";
 import FavoriteButton from "../components/FavoriteButton";
-
-import { mapGetters } from "vuex";
+import { APP_STATE } from "../store/auth";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "PoolEventView",
   data() {
     return {
+      APPSTATE: APP_STATE,
       index: 0,
       id: this.$route.params.id,
       buttonOptions: {
@@ -273,28 +246,28 @@ export default {
   components: {
     ApplicationButton,
     CommentForm,
-    CommentCard,
+    CommentCards,
     PooleventDropdown,
     SharingButton,
     FavoriteButton
   },
   computed: {
-    ...mapGetters(["getRoles", "isLogedIn", "crew", "getPoolEvent"]),
+    size() {
+      return this.APPSTATE.ADMIN || this.APP_STATE.VOLUNTEER_MANAGER ? 5 : 8;
+    },
+    ...mapGetters(["getPoolEvent", "getUser", "appState"]),
     poolEvent() {
       return this.getPoolEvent;
     },
     getDescription() {
       return this.poolEvent.description.html;
-    },
-    isAdmin() {
-      return this.$store.getters.isAdmin;
     }
   },
   mounted() {
-    this.$store.dispatch("GET_POOLEVENT_BY_ID", this.id);
-    this.$store.dispatch("FETCH_COMMENTS", this.id);
+    this.GET_POOLEVENT_BY_ID(this.id);
   },
   methods: {
+    ...mapActions(["GET_POOLEVENT_BY_ID"]),
     releasePooleEvent() {
       this.$store.dispatch("SET_TO_RELEASED", this.id);
     },

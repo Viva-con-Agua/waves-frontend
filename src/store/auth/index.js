@@ -1,5 +1,12 @@
 import jwt from "jsonwebtoken";
 
+export const APP_STATE = {
+  ADMIN: "ADMIN",
+  VOLUNTEER_MANAGER: "VOLUNTEERMANAGER",
+  SUPPORTER: "SUPPORTER",
+  LOGGEDOUT: "LOGGEDOUT"
+};
+
 export const authActions = {
   SET_ACCESS_TOKEN: async ({ commit }, access_token) => {
     await commit("setAccessToken", access_token);
@@ -52,6 +59,13 @@ export const authMutation = {
     localStorage.setItem("firstRole", firstRole.role);
     localStorage.setItem("secondRole", secondRole.role);
   },
+  setAccessToken: (state, accessToken) => {
+    state.access_token = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    };
+  },
   logout: () => {
     localStorage.removeItem("userId");
     localStorage.removeItem("firstName");
@@ -63,11 +77,40 @@ export const authMutation = {
     localStorage.removeItem("firstRole");
     localStorage.removeItem("secondRole");
     window.$cookies.remove("waves_access_token");
+  },
+  setAppState: state => {
+    if (window.$cookies.get("waves_access_token")) {
+      const crewRoleName = localStorage.getItem("crewRoleName");
+      const secondRole = localStorage.getItem("secondRole");
+      const firstRole = localStorage.getItem("firstRole");
+
+      if (secondRole) {
+        if (secondRole.toUpperCase() == APP_STATE.ADMIN) {
+          state.appState = APP_STATE.ADMIN;
+          return
+        }
+      }
+      if (crewRoleName) {
+        if (crewRoleName.toUpperCase() == APP_STATE.VOLUNTEER_MANAGER) {
+          state.appState = APP_STATE.VOLUNTEER_MANAGER;
+          return
+        }
+      }
+
+      if (firstRole) {
+        if (firstRole.toUpperCase() == APP_STATE.SUPPORTER) {
+          state.appState = APP_STATE.SUPPORTER;
+        }
+      }
+    } else {
+      console.log(APP_STATE.LOGGEDOUT);
+      state.appState = APP_STATE.LOGGEDOUT;
+    }
   }
 };
 
 export const authGetters = {
-  getUser: state => {
+  getUser: () => {
     return {
       userId: localStorage.getItem("userId"),
       firstName: localStorage.getItem("firstName"),
@@ -79,5 +122,11 @@ export const authGetters = {
       firstRole: localStorage.getItem("firstRole"),
       secondRole: localStorage.getItem("secondRole")
     };
+  },
+  getAccessToken: state => {
+    return state.access_token;
+  },
+  appState: state => {
+    return state.appState;
   }
 };

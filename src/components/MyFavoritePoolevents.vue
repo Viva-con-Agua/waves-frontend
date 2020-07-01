@@ -7,26 +7,19 @@
 </template>
 
 <script>
-import Axios from "axios";
 import PooleventCard from "./PoolEventCard";
+import { mapGetters} from "vuex";
+
 export default {
   name: "MyFavoritePoolevents",
   components: {
     PooleventCard
   },
-  data() {
-    return {
-      favorites: []
-    };
+  computed:{
+    ...mapGetters(["favorites"])
   },
-  async mounted() {
-    const config = {
-      headers: {
-        Authorization: `bearer ${this.$cookies.get("access_token")}`
-      }
-    };
-    const { data } = await Axios.get("/waves/api/v1/favorite/1", config);
-    this.favorites = data.data;
+  mounted() {
+    
   }
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row style="margin-top:20px">
-      <el-col v-for="application in applications" :key="application.id" :span="24">
+      <el-col v-for="application in getApplications" :key="application.id" :span="24">
         <el-card
           :body-style="{ padding: '0px' }"
           style="padding:20px;margin:10px;margin-bottom:5px;width:90%"
@@ -44,7 +44,7 @@
   </div>
 </template>
 <script>
-import Axios from "axios";
+import { mapGetters } from 'vuex';
 export default {
   name: "MyApplications",
   data() {
@@ -54,34 +54,11 @@ export default {
         ACCEPTED: "ACCEPTED",
         REJECTED: "REJECTED"
       },
-      applications: [],
       config: ""
     };
   },
-  async mounted() {
-    this.config = await {
-      headers: { Authorization: `Bearer ${this.$cookies.get("access_token")}` }
-    };
-    await this.fetchApplications();
-  },
-  methods: {
-    async cancelApplication(id) {
-      const { data } = await Axios.put(
-        `/waves/api/v1/application/${id}`,
-        {
-          state: "CANCELED"
-        },
-        this.config
-      );
-      await this.fetchApplications();
-    },
-    async fetchApplications() {
-      const { data } = await Axios.get(
-        "/waves/api/v1/application/user",
-        this.config
-      );
-      this.applications = data.data;
-    }
+  computed:{
+    ...mapGetters(["getApplications"])
   }
 };
 </script>

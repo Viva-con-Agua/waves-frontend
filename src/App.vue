@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <Navbar :logout="logout"></Navbar>
-    <el-row style="width:80%;margin:auto;margin-top:40px;">
+    <el-row style="width:90%;margin:auto;margin-top:40px;">
       <el-col :span="15">
         <router-view />
       </el-col>
-      <el-col :offset="1" :span="7">
+      <el-col style="margin-top:45px" :offset="1" :span="7">
         <CrewLeaderboard />
       </el-col>
     </el-row>
@@ -87,7 +87,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["setUser", "logout"]),
+    ...mapMutations(["setUser","setAppState", "logout","setAccessToken"]),
     ...mapActions({
       logedIn: "IS_LOGED_IN",
       resetErrors: "RESET_ERRORS"
@@ -97,6 +97,8 @@ export default {
     const waves_access_token = this.$cookies.get("waves_access_token");
     if (waves_access_token) {
       this.setUser(waves_access_token);
+      this.setAppState()
+      this.setAccessToken(waves_access_token)
     }
   }
 };

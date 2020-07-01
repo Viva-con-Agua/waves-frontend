@@ -1,16 +1,23 @@
 import axios from "axios";
 import { WAVES_BACKEND_URI } from "../actions";
 
+const access_token = {
+  headers: {
+    authorization: "Bearer " + window.$cookies.get("waves_access_token")
+  }
+};
+
 export const applicationActions = {
-  APPLY: ({ commit }, { config, application }) => {
-    axios
-      .post(WAVES_BACKEND_URI + `/application`, application, config)
-      .then(resp => {
-        commit("addApplication", resp);
-      })
-      .catch(err => {
-        commit("pushError", err.message);
-      });
+  APPLY: async ({ commit, getters }, application) => {
+    try {
+      await axios.post(
+        WAVES_BACKEND_URI + `/application`,
+        application,
+        getters.getAccessToken
+      );
+    } catch (error) {
+      commit("pushError", error.message);
+    }
   },
   ACCEPT_APPLICATION: ({ commit, getters }, id) => {
     axios
@@ -40,15 +47,28 @@ export const applicationActions = {
         commit("pushError", err.message);
       });
   },
-  GET_APPLICATIONS: async ({ commit, getters, dispatch }, id) => {
+  GET_APPLICATIONS: async ({ commit }, id) => {
     await axios
-      .get(WAVES_BACKEND_URI + `/application/poolevent/${id}`, getters.getAccessToken)
+      .get(WAVES_BACKEND_URI + `/application/poolevent/${id}`, access_token)
       .then(({ data }) => {
         commit("setApplications", data.data);
       })
       .catch(err => {
-        dispatch("CHECK_ACCESS", err.response.status);
         commit("pushError", err.message);
       });
   },
+  FETCH_MY_APPLICATIONS: async ({ commit }) => {
+    try {
+      const { data } = await axios.get(WAVES_BACKEND_URI + "/application/user", access_token);
+      commit("setApplications", data.data);
+    } catch (error) {
+      commit("pushError", error.message);
+    }
+  }
+};
+
+export const applicationGetters = {
+  getApplications(state) {
+    return state.applications;
+  }
 };

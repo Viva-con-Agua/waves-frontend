@@ -3,13 +3,22 @@
     <el-row>
       <el-button
         style="margin-left:0;width:80px;padding:10px;border:0;background-color:#e9ebee"
-        @click="()=>{show?show=false:show=true}"
+        @click="
+          () => {
+            show ? (show = false) : (show = true);
+          }
+        "
         icon="el-icon-s-operation"
-      >FILTER</el-button>
+        >FILTER</el-button
+      >
     </el-row>
     <el-collapse-transition>
-      <el-row v-if="show" style="margin:auto;">
-        <el-col v-if="roles=='admin'&&isLogedIn" style="padding:5px" :span="roles=='admin'&&isLogedIn?6:8">
+      <el-row  v-if="show" style="margin:auto;">
+        <el-col
+          v-if="appState == APP_STATE.ADMIN"
+          style="padding:5px"
+          :lg="size"
+        >
           <el-form-item prop="type">
             <el-select
               @change="filterButtonHandler"
@@ -24,7 +33,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col style="padding:5px" :span="roles=='admin'&&isLogedIn?6:8">
+        <el-col :lg="size" style="padding:5px">
           <el-form-item prop="type">
             <el-select
               @change="filterButtonHandler"
@@ -33,7 +42,7 @@
               placeholder="Type"
             >
               <el-option
-                v-for="type in types"
+                v-for="type in eventtypes"
                 :key="type.idevent_type"
                 :label="type.name"
                 :value="type.idevent_type"
@@ -41,7 +50,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col style="padding:5px" :span="roles=='admin'&&isLogedIn?6:8">
+        <el-col :lg="size" style="padding:5px">
           <el-form-item prop="region">
             <el-select
               @change="filterButtonHandler"
@@ -59,7 +68,7 @@
           </el-form-item>
         </el-col>
 
-        <el-col style="padding:5px" :span="roles=='admin'&&isLogedIn?6:8">
+        <el-col :lg="size" style="padding:5px">
           <el-form-item prop="type">
             <el-select
               @change="filterButtonHandler"
@@ -67,7 +76,12 @@
               v-model="filter.start"
               placeholder="Month"
             >
-              <el-option v-for="month in getAllMonths" :key="month" :label="month" :value="month"></el-option>
+              <el-option
+                v-for="month in getAllMonths"
+                :key="month"
+                :label="month"
+                :value="month"
+              ></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -77,8 +91,6 @@
 </template>
 
 <script>
-import axios from "axios";
-import Axios from "axios";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
@@ -86,7 +98,6 @@ export default {
   data() {
     return {
       filter: {},
-      regions: [],
       store: this.$store,
       poolevents: this.$store.getters.getAllPoolEvents.data,
       show: false,
@@ -95,10 +106,8 @@ export default {
   },
   props: ["getUser"],
   methods: {
-    ...mapActions({
-      fetchAllMonths: "FETCH_ALL_MONTHS"
-    }),
-    
+    ...mapActions(["FETCH_MONTHS", "FETCH_REGIONS", "FETCH_EVENTTYPES"]),
+
     filterButtonHandler() {
       if (this.show) {
         const keys = Object.keys(this.filter);
@@ -110,20 +119,24 @@ export default {
       } else {
         this.show = true;
       }
-    },
-    async fetchAllTypes() {
-      const { data } = await Axios.get("/waves/api/v1/eventtype");
-      this.types = data.types;
     }
   },
-  async mounted() {
-    const { data } = await axios.get("/backend/waves/api/v1/regions");
-    this.regions = data.data;
-    await this.fetchAllTypes();
-    this.fetchAllMonths();
+  mounted() {
+    this.FETCH_MONTHS();
+    this.FETCH_REGIONS();
+    this.FETCH_EVENTTYPES();
   },
   computed: {
-    ...mapGetters(["getAllMonths", "isLogedIn"])
+    ...mapGetters([
+      "getAllMonths",
+      "regions",
+      "eventtypes",
+      "appState",
+      "APP_STATE"
+    ]),
+    size(){
+      return this.appState == this.APP_STATE.ADMIN?6:8
+    }
   }
 };
 </script>

@@ -1,5 +1,4 @@
 import ApplicationHandlerView from "./views/ApplicationHandlerView.vue";
-import CreateChallengeView from "./views/CreateChallengeView";
 import PoolEventFormView from "./views/PoolEventFormView";
 import NotificationsView from "./views/NotificationsView";
 import DashboardView from "./views/DashboardView";
@@ -49,11 +48,7 @@ export default new Router({
       name: "NotificationsView",
       component: NotificationsView
     },
-    {
-      path: "/waves/challenge/create",
-      name: "createChallenge",
-      component: CreateChallengeView
-    },
+
     {
       path: "/waves/profile",
       name: "Profile",

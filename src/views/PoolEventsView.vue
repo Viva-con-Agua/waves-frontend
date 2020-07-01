@@ -6,7 +6,10 @@
     </el-row>
       <el-col :span="24">
         <el-row v-for="poolevent in getAllPoolEvents" :key="poolevent.idevent">
-          <PoolEventCard :poolEvent="poolevent" />
+          <PoolEventCard style="margin-top:10px" :poolEvent="poolevent" />
+        </el-row>
+        <el-row>
+          <Pagination style="margin:30px 0 30px 40%;"/>
         </el-row>
       </el-col>
     </el-row>
@@ -17,12 +20,15 @@
 import { mapGetters, mapActions } from "vuex";
 import PoolEventCard from "../components/PoolEventCard";
 import PoolEventFilter from "../components/PoolEventFilter";
+import Pagination from "../components/Pagination";
+
 
 export default {
   name: "PoolEventsView",
   components: {
     PoolEventCard,
-    PoolEventFilter
+    PoolEventFilter,
+    Pagination
   },
   mounted() {
     this.fetchPoolevents("");

@@ -6,7 +6,9 @@
           <img
             style="width:40px"
             alt="avatar"
-            :src="`https://eu.ui-avatars.com/api/?rounded=true&name=${this.$cookies.get('first_name')}+${this.$cookies.get('last_name')}`"
+            :src="
+              `https://eu.ui-avatars.com/api/?rounded=true&name=${getUser.firstName}+${getUser.lastName}`
+            "
           />
         </el-col>
         <el-col :span="21" :offset="2">
@@ -16,7 +18,7 @@
               placeholder="Please input"
               v-model="comment.text"
               maxlength="1000"
-              :autosize="{minRows: 2, maxRows:10}"
+              :autosize="{ minRows: 2, maxRows: 10 }"
               type="textarea"
             ></el-input>
           </el-row>
@@ -28,46 +30,51 @@
           style="width:100px;float:right;margin-top:10px"
           @click.prevent="submit"
           :disabled="!comment.text"
-        >comment</el-button>
+          >comment</el-button
+        >
         <el-button
           type="danger"
           style="width:100px;float:right;margin-top:10px;margin-right:10px"
           :disabled="!comment.text"
-        >cancel</el-button>
+          >cancel</el-button
+        >
       </el-row>
     </el-form>
   </el-card>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "CommentForm",
   data() {
     return {
       comment: {
         text: "",
-        poolevent_id: this.$route.params.id
+        pId: this.$route.params.id
       },
       id: this.$route.params.id
     };
   },
   methods: {
+    ...mapActions(["SUBMIT_COMMENT"]),
     async submit() {
       if (!this.comment.text) {
         alert("comment section empty");
       } else {
         try {
-          await this.$store.dispatch("SUBMIT_COMMENT", {
+          await this.SUBMIT_COMMENT({
             data: this.comment
           });
-          this.fetchComments();
           this.comment.text = "";
         } catch (error) {
-          console.log(error);
+          throw error;
         }
       }
     }
+  },
+  computed: {
+    ...mapGetters(["getUser"])
   }
 };
 </script>

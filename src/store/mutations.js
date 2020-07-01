@@ -1,5 +1,10 @@
 import { gamificationMutations } from "./gamification";
 import { authMutation } from "./auth";
+import { eventTypeMutations } from "./eventtype";
+import { supporterMutations } from "./supporters";
+import { filterMutations } from "./filter";
+import { favoriteMutations } from "./favorite";
+
 
 
 export default {
@@ -11,12 +16,6 @@ export default {
   },
   setPoolEvent(state, poolEvent) {
     state.poolEvent = poolEvent;
-  },
-  transition(state, action) {
-    state.poolEvent.state = poolEventStateMachine.transition(
-      state.poolEvent.state,
-      action
-    ).value;
   },
   setApplications(state, applications) {
     state.applications = applications;
@@ -80,5 +79,9 @@ export default {
     state.errors = [];
   },
   ...gamificationMutations,
-  ...authMutation
+  ...authMutation,
+  ...eventTypeMutations,
+  ...supporterMutations,
+  ...filterMutations,
+  ...favoriteMutations
 };

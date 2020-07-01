@@ -74,7 +74,6 @@ export default {
   },
   props: ["location"],
   mounted() {
-    console.log(window.innerWidth);
     this.innerWidth = window.innerWidth;
   }
 };

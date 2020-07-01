@@ -1,32 +1,33 @@
 <template>
   <el-row style="padding:0;margin:0;">
-    <el-col :xs="2"  :lg="1">
-      <el-button style="margin-top:12px;border:0;height:20px;width:20px;padding:0;" circle>
+    <el-col :xs="2" :lg="1">
+      <el-button
+        style="margin-top:12px;border:0;height:20px;width:20px;padding:0;"
+        circle
+      >
         <img
           style="height:20px;width:20px;padding:0;margin:0"
-          @click="()=>{liked?deleteVote():postVote()}"
+          @click="submit"
           alt="vote-button"
-          :src="liked?filledImg:heartImg"
-          @mouseover="heartImg=filledImg"
-          @mouseleave="heartImg=emptyImg"
+          :src="liked ? filledImg : heartImg"
+          @mouseover="heartImg = filledImg"
+          @mouseleave="heartImg = emptyImg"
         />
       </el-button>
     </el-col>
     <el-col style="padding:0" :xs="1" :lg="1">
-      <p style="text-align:center;color:grey">{{votes.length}}</p>
+      <p style="text-align:center;color:grey">{{ votes ? votes.length : 0 }}</p>
     </el-col>
   </el-row>
 </template>
 
 <script>
-import axios from "axios";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "VoteForm",
   data() {
     return {
-      votes: [],
       emptyImg:
         "https://cdn2.iconfinder.com/data/icons/music-media-player-outline-basic/32/1-icon-music-09-512.png",
       filledImg:
@@ -37,8 +38,12 @@ export default {
       liked: false
     };
   },
-  props: ["commentId"],
+  props: ["commentId", "votes"],
   methods: {
+    ...mapActions(["POST_VOTE"]),
+    submit() {
+      this.POST_VOTE({ comment_id: this.commentId });
+    },
     async checkLiked() {
       const votes = await this.votes.filter(
         vote => vote.user_id == this.user_id
@@ -46,34 +51,12 @@ export default {
       if (votes.length > 0) {
         this.liked = true;
       }
-    },
-    postVote() {
-      this.$store.dispatch("POST_VOTE", {
-        comment_id: this.commentId
-      });
-    },
-    deleteVote() {
-      const myVote = this.votes.filter(vote => {
-        return vote.user_id == this.user_id;
-      });
-      this.$store.dispatch("DELETE_VOTE", myVote[0].id);
-    }
-  },
-  async mounted() {
-    try {
-      const { data } = await axios.get(`/waves/api/v1/vote/${this.commentId}`);
-      this.votes = data.data;
-      this.user_id = this.$cookies.get("user_id");
-      this.checkLiked();
-    } catch (error) {
-      throw error.message;
     }
   },
   computed: {
-    ...mapGetters(["isLogedIn"])
+    ...mapGetters(["getUser"])
   }
 };
 </script>
 
-<style>
-</style>
+<style></style>

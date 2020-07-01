@@ -12,9 +12,7 @@
       </el-col>
       <el-col style="margin-top:8px" :span="14">
         <el-row>
-          <strong style="font-size:20px">{{
-            getUser.fullName
-          }}</strong>
+          <strong style="font-size:20px">{{ getUser.fullName }}</strong>
         </el-row>
         <el-row>
           <span style="color:gray">Supporter since 200 days</span>
@@ -34,7 +32,7 @@
           <MyApplications />
         </el-tab-pane>
         <el-tab-pane label="Achievements" name="achievements">
-          <BadgeView></BadgeView>
+          <BadgeView />
         </el-tab-pane>
       </el-tabs>
     </el-row>
@@ -46,7 +44,7 @@ import BadgeView from "../components/BadgeView";
 import MyFavoritePoolevents from "../components/MyFavoritePoolevents";
 import MyApplications from "../components/MyApplications";
 import MyPoolevents from "../components/MyPoolEvents";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "ProfileView",
   components: {
@@ -60,8 +58,22 @@ export default {
       activeName: "poolevents"
     };
   },
+  async mounted() {
+    this.FETCH_MY_POOLEVENTS();
+    this.FETCH_MY_FAVORITES();
+    this.FETCH_MY_APPLICATIONS();
+    this.FETCH_MY_ACHIEVEMENT_PROGRESS();
+  },
   computed: {
-    ...mapGetters(["getUser"])
+    ...mapGetters(["getUser", "getAllPoolEvents", "favorites"])
+  },
+  methods: {
+    ...mapActions([
+      "FETCH_MY_POOLEVENTS",
+      "FETCH_MY_FAVORITES",
+      "FETCH_MY_APPLICATIONS",
+      "FETCH_MY_ACHIEVEMENT_PROGRESS"
+    ])
   }
 };
 </script>

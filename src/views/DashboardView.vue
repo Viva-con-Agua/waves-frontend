@@ -1,33 +1,70 @@
 <template>
-  <div style="margin:auto;width:60%">
-    <el-tabs tab-position="left" style="margin-top:60px">
-      <el-tab-pane label="Type">
+  <div style="margin:auto;width:100%">
+    <el-tabs tab-position="left">
+      <el-tab-pane label="Poolevent-Type">
         <el-row>
-          <el-col :span="20">
+          <el-col :span="24">
             <el-input v-model="pe_type" placeholder="event type..."></el-input>
           </el-col>
-          <el-col :span="4">
-            <el-button type="primary" @click="submit">CREATE</el-button>
-          </el-col>
         </el-row>
-
-        <el-row style="margin:auto">
-          <el-table :data="event_types" style="width: 100%">
+        <el-row>
+          <el-col :span="24">
+          <el-button
+            style="width:100%;margin-top:10px"
+            type="primary"
+            @click="submit"
+            ><strong>CREATE</strong></el-button
+          >
+        </el-col>
+        </el-row>
+        <el-divider/>
+        <el-row>
+          <el-table :data="eventtypes" style="width: 100%">
             <el-table-column label="Name" prop="name"></el-table-column>
             <el-table-column label="Date" prop="created_at"></el-table-column>
           </el-table>
         </el-row>
       </el-tab-pane>
-      <el-tab-pane label="Achievements">
-        <AchievementCreater />
+      <el-tab-pane label="Gamify-Achievements">
+        <AchievementCreater :actions="actions" />
+      </el-tab-pane>
+      <el-tab-pane label="Gamify-Actions">
+        <el-row>
+          <el-col :span="24">
+            <el-input
+              v-model="pe_type"
+              placeholder="action name ..."
+            ></el-input>
+          </el-col>
+          <el-col style="margin-top:10px" :span="24">
+            <el-input v-model="pe_type" placeholder="points ..."></el-input>
+          </el-col>
+          <el-col style="margin-top:10px" :span="24">
+            <el-input v-model="pe_type" placeholder="type ..."></el-input>
+          </el-col>
+        </el-row>
+        <el-row style="margin-top:10px">
+          <el-button style="width:100%" type="success" @click="submit"
+            ><strong>CREATE</strong></el-button
+          >
+        </el-row>
+        <el-divider />
+        <el-row style="margin:auto;margin-top:20px">
+          <el-table :data="actions" style="width: 100%">
+            <el-table-column label="Actions" prop="id_action"></el-table-column>
+            <el-table-column label="Points" prop="points"></el-table-column>
+            <el-table-column label="type" prop="type"></el-table-column>
+            <el-table-column label="Date" prop="created_at"></el-table-column>
+          </el-table>
+        </el-row>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
-import Axios from "axios";
 import AchievementCreater from "../components/AchievementCreater";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "DaschboardView",
@@ -40,31 +77,31 @@ export default {
       event_types: []
     };
   },
+  computed: {
+    ...mapGetters(["eventtypes", "actions"])
+  },
   async mounted() {
-    this.event_types = await this.fetchAllTypes();
+    await this.fetchAllTypes();
+    this.FETCH_GAMIFY_ACTIONS();
   },
   methods: {
-    async submit() {
-      try {
-        await Axios.post("/waves/api/v1/eventtype", { name: this.pe_type });
-      } catch (error) {
-        this.$notify.error({
-          title: "Error",
-          message: `submit type error: ${error.message}`
-        });
-      }
+    ...mapActions([
+      "POST_EVENTTYPE",
+      "FETCH_EVENTTYPES",
+      "FETCH_GAMIFY_ACTIONS"
+    ]),
+    submit() {
+      this.POST_EVENTTYPE(this.pe_type);
     },
     async fetchAllTypes() {
       try {
-        const { data } = await Axios.get("/waves/api/v1/eventtype");
-        return data.types;
+        await this.FETCH_EVENTTYPES();
       } catch (error) {
-        console.log(error);
+        throw error.message;
       }
     }
   }
 };
 </script>
 
-<style>
-</style>
+<style></style>

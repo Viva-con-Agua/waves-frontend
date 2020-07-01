@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-form>
+    <el-form :model="poolevent" ref="poolevent" :rules="rules"  >
       <el-col :span="11">
         <el-card>
           <el-form-item
@@ -23,7 +23,7 @@
               style="width:100%"
             >
               <el-option
-                v-for="type in types"
+                v-for="type in eventtypes"
                 :key="type.id"
                 :label="type.name"
                 :value="type.idevent_type"
@@ -95,10 +95,10 @@
               v-model="poolevent.front.asp_event_id"
             >
               <el-option
-                v-for="user in users"
-                :key="user.id"
-                :label="user.last_name"
-                :value="user.id"
+                v-for="user in supporters"
+                :key="user.userId"
+                :label="user.fullName"
+                :value="user.userId"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -258,11 +258,10 @@
 </template>
 
 <script>
-import { Input, Form } from "element-ui";
 import VueGoogleAutocomplete from "vue-google-autocomplete";
 import "../assets/pool_event_style.css";
-import rulesJson from "../rules/form";
-import Axios from "axios";
+import { rules } from "../rules/form";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "PoolEventForm",
@@ -273,9 +272,7 @@ export default {
     return {
       config: {
         events: {
-          initialized: function() {
-            console.log("initialized");
-          }
+          initialized: function() {}
         }
       },
       users: [],
@@ -313,21 +310,21 @@ export default {
         }
       },
       isValidForm: "",
-      rules: rulesJson.rules,
-      config: {
-        placeholder: "Compose a description",
-        label: "Beschreibung"
-      },
+      rules,
       types: []
     };
   },
+  computed: {
+    ...mapGetters(["supporters", "eventtypes", "getPoolEvent"])
+  },
   mounted() {
     (async () => {
-      this.fetchAllTypes();
+      this.FETCH_ALL_USERS();
+      this.FETCH_EVENTTYPES();
       this.errors = this.$store.state.errors;
-      await this.fetchAllUsers();
       if (this.$route.params.id) {
-        await this.fetchPooleventById(this.$route.params.id);
+        await this.GET_POOLEVENT_BY_ID(this.$route.params.id);
+        this.fetchPooleventById()
       }
       const {
         locality,
@@ -341,10 +338,16 @@ export default {
     })();
   },
   methods: {
-    addPoolEvent(option) {
+    ...mapActions([
+      "POST_POOLEVENT",
+      "FETCH_ALL_USERS",
+      "PUT_POOLEVENT",
+      "FETCH_EVENTTYPES",
+      "GET_POOLEVENT_BY_ID"
+    ]),
+    addPoolEvent() {
       if (this.$route.params.id == undefined) {
-        this.submitForm("poolevent");
-
+        this.submitForm();
         if (this.isValidForm) {
           this.poolevent.front.event_start = new Date().getTime(
             this.poolevent.front.event_start
@@ -358,11 +361,10 @@ export default {
           this.poolevent.front.application_end = new Date().getTime(
             this.poolevent.front.application_end
           );
-          console.log(this.poolevent);
-          this.$store.dispatch("POST_POOLEVENT", this.poolevent);
+          this.POST_POOLEVENT(this.poolevent);
         }
       } else if (this.$route.params.id != undefined) {
-        this.$store.dispatch("PUT_POOLEVENT", {
+        this.PUT_POOLEVENT({
           poolevent: this.poolevent,
           id: this.$route.params.id
         });
@@ -371,21 +373,14 @@ export default {
     cancel() {
       this.$router.push("/waves");
     },
-    submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+    submitForm() {
+      this.$refs["poolevent"].validate(valid => {
         if (valid) {
           this.isValidForm = valid;
         } else {
           this.isValidForm = valid;
         }
       });
-    },
-    async fetchAllUsers() {
-      const { data } = await Axios.get(
-        `${process.env.VUE_APP_BACKEND_DEV}/waves/api/v1/user`
-      );
-      this.users = data.data;
-      console.log(this.users);
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
@@ -408,9 +403,8 @@ export default {
     selectSupporter(supporter) {
       this.involvedSupporter = supporter;
     },
-    async fetchPooleventById(id) {
-      const { data } = await Axios.get(`/waves/api/v1/poolevent/${id}`);
-      const { location, description, ...front } = data.data;
+    async fetchPooleventById() {
+      const { location, description, ...front } = this.getPoolEvent;
       this.poolevent.description.html = description.html;
       this.poolevent.description.text = description.text;
       this.poolevent.location.route = location.route;
@@ -432,17 +426,6 @@ export default {
       this.poolevent.front.idevent_type = front.idevent_type;
       this.poolevent.front.asp_event_id = front.asp_event_id.id;
       this.poolevent.front.supporter_lim = front.supporter_lim;
-    },
-    async fetchAllTypes() {
-      try {
-        const { data } = await Axios.get(
-          `${process.env.VUE_APP_BACKEND_DEV}/eventtype`
-        );
-        console.log(data);
-        this.types = data.types;
-      } catch (error) {
-        throw error;
-      }
     }
   }
 };
