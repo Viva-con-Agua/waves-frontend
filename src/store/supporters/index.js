@@ -1,10 +1,13 @@
 import axios from "axios";
-const GAMIFY_BACKEND_URI = "http://localhost/backend/waves/api/v1";
+
+const WAVES_BACKEND_URI = process.env.VUE_APP_ENV_MODE
+  ? process.env.VUE_APP_WAVES_BACKEND_DEV
+  : process.env.VUE_APP_WAVES_BACKEND_PRODUCTION;
 
 export const supporterActions = {
   FETCH_ALL_USERS: async ({ commit }) => {
     try {
-      const { data } = await axios.get(GAMIFY_BACKEND_URI + `/user`);
+      const { data } = await axios.get(WAVES_BACKEND_URI + `/user`);
       commit("setSupporters", data.data);
     } catch (error) {
       commit("pushError", error.message);

@@ -19,7 +19,7 @@
               v-model="comment.text"
               maxlength="1000"
               :autosize="{ minRows: 2, maxRows: 10 }"
-              type="textarea"
+              type="textraea"
             ></el-input>
           </el-row>
         </el-col>
@@ -59,10 +59,12 @@ export default {
   methods: {
     ...mapActions(["SUBMIT_COMMENT"]),
     async submit() {
+      console.log("-->",this.comment);
       if (!this.comment.text) {
         alert("comment section empty");
       } else {
         try {
+          
           await this.SUBMIT_COMMENT({
             data: this.comment
           });

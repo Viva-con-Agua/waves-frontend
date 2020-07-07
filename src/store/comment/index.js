@@ -1,13 +1,22 @@
 import axios from "axios";
-import { WAVES_BACKEND_URI } from "../actions";
+const WAVES_BACKEND_URI = process.env.VUE_APP_ENV_MODE
+  ? process.env.VUE_APP_WAVES_BACKEND_DEV
+  : process.env.VUE_APP_WAVES_BACKEND_PRODUCTION;
+
+const access_token = {
+  headers: {
+    authorization: "Bearer " + window.$cookies.get("waves_access_token")
+  }
+};
 
 export const commentActions = {
   SUBMIT_COMMENT: async ({ commit, getters }, comment) => {
     try {
+      console.log("----->", getters.getAccessToken);
       const { data } = await axios.post(
         WAVES_BACKEND_URI + `/comment`,
         comment.data,
-        getters.getAccessToken
+        access_token
       );
       commit("addComment", data.data);
     } catch (error) {

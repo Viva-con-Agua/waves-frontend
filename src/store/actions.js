@@ -10,11 +10,10 @@ import { supporterActions } from "./supporters";
 import { filterActions } from "./filter";
 import { favoriteActions } from "./favorite";
 
-
-
-
-
-export const WAVES_BACKEND_URI = "http://localhost/backend/waves/api/v1";
+export const WAVES_BACKEND_URI =
+  process.env.VUE_APP_ENV == "dev"
+    ? process.env.VUE_APP_WAVES_BACKEND_DEV
+    : process.env.VUE_APP_WAVES_BACKEND_DEV;
 
 export default {
   ...pooleventActions,
@@ -35,9 +34,7 @@ export default {
   },
   FETCH_RECOMANDATIONS: async ({ commit }) => {
     try {
-      const { data } = await axios.get(
-        WAVES_BACKEND_URI + `/favorite/most/me`
-      );
+      const { data } = await axios.get(WAVES_BACKEND_URI + `/favorite/most/me`);
       commit("setRecomandations", data.recomandations);
     } catch (error) {
       commit("pushError", error.message);
@@ -49,13 +46,13 @@ export default {
   },
   FETCH_EVENTTYPES: async ({ commit }) => {
     try {
-      const {data} = await axios.get(WAVES_BACKEND_URI + `/eventtype`);
+      const { data } = await axios.get(WAVES_BACKEND_URI + `/eventtype`);
       commit("setEventTypes", data.data);
     } catch (error) {
       commit("pushError", error.message);
     }
   },
-  POST_EVENTTYPE: async ({ commit,getters }, type) => {
+  POST_EVENTTYPE: async ({ commit, getters }, type) => {
     try {
       await axios.post(
         WAVES_BACKEND_URI + `/eventtype`,
@@ -65,5 +62,5 @@ export default {
     } catch (error) {
       commit("pushError", error.message);
     }
-  },
+  }
 };

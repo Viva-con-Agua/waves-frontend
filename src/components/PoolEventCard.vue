@@ -87,7 +87,7 @@
           "
           circle
         >
-          <i class="el-icon-circle-plus"></i>
+          <i class="el-icon-circle"></i> applications
         </el-button>
       </el-col>
       <el-col style="text-align:center" :span="getRoles != 'admin' ? 8 : 6">

@@ -1,5 +1,10 @@
 import axios from "axios";
-const GAMIFY_BACKEND_URI = "http://localhost/backend/gamify";
+
+const GAMIFY_BACKEND_URI = process.env.VUE_APP_ENV_MODE
+  ? process.env.VUE_APP_GAMIFY_BACKEND_DEV
+  : process.env.VUE_APP_GAMIFY_BACKEND_PRODUCTION;
+
+
 
 export const gamificationActions = {
   FETCH_LEADERBOARD: async ({ commit }) => {
@@ -29,14 +34,15 @@ export const gamificationActions = {
     try {
       const { data } = await axios.get(GAMIFY_BACKEND_URI + `/action`);
       commit("setActions", data.actions);
-      
     } catch (error) {
       commit("pushError", error.message);
     }
   },
   FETCH_MY_ACHIEVEMENT_PROGRESS: async ({ commit }) => {
     try {
-      const { data } = await axios.get(GAMIFY_BACKEND_URI + `/progress`);
+      const { data } = await axios.get(
+        VUE_APP_GAMIFY_BACKEND_DEV + `/progress/${localStorage.getItem("userId")}`
+      );
       commit("setMyAchievementProgress", data.achievements);
     } catch (error) {
       commit("pushError", error.message);
@@ -70,6 +76,6 @@ export const gamificationGetters = {
     return state.actions;
   },
   achievementProgress: state => {
-    return state.achievementProgress
+    return state.achievementProgress;
   }
 };

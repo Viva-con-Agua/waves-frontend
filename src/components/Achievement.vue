@@ -7,7 +7,7 @@
             ? 'width:80px;opacity:0.1;'
             : 'opacity:1;filter;alpha(opacity=50);width:80px'
         "
-        :src="'http://via.placeholder.com/100'"
+        :src="achievementProgress.img_url"
         class="badge-img"
         disable
       />
@@ -16,11 +16,11 @@
       <el-row>
         <span>{{ achievementProgress.name }}</span>
         <span style="float:right;color:grey">
-          unlocked by 0% of supporter
+          unlocked by 15% of supporter
         </span>
       </el-row>
-      <el-row v-for="(challenge, i) in achievement.progress" :key="i">
-        <Challenge :challenge="challenge[0]"/>
+      <el-row v-for="(challenge, i) in achievement.progress"  :key="i">
+        <Challenge :challenge="challenge[0]" :desc="achievementProgress.desc"/>
       </el-row>
     </el-col>
   </el-card>

@@ -1,10 +1,12 @@
 import axios from "axios";
-import { WAVES_BACKEND_URI } from "../actions";
+
+const WAVES_BACKEND_URI = process.env.VUE_APP_ENV_MODE
+  ? process.env.VUE_APP_WAVES_BACKEND_DEV
+  : process.env.VUE_APP_WAVES_BACKEND_PRODUCTION;
 
 export const voteActions = {
   POST_VOTE: async ({ commit, getters }, vote) => {
     try {
-      console.log(vote, getters.getAccessToken);
       await axios.post(
         WAVES_BACKEND_URI + `/vote`,
         vote,
@@ -16,7 +18,7 @@ export const voteActions = {
   },
   DELETE_VOTE: ({ commit, getters }, id) => {
     axios
-      .delete(this.WAVES_BACKEND_URI + `/vote/${id}`, getters.getAccessToken)
+      .delete(WAVES_BACKEND_URI + `/vote/${id}`, getters.getAccessToken)
       .then(resp => {})
       .catch(err => {
         commit("pushError", err.message);

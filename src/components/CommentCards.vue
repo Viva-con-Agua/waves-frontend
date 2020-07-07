@@ -17,7 +17,7 @@
         </el-col>
         <el-col :span="21" :offset="1">
           <el-row>
-            <span class="userName">{{ comment.full_name }}</span>
+            <span class="userName">John Doe</span>
             <time-ago
               style="
               color:grey;

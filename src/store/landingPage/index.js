@@ -1,9 +1,13 @@
 import axios from "axios";
-import { WAVES_BACKEND_URI } from "../actions";
+
+
+const WAVES_BACKEND_URI = process.env.VUE_APP_ENV_MODE
+  ? process.env.VUE_APP_WAVES_BACKEND_DEV
+  : process.env.VUE_APP_WAVES_BACKEND_PRODUCTION;
 
 export const commentActions = {
     FETCH_ALL_MONTHS: async ({ commit }) => {
-        const { data } = await axios.get(this.WAVES_BACKEND_URI + "/months");
+        const { data } = await axios.get(WAVES_BACKEND_URI + "/months");
         commit("setMonths", data.months);
       },
 };

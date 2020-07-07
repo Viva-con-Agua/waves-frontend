@@ -73,7 +73,7 @@ export default {
   },
   data() {
     return {
-      isDev: process.env.VUE_APP_ENV === "dev",
+      isDev: process.env.VUE_APP_ENV_MODE === "dev",
       authUrlDev: process.env.VUE_APP_OAUTH_DEV,
       authUrlProduction: process.env.VUE_APP_OAUTH_PRODUCTION,
       clientIdDev: process.env.VUE_APP_CLIENT_ID_DEV,
@@ -83,6 +83,9 @@ export default {
       frontendDev: process.env.VUE_APP_FRONTEND_DEV,
       frontendProduction: process.env.VUE_APP_FRONTEND_PRODUCTION
     };
+  },
+  mounted(){
+    console.log("-->",clientIdDev); 
   }
 };
 </script>

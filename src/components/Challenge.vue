@@ -1,6 +1,10 @@
 <template>
   <el-row style="margin-top:20px">
-    <el-progress :percentage="(score / points) * 100" />
+    <span>{{desc}}</span>
+    <el-progress
+      :percentage="(score / points) * 100"
+      :status="(score / points) * 100===100?'success':'format'"
+    />
   </el-row>
 </template>
 
@@ -13,17 +17,20 @@ export default {
       points: 0,
       type: "",
       completed: "",
-      item: ""
+      item: "",
+      desc: ""
     };
   },
-  props: ["challenge"],
+  props: ["challenge", "desc"],
   mounted() {
+    console.log("-->" ,this.desc);
     this.item = this.challenge;
-    const { score, points, type, completed } = this.item;
+    const { score, points, type, completed} = this.item;
     this.score = score;
     this.points = points;
     this.type = type;
     this.completed = completed;
+    this.desc= this.desc
   }
 };
 </script>

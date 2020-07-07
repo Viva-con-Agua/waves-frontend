@@ -1,5 +1,9 @@
 import axios from "axios";
-import { WAVES_BACKEND_URI } from "../actions";
+
+
+const WAVES_BACKEND_URI = process.env.VUE_APP_ENV_MODE
+  ? process.env.VUE_APP_WAVES_BACKEND_DEV
+  : process.env.VUE_APP_WAVES_BACKEND_PRODUCTION;
 
 const access_token = {
   headers: {
@@ -52,7 +56,7 @@ export const pooleventActions = {
   },
   DELETE_POOLEVENT: async ({ commit }, id) => {
     try {
-      axios.delete(this.WAVES_BACKEND_URI + `/poolevent/${id}`);
+      axios.delete(WAVES_BACKEND_URI + `/poolevent/${id}`);
     } catch (error) {
       commit("pushError", error.message);
     }
@@ -60,7 +64,7 @@ export const pooleventActions = {
   PUT_POOLEVENT: async ({ commit, getters }, data) => {
     try {
       await axios.put(
-        this.WAVES_BACKEND_URI + "/poolevent/" + data.id,
+        WAVES_BACKEND_URI + "/poolevent/" + data.id,
         data.poolevent,
         getters.getAccessToken
       );

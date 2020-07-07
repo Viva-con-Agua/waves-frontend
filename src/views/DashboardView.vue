@@ -9,15 +9,12 @@
         </el-row>
         <el-row>
           <el-col :span="24">
-          <el-button
-            style="width:100%;margin-top:10px"
-            type="primary"
-            @click="submit"
-            ><strong>CREATE</strong></el-button
-          >
-        </el-col>
+            <el-button style="width:100%;margin-top:10px" type="primary" @click="submit">
+              <strong>CREATE</strong>
+            </el-button>
+          </el-col>
         </el-row>
-        <el-divider/>
+        <el-divider />
         <el-row>
           <el-table :data="eventtypes" style="width: 100%">
             <el-table-column label="Name" prop="name"></el-table-column>
@@ -31,22 +28,19 @@
       <el-tab-pane label="Gamify-Actions">
         <el-row>
           <el-col :span="24">
-            <el-input
-              v-model="pe_type"
-              placeholder="action name ..."
-            ></el-input>
+            <el-input v-model="action.name" placeholder="action name ..."></el-input>
           </el-col>
           <el-col style="margin-top:10px" :span="24">
-            <el-input v-model="pe_type" placeholder="points ..."></el-input>
+            <el-input v-model="action.points" placeholder="points ..."></el-input>
           </el-col>
           <el-col style="margin-top:10px" :span="24">
-            <el-input v-model="pe_type" placeholder="type ..."></el-input>
+            <el-input v-model="action.type" placeholder="type ..."></el-input>
           </el-col>
         </el-row>
         <el-row style="margin-top:10px">
-          <el-button style="width:100%" type="success" @click="submit"
-            ><strong>CREATE</strong></el-button
-          >
+          <el-button style="width:100%" type="success" @click="submit">
+            <strong>CREATE</strong>
+          </el-button>
         </el-row>
         <el-divider />
         <el-row style="margin:auto;margin-top:20px">
@@ -73,6 +67,11 @@ export default {
   },
   data() {
     return {
+      action: {
+        points: "",
+        type: "",
+        name: ""
+      },
       pe_type: "",
       event_types: []
     };

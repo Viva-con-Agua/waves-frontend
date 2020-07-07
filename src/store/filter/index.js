@@ -1,10 +1,13 @@
 import axios from "axios";
-const uri = "http://localhost/backend/waves/api/v1";
+
+const WAVES_BACKEND_URI = process.env.VUE_APP_ENV_MODE
+  ? process.env.VUE_APP_WAVES_BACKEND_DEV
+  : process.env.VUE_APP_WAVES_BACKEND_PRODUCTION;
 
 export const filterActions = {
   FETCH_REGIONS: async ({ commit }) => {
     try {
-      const { data } = await axios.get(uri+ "/regions");
+      const { data } = await axios.get(WAVES_BACKEND_URI+ "/regions");
       commit("setRegions", data.data);
     } catch (error) {
       commit("pushError");
@@ -12,7 +15,7 @@ export const filterActions = {
   },
   FETCH_MONTHS: async ({ commit }) => {
     try {
-      const { data } = await axios.get(uri+ "/months");
+      const { data } = await axios.get(WAVES_BACKEND_URI+ "/months");
       commit("setMonths", data.data);
     } catch (error) {
       commit("pushError");

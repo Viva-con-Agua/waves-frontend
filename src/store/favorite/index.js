@@ -6,14 +6,17 @@ const access_token = {
   }
 };
 
+const WAVES_BACKEND_URI = process.env.VUE_APP_ENV_MODE
+  ? process.env.VUE_APP_WAVES_BACKEND_DEV
+  : process.env.VUE_APP_WAVES_BACKEND_PRODUCTION;
+
 export const favoriteActions = {
   FETCH_MY_FAVORITES: async ({ commit }) => {
     try {
       const { data } = await axios.get(
-        "http://localhost/backend/waves/api/v1" + `/favorite`,
+        WAVES_BACKEND_URI + `/favorite`,
         access_token
       );
-      console.log(data);
       commit("setFavorites", data.data);
     } catch (error) {
       commit("pushError", error.message);

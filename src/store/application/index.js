@@ -13,7 +13,7 @@ export const applicationActions = {
       await axios.post(
         WAVES_BACKEND_URI + `/application`,
         application,
-        getters.getAccessToken
+        access_token
       );
     } catch (error) {
       commit("pushError", error.message);
@@ -38,7 +38,7 @@ export const applicationActions = {
       .put(
         WAVES_BACKEND_URI + "/application/" + id,
         { state: "REJECTED" },
-        getters.getAccessToken
+        access_token
       )
       .then(resp => {
         commit("acceptApplication", resp.data);
